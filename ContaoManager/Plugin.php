@@ -10,7 +10,7 @@
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
-namespace con4gis\ProjectsBundle\ContaoManager;
+namespace con4gis\VisualizationBundle\ContaoManager;
 
 use con4gis\CoreBundle\con4gisCoreBundle;
 use con4gis\ProjectsBundle\con4gisProjectsBundle;
