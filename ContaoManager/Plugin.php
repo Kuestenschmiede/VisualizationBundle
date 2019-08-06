@@ -13,13 +13,10 @@
 namespace con4gis\VisualizationBundle\ContaoManager;
 
 use con4gis\CoreBundle\con4gisCoreBundle;
-use con4gis\ProjectsBundle\con4gisProjectsBundle;
-use con4gis\GroupsBundle\con4gisGroupsBundle;
-use Contao\CoreBundle\ContaoCoreBundle;
-use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
-use Contao\ManagerPlugin\Bundle\Config\ConfigInterface;
-use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
+use con4gis\VisualizationBundle\con4gisVisualizationBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
+use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
+use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
