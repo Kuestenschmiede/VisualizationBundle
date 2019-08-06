@@ -1,0 +1,52 @@
+{
+  "name": "con4gis/visualization",
+  "type": "contao-bundle",
+  "description": "",
+  "keywords": ["con4gis", "contao", "c4g"],
+  "homepage": "https://con4gis.org",
+  "license": "LGPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Kuestenschmiede GmbH Software & Design",
+      "homepage": "https://kuestenschmiede.de",
+      "role": "Operator"
+    },
+    {
+      "name": "con4gis community",
+      "homepage": "https://con4gis.org",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "contao/core-bundle": "^4.4",
+    "con4gis/core": "^3.3"
+  },
+  "conflict": {
+    "contao/core": "*",
+    "contao/manager-plugin": "<2.0 || >=3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "con4gis\\VisualizationBundle\\": ""
+    },
+    "classmap": [
+      "Resources/contao/"
+    ],
+    "exclude-from-classmap": [
+      "Resources/contao/config/",
+      "Resources/contao/dca/",
+      "Resources/contao/languages/",
+      "Resources/contao/templates/"
+    ]
+  },
+  "support": {
+    "issues": "https://github.com/Kuestenschmiede/VisualizationBundle/issues",
+    "email": "support@con4gis.org"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "extra": {
+    "contao-manager-plugin": "con4gis\\VisualizationBundle\\ContaoManager\\Plugin"
+  }
+}
