@@ -1,8 +1,17 @@
-# con4gisProjectsBundle:
-#    path: /con4gis/brick_ajax_api/{module}/{action}
-#    defaults:
-#        _scope: frontend
-#        _controller: "con4gisProjectsBundle:Ajax:ajax"
-#    requirements:
-#        module: '\d+'
-#        action: '.*'
+fetchChart:
+    path: /con4gis/fetchchart/{chartId}
+    defaults:
+        _scope: frontend
+        _controller: "con4gisVisualizationBundle:Chart:fetch"
+        methods: [GET]
+    requirements:
+      chartId: '\d+'
+
+testFetchChart:
+    path: /con4gis/testfetchchart/
+    defaults:
+        _scope: frontend
+        _controller: "con4gisVisualizationBundle:Chart:testFetch"
+        methods: [GET]
+    requirements:
+        chartId: '\d+'
