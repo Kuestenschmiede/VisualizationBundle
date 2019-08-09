@@ -116,7 +116,7 @@ Class Chart
      * @param bool $enableAnimations
      * @return Chart
      */
-    public function setEnableAnimations(bool $enableAnimations): Chart
+    public function setEnableAnimations(bool $enableAnimations = true): Chart
     {
         $this->enableAnimations = $enableAnimations;
         return $this;
@@ -126,7 +126,7 @@ Class Chart
      * @param bool $enableExport
      * @return Chart
      */
-    public function setEnableExport(bool $enableExport): Chart
+    public function setEnableExport(bool $enableExport = true): Chart
     {
         $this->enableExport = $enableExport;
         return $this;
