@@ -7,9 +7,10 @@ use con4gis\VisualizationBundle\Classes\Exceptions\InvalidSourceTypeException;
 use Contao\Model;
 use Contao\Model\Collection;
 
-class Source
+class Source implements \Iterator
 {
-    protected $data;
+    protected $entries;
+    private $current = 0;
 
     /**
      * Source constructor.
@@ -18,36 +19,30 @@ class Source
      */
     public function __construct($data)
     {
-        if ($data instanceof Model) {
-            $this->data = $data->row();
-        } elseif (is_array($data)) {
-            foreach ($data as $value) {
-                // Do not allow multi-dimensional arrays
-                if ((is_array($value) === true) || (is_object($value) === true)) {
-                    throw new InvalidSourceTypeException();
-                }
-            }
-            $this->data = $data;
-        } else {
-            throw new InvalidSourceTypeException();
-        }
+        $this->addData($data);
     }
 
-    /**
-     * @param $data
-     * @return Source
-     * @throws InvalidSourceTypeException
-     */
-    public static function create($data) {
-        if ($data instanceof Model) {
-            return new self($data);
-        } elseif ($data instanceof Collection) {
-            return new SourceList($data);
+    public function addData($data) {
+        if ($data instanceof Collection) {
+            foreach ($data as $model) {
+                $this->entries[] = new Entry($model->row());
+            }
+        } elseif ($data instanceof Model) {
+            $this->entries[] = new Entry($data->row());
         } elseif (is_array($data)) {
-            if (is_array(current($data)) === true) {
-                return new SourceList($data);
-            } else {
-                return new Source($data);
+            $depth = $this->getArrayDepth($data);
+            switch ($depth) {
+                case 1:
+                    $this->entries[] = new Entry($data);
+                    breaK;
+                case 2:
+                    foreach ($data as $arr) {
+                        $this->entries[] = new Entry($arr);
+                    }
+                    break;
+                default:
+                    throw new InvalidSourceTypeException();
+                    break;
             }
         } else {
             throw new InvalidSourceTypeException();
@@ -55,8 +50,49 @@ class Source
     }
 
     public function get($index) {
-        return $this->data[$index] ? $this->data[$index] : null;
+        return $this->entries[$this->current]->get($index);
     }
 
+    public function combine(Source $source) {
+        foreach ($source->entries as $entry) {
+            $this->entries[] = $entry;
+        }
+        return $this;
+    }
 
+    private function getArrayDepth(array $array) {
+        $depth = 1;
+        foreach($array as $value) {
+            if (is_array($value) === true) {
+                $depth += $this->getArrayDepth($value);
+                break;
+            }
+        }
+        return $depth;
+    }
+
+    public function current()
+    {
+        return $this->entries[$this->current];
+    }
+
+    public function next()
+    {
+        $this->current += 1;
+    }
+
+    public function key()
+    {
+        return $this->current;
+    }
+
+    public function valid()
+    {
+        return (!empty($this->entries[$this->current]) === true);
+    }
+
+    public function rewind()
+    {
+        $this->current = 0;
+    }
 }
