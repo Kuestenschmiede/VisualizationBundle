@@ -14,7 +14,7 @@ class ChartElementModel extends Model
         $relations = ChartElementRelationModel::findByChartId($chartId);
         $ids = [];
         foreach ($relations as $relation) {
-            $ids[] = $relation->id;
+            $ids[] = $relation->elementId;
         }
         if (!empty($ids) === true) {
             return static::findMultipleByIds($ids);
