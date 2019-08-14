@@ -1,0 +1,34 @@
+{
+  "name": "visualizationbundle",
+  "version": "0.1",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "build-dev": "webpack --watch --config webpack.development.config.js",
+    "build-prod": "webpack --watch --config webpack.production.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kuestenschmiede/VisualizationBundle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kuestenschmiede/VisualizationBundle/issues"
+  },
+  "homepage": "https://github.com/Kuestenschmiede/VisualizationBundle#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-preset-env": "^1.7.0",
+    "echo-loader": "0.0.1",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.6"
+  },
+  "dependencies": {
+    "c3": "^0.7.4"
+  }
+}
