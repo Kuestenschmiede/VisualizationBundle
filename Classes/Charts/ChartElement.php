@@ -14,10 +14,12 @@ use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 class ChartElement
 {
     const TYPE_BAR = 'bar';
-    const TYPE_COLUMN = 'column';
     const TYPE_LINE = 'line';
     const TYPE_AREA = 'area';
     const TYPE_PIE = 'pie';
+
+    const ORIGIN_INPUT = '1';
+    const ORIGIN_TABLE = '2';
 
     protected $type;
     protected $source;
