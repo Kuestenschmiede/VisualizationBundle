@@ -10,8 +10,11 @@
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
-//$GLOBALS['TL_LANG']['MOD']['ProjectsLogbook'] = array('Logbuch', 'Logbuch');
-//$GLOBALS['TL_LANG']['MOD']['Projects'] = array('Projekte', 'Projekte');
-//$GLOBALS['TL_LANG']['MOD']['Backups'] = array('Import/Export', 'Datensicherung von Projekten');
-//$GLOBALS['TL_LANG']['FMD']['C4GSearchModule'] = array('con4gis-Projects: Suchweiterleitung', 'Ein Formular für einen Suchbegriff, mit dem die verknüpfte Liste durchsucht wird.');
 
+$GLOBALS['TL_LANG']['MOD']['con4gis_visualization'] = array('con4gis '.$GLOBALS['con4gis']['version'].' - Grafiken');
+
+/**
+ * Back end modules
+ */
+$GLOBALS['TL_LANG']['MOD']['tl_c4g_visualization_chart'] 			    = ['Grafiken', 'Grafiken erstellen und verwalten'];
+$GLOBALS['TL_LANG']['MOD']['tl_c4g_visualization_chart_element'] 	    = ['Grafikelemente', 'Grafikelemente erstellen und verwalten'];
