@@ -11,37 +11,33 @@
  * @link       https://www.con4gis.org
  */
 
-/**
- * Fields
- */
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['name'] 					= array('Name', 'Name des Forenbereiches');
+$GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] = array
+(
+    'new'               => array('Neue Grafik hinzufügen', 'Neue Grafik hinzufügen'),
+    'edit'              => array('Bearbeiten','Grafk bearbeiten'),
+    'copy'              => array('Kopieren','Grafik kopieren'),
+    'delete'            => array('Löschen','Grafik löschen'),
+    'show'              => array('Anzeigen','Grafik anzeigen'),
+    'toggle'            => array('Veröffentlichen/verbergen','Grafik veröffentlichen/verbergen'),
+    'all'               => array('Mehrere bearbeiten','Mehrere Grafiken bearbeiten'),
+    'backendtitle'      => array('Bezeichnung (nur Backend)', 'Dient zur eindeutigen Indentifikation im Backend.'),
+    'frontendtitle'     => array('Titel (Frontend)', 'Dies wird im Frontend über der Grafik angezeigt, falls gesetzt.'),
+    'published'         => array('Grafik veröffentlichen', 'Die Grafik auf der Webseite anzeigen.'),
+    'zoom'              => array('Zoom aktivieren', 'Falls gesetzt, kann der Nutzer in die Grafik zoomen und den Ausschnitt verschieben.'),
+    'xshow'             => array('X-Achse anzeigen'),
+    'x2show'            => array('Zweite X-Achse anzeigen'),
+    'yshow'             => array('Y-Achse anzeigen'),
+    'y2show'            => array('Zweite Y-Achse anzeigen'),
+    'elementWizard'     => array('Elemente', 'Die Grafikelemente, die in dieser Grafik angezeigt werden.'),
+    'elementId'         => array('Element'),
+    'loadOrder'         => array('Ladereihenfolge'),
+    'general_legend'    => 'Allgemine Einstellungen',
+    'element_legend'    => 'Elemente',
+    'color_legend'      => 'Farben',
+    'x_legend'          => 'X-Achse',
+    'y_legend'          => 'Y-Achse',
+    'x2_legend'         => 'Zweite X-Achse',
+    'y2_legend'         => 'Zweite Y-Achse',
+    'publish_legend'    => 'Veröffentlichung'
 
-/**
- * Legends
- */
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['general_legend'] 		= 'Allgemein';
-
-/**
- * Buttons
- */
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['new']    		= array('Neuer Forenbereich', 'Einen neuen Forenbereich erstellen');
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['edit']   		= array('Forenbereich bearbeiten', 'Forenbereich ID %s bearbeiten');
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['copy']   		= array('Forenbereich duplizieren', 'Forenbereich ID %s duplizieren');
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['cut']    		= array('Forenbereich verschieben', 'Forenbereich ID %s verschieben');
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['delete'] 		= array('Forenbereich löschen', 'Forenbereich ID %s löschen');
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['toggle'] 		= array('Forenbereich veröffentlichen/unveröffentlichen', 'Forenbereich ID %s veröffentlichen/unveröffentlichen');
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['show']   		= array('Details', 'Die Details des Forenbereichs ID %s anzeigen');
-
-
-/**
- * Links
- */
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['build_index'] 	= array('Volltext-Indizierung', 'Einstellungen zum Volltextindex');
-
-/**
- * References
- */
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['references']['OFF']    = 'Aus';
-
-
-?>
+);
