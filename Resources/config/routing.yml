@@ -6,12 +6,3 @@ fetchChart:
         methods: [GET]
     requirements:
       chartId: '\d+'
-
-testFetchChart:
-    path: /con4gis/testfetchchart/
-    defaults:
-        _scope: frontend
-        _controller: "con4gisVisualizationBundle:Chart:testFetch"
-        methods: [GET]
-    requirements:
-        chartId: '\d+'
