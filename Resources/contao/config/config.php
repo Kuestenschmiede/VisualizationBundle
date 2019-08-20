@@ -39,3 +39,8 @@ $GLOBALS['TL_MODELS']['tl_c4g_visualization_chart_element_input'] = \con4gis\Vis
 $GLOBALS['TL_MODELS']['tl_c4g_visualization_chart_element'] = \con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel::class;
 $GLOBALS['TL_MODELS']['tl_c4g_visualization_chart_element_relation'] = \con4gis\VisualizationBundle\Resources\contao\models\ChartElementRelationModel::class;
 $GLOBALS['TL_MODELS']['tl_c4g_visualization_chart'] = \con4gis\VisualizationBundle\Resources\contao\models\ChartModel::class;
+
+/**
+ * Content elements
+ */
+$GLOBALS['TL_CTE']['con4gis']['c4g_visualization'] = \con4gis\VisualizationBundle\Resources\contao\elements\ChartContentElement::class;
