@@ -212,23 +212,37 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
         ),
         'table' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['table'],
-            'inputType'               => 'text',
-//            'options_callback'        => array('tl_c4g_visualization_chart_element', 'loadTableNames'),
-            'eval'                    => array('maxlength'=>255),
+            'inputType'               => 'select',
+            'options_callback'        => ['tl_c4g_visualization_chart_element', 'loadTableNames'],
+            'eval'                    => [
+                'maxlength'=>255,
+                'doNotSaveEmpty' => true,
+                'submitOnChange' => true
+            ],
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'tablex' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['tablex'],
-            'inputType'               => 'text',
-            'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
+            'inputType'               => 'select',
+            'options_callback'        => ['tl_c4g_visualization_chart_element', 'loadColumnNames'],
+            'eval'                    => [
+                'maxlength'=>255,
+                'tl_class'=>'w50',
+                'doNotSaveEmpty' => true,
+            ],
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'tabley' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['tabley'],
-            'inputType'               => 'text',
-            'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
+            'inputType'               => 'select',
+            'options_callback'        => ['tl_c4g_visualization_chart_element', 'loadColumnNames'],
+            'eval'                    => [
+                'maxlength' => 255,
+                'tl_class' => 'w50',
+                'doNotSaveEmpty' => true,
+            ],
             'sql'                     => "varchar(255) NOT NULL default ''"
         )
     )
@@ -241,19 +255,19 @@ class tl_c4g_visualization_chart_element extends \Backend
 {
     public function loadOriginOptions(DataContainer $dc)
     {
-        return array(
+        return [
             '1' => 'Eingabe',
             '2' => 'aus Tabelle laden'
-        );
+        ];
     }
 
     public function loadTypeOptions(DataContainer $dc)
     {
-        return array(
+        return [
             ChartElement::TYPE_LINE => 'Linie',
             ChartElement::TYPE_PIE => 'Kuchenstück',
             ChartElement::TYPE_BAR => 'Vertikale Balken'
-        );
+        ];
     }
 
     /**
@@ -292,6 +306,39 @@ class tl_c4g_visualization_chart_element extends \Backend
             }
         }
         return null;
+    }
+
+    public function loadTableNames(DataContainer $dc) {
+        $db = Database::getInstance();
+        $tables = $db->listTables();
+        $tablesFormatted = [];
+        foreach ($tables as $table) {
+            $tablesFormatted[$table] = $table;
+        }
+        return $tablesFormatted;
+    }
+
+    public function loadColumnNames(DataContainer $dc) {
+        $db = Database::getInstance();
+//        var_dump($dc->activeRecord);
+//        exit;
+        if ($dc->activeRecord->table !== '') {
+            $columns = $db->listFields($dc->activeRecord->table);
+//            var_dump($columns);
+//            exit;
+            if (is_array($columns) === true) {
+                $columnsFormatted = [];
+                foreach ($columns as $column) {
+                    if ($column['name'] !== 'PRIMARY') {
+                        $columnsFormatted[$column['name']] = $column['name'];
+                    }
+                }
+//                var_dump($columnsFormatted);
+//                exit;
+                return $columnsFormatted;
+            }
+        }
+        return [];
     }
     
 
