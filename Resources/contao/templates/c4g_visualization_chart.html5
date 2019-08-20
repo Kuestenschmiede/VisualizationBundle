@@ -1,0 +1,9 @@
+<div class="c4g_chart_container">
+    <?php if ($this->headline !== []) {
+        echo "<".$this->headline['unit'].">".$this->headline['value']."</".$this->headline['unit'].">";
+    }
+    ?>
+    <div class="c4g_chart" id="c4g_chart_<?php echo $this->instance ?>"
+         data-chart="<?php echo $this->chartID ?>">
+    </div>
+</div>
