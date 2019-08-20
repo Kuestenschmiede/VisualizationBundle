@@ -11,26 +11,26 @@
  * @link       https://www.con4gis.org
  */
 
-$GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] = array
-(
-    'new'               => array('Neue Grafik hinzufügen', 'Neue Grafik hinzufügen'),
-    'edit'              => array('Bearbeiten','Grafk bearbeiten'),
-    'copy'              => array('Kopieren','Grafik kopieren'),
-    'delete'            => array('Löschen','Grafik löschen'),
-    'show'              => array('Anzeigen','Grafik anzeigen'),
-    'toggle'            => array('Veröffentlichen/verbergen','Grafik veröffentlichen/verbergen'),
-    'all'               => array('Mehrere bearbeiten','Mehrere Grafiken bearbeiten'),
-    'backendtitle'      => array('Bezeichnung (nur Backend)', 'Dient zur eindeutigen Indentifikation im Backend.'),
-    'frontendtitle'     => array('Titel (Frontend)', 'Dies wird im Frontend über der Grafik angezeigt, falls gesetzt.'),
-    'published'         => array('Grafik veröffentlichen', 'Die Grafik auf der Webseite anzeigen.'),
-    'zoom'              => array('Zoom aktivieren', 'Falls gesetzt, kann der Nutzer in die Grafik zoomen und den Ausschnitt verschieben.'),
-    'xshow'             => array('X-Achse anzeigen'),
-    'x2show'            => array('Zweite X-Achse anzeigen'),
-    'yshow'             => array('Y-Achse anzeigen'),
-    'y2show'            => array('Zweite Y-Achse anzeigen'),
-    'elementWizard'     => array('Elemente', 'Die Grafikelemente, die in dieser Grafik angezeigt werden.'),
-    'elementId'         => array('Element'),
-    'loadOrder'         => array('Ladereihenfolge'),
+$GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
+[
+    'new'               => ['Neue Grafik hinzufügen', 'Neue Grafik hinzufügen'],
+    'edit'              => ['Bearbeiten','Grafk bearbeiten'],
+    'copy'              => ['Kopieren','Grafik kopieren'],
+    'delete'            => ['Löschen','Grafik löschen'],
+    'show'              => ['Anzeigen','Grafik anzeigen'],
+    'toggle'            => ['Veröffentlichen/verbergen','Grafik veröffentlichen/verbergen'],
+    'all'               => ['Mehrere bearbeiten','Mehrere Grafiken bearbeiten'],
+    'backendtitle'      => ['Bezeichnung (nur Backend)', 'Dient zur eindeutigen Indentifikation im Backend.'],
+    'frontendtitle'     => ['Titel (Frontend)', 'Dies wird im Frontend über der Grafik angezeigt, falls gesetzt.'],
+    'published'         => ['Grafik veröffentlichen', 'Die Grafik auf der Webseite anzeigen.'],
+    'zoom'              => ['Zoom aktivieren', 'Falls gesetzt, kann der Nutzer in die Grafik zoomen und den Ausschnitt verschieben.'],
+    'xshow'             => ['X-Achse anzeigen'],
+    'x2show'            => ['Zweite X-Achse anzeigen'],
+    'yshow'             => ['Y-Achse anzeigen'],
+    'y2show'            => ['Zweite Y-Achse anzeigen'],
+    'elementWizard'     => ['Elemente', 'Die Grafikelemente, die in dieser Grafik angezeigt werden.'],
+    'elementId'         => ['Element'],
+    'loadOrder'         => ['Ladereihenfolge'],
     'general_legend'    => 'Allgemine Einstellungen',
     'element_legend'    => 'Elemente',
     'color_legend'      => 'Farben',
@@ -40,4 +40,4 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] = array
     'y2_legend'         => 'Zweite Y-Achse',
     'publish_legend'    => 'Veröffentlichung'
 
-);
+];

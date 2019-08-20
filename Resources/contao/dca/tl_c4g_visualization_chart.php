@@ -42,12 +42,12 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
 		'sorting' => array
 		(
             'mode'                    => 2,
-            'panelLayout'             => 'filter;sort,search,limit',
-            'headerFields'            => array('backendtitle', 'frontendtitle'),
+            'panelLayout'             => 'search,limit',
+            'headerFields'            => array('backendtitle'),
 		),
 		'label' => array
 		(
-			'fields'                  => array('backendtitle', 'frontendtitle'),
+			'fields'                  => array('backendtitle'),
             'showColumns'             => true,
 		),
 		'global_operations' => array
@@ -135,16 +135,6 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
         'tstamp' => array
         (
             'sql'                     => "int(10) unsigned NOT NULL default '0'"
-        ),
-        'frontendtitle' => array
-        (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['frontendtitle'],
-            'inputType'               => 'text',
-            'search'                  => 'true',
-            'sorting'                 => 'true',
-            'default'                 => '',
-            'eval'                    => array('mandatory'=>false, 'maxlength'=>255 ),
-            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'backendtitle' => array
         (
