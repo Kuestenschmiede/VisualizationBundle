@@ -9,14 +9,8 @@ use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 
 Class Chart
 {
-    protected $title = '';
-    protected $enableAnimations = true;
-    protected $enableExport = true;
-    protected $theme = '';
-    protected $colorSetName = '';
-    protected $colors = [];
-    protected $yAxis = [];
-    protected $xAxis = [];
+    protected $zoom = false;
+    protected $axes = [];
 
     protected $showLegend = false;
     protected $legendFontSize = 16;
@@ -24,19 +18,14 @@ Class Chart
 
     protected $elements = [];
 
+    protected $groups = [];
+
     /**
      * @return string
      */
     public function createEncodableArray() {
         $array = [
-            'colorSet' => [
-                'name' => $this->colorSetName,
-                'colors' => $this->colors
-            ],
-            'title' => $this->title,
-            'animationEnabled' => $this->enableAnimations,
-            'exportEnabled' => $this->enableExport,
-            'theme' => $this->theme,
+            'colors' => $this->getColors(),
             'data' => $this->createEncodableDataArray()
             ];
 
@@ -48,12 +37,16 @@ Class Chart
             ];
         }
 
-        if (!empty($this->yAxis) === true) {
-            $array['axisY'] = $this->yAxis;
+        if ($this->zoom === true) {
+            $array['zoom'] = ['enabled' => true];
         }
 
-        if (!empty($this->xAxis) === true) {
-            $array['axisX'] = $this->xAxis;
+        if ($this->yAxis instanceof Axis === true) {
+            $array['axisY'] = $this->yAxis->createEncodableAxisArray();
+        }
+
+        if ($this->xAxis instanceof Axis === true) {
+            $array['axisX'] = $this->xAxis->createEncodableAxisArray();
         }
 
         return $array;
@@ -72,6 +65,13 @@ Class Chart
         return $this;
     }
 
+    public function group(string $group) {
+        if (!isset($this->groups[$group]) === true) {
+            $this->groups[$group] = sizeof($this->groups);
+        }
+        return $this->groups[$group];
+    }
+
     public function legend(int $fontsize = 16, bool $interactive = true) {
         $this->showLegend = true;
         $this->legendFontSize = $fontsize;
@@ -79,56 +79,41 @@ Class Chart
         return $this;
     }
 
-    public function yAxis(string $title, bool $includeZero = true, string $suffix = '') {
-        $this->yAxis['title'] = $title;
-        $this->yAxis['includeZero'] = $includeZero;
-        $this->yAxis['suffix'] = $suffix;
+    public function getColors() {
+        $colors = [];
+        foreach ($this->elements as $element) {
+            $colors[] = $element->getColor();
+        }
+        return $colors;
+    }
+
+    public function y(Axis $axis) {
+        $this->axes['y'] = $axis;
         return $this;
     }
 
-    public function xAxis(string $title) {
-        $this->xAxis['title'] = $title;
+    public function y2(Axis $axis) {
+        $this->axes['y2'] = $axis;
         return $this;
     }
 
-    /**
-     * @param string $title
-     * @return Chart
-     */
-    public function setTitle(string $title): Chart
-    {
-        $this->title = $title;
+    public function x(Axis $axis) {
+        $this->axes['x'] = $axis;
         return $this;
     }
 
-    /**
-     * @param array $colors
-     * @return Chart
-     */
-    public function setColors(string $name, array $colors): Chart
-    {
-        $this->colorSetName = $name;
-        $this->colors = $colors;
+    public function x2(Axis $axis) {
+        $this->axes['x2'] = $axis;
         return $this;
     }
 
     /**
-     * @param bool $enableAnimations
+     * @param bool $zoom
      * @return Chart
      */
-    public function setEnableAnimations(bool $enableAnimations = true): Chart
+    public function setZoom(bool $zoom = true): Chart
     {
-        $this->enableAnimations = $enableAnimations;
-        return $this;
-    }
-
-    /**
-     * @param bool $enableExport
-     * @return Chart
-     */
-    public function setEnableExport(bool $enableExport = true): Chart
-    {
-        $this->enableExport = $enableExport;
+        $this->zoom = $zoom;
         return $this;
     }
 

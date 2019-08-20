@@ -31,6 +31,8 @@ class ChartElement
 
     protected $showInLegend = true;
     protected $name = '';
+    protected $group = -1;
+    protected $color = '';
 
     public function __construct(string $type, Source $source)
     {
@@ -44,12 +46,16 @@ class ChartElement
             'dataPoints' => $this->createEncodableDataPointsArray()
         ];
 
-        if ($showLegend === true && $this->showInLegend === true) {
-            $array['showInLegend'] = true;
-        }
+//        if ($showLegend === true && $this->showInLegend === true) {
+//            $array['showInLegend'] = true;
+//        }
 
         if ($this->name !== '') {
             $array['name'] = $this->name;
+        }
+
+        if ($this->group >= 0) {
+            $array['group'] = $this->group;
         }
 
         return $array;
@@ -115,6 +121,16 @@ class ChartElement
         return $this;
     }
 
+    /**
+     * @param int $group
+     * @return ChartElement
+     */
+    public function setGroup(int $group): ChartElement
+    {
+        $this->group = $group;
+        return $this;
+    }
+
     public function addTransformer(Transformer $transformer) {
         $this->transformers[] = $transformer;
         return $this;
@@ -133,4 +149,21 @@ class ChartElement
         return $this->addLabel($label);
     }
 
+    /**
+     * @return string
+     */
+    public function getColor(): string
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param string $color
+     * @return ChartElement
+     */
+    public function setColor(string $color): ChartElement
+    {
+        $this->color = '#'.$color;
+        return $this;
+    }
 }
