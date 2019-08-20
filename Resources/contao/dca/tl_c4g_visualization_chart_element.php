@@ -179,6 +179,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['origin'],
             'inputType'               => 'select',
+            'default'                 => '1',
             'options_callback'        => array('tl_c4g_visualization_chart_element', 'loadOriginOptions'),
             'eval'                    => array('submitOnChange' => true),
             'sql'                     => "varchar(10) NOT NULL default ''"
