@@ -3,6 +3,14 @@
         echo "<".$this->headline['unit'].">".$this->headline['value']."</".$this->headline['unit'].">";
     }
     ?>
+    <?php if ($this->path !== '') {
+        echo "<img src=\"".$this->path."\"
+                   style=\"max-height: ".$this->Template->imageMaxHeight.
+                   "px;max-width: ".$this->Template->imageMaxWidth.
+                   "px;position: absolute;z-index: -1;margin-top: ". $this->Template->imageMarginTop
+                   ."%;margin-left: ".$this->Template->imageMarginLeft
+                   ."%;opacity: ".$this->Template->imageOpacity.";\">";
+    }?>
     <div class="c4g_chart" id="c4g_chart_<?php echo $this->instance ?>"
          data-chart="<?php echo $this->chartID ?>">
     </div>

@@ -109,7 +109,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
 	(
 		'default'                     => '{general_legend},backendtitle,frontendtitle,zoom;'.
                                          '{element_legend},elementWizard;'.
-										 '{color_legend},colorWizard;'.
+										 '{watermark_legend},image;imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;'.
 										 '{x_legend:hide},xshow;'.
 										 '{y_legend:hide},yshow;'.
 										 '{x2_legend:hide},x2show;'.
@@ -208,6 +208,81 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
                 'doNotSaveEmpty'    => true,
             ),
         ),
+        'image' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['image'],
+            'inputType'               => 'fileTree',
+            'eval'                    => array
+            (
+                'fieldType' => 'radio',
+                'files' => true,
+                'filesOnly' => true,
+                'tl_class' => 'clr',
+                'extensions' => $GLOBALS['TL_CONFIG']['validImageTypes']
+            ),
+            'save_callback'           => array(array('tl_c4g_visualization_chart', 'changeFileBinToUuid')),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'imageMaxHeight' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['imageMaxHeight'],
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'eval'                    => array(
+                'maxlength'=>10,
+                'rgxp'=>'natural',
+            ),
+            'default'                 => '200',
+            'sql'                     => "int(10) unsigned NOT NULL default '0'"
+        ),
+        'imageMaxWidth' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['imageMaxWidth'],
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'eval'                    => array(
+                'maxlength'=>10,
+                'rgxp'=>'natural',
+            ),
+            'default'                 => '200',
+            'sql'                     => "int(10) unsigned NOT NULL default '0'"
+        ),
+        'imageMarginTop' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['imageMarginTop'],
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'eval'                    => array(
+                'maxlength'=>10,
+                'rgxp'=>'natural',
+            ),
+            'default'                 => '5',
+            'sql'                     => "int(10) unsigned NOT NULL default '0'"
+        ),
+        'imageMarginLeft' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['imageMarginLeft'],
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'eval'                    => array(
+                'maxlength'=>10,
+                'rgxp'=>'natural',
+            ),
+            'default'                 => '10',
+            'sql'                     => "int(10) unsigned NOT NULL default '0'"
+        ),
+        'imageOpacity' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['imageOpacity'],
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'eval'                    => array(
+                'maxlength'=>10,
+                'rgxp'=>'natural'
+            ),
+            'default'                 => '80',
+            'sql'                     => "int(10) unsigned NOT NULL default '0'"
+        )
     )
 );
 
@@ -255,5 +330,9 @@ class tl_c4g_visualization_chart extends \Backend
             "WHERE chartId = ?");
         $result = $stmt->execute($dc->activeRecord->id);
         return $result->fetchAllAssoc();
+    }
+
+    public function changeFileBinToUuid($fieldValue, DataContainer $dc) {
+        return \StringUtil::binToUuid($fieldValue);
     }
 }

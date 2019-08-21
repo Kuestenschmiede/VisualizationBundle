@@ -15,6 +15,7 @@ namespace con4gis\VisualizationBundle\Resources\contao\elements;
 use con4gis\CoreBundle\Resources\contao\classes\ResourceLoader;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 use Contao\ContentElement;
+use Contao\FilesModel;
 
 class ChartContentElement extends ContentElement
 {
@@ -37,9 +38,17 @@ class ChartContentElement extends ContentElement
             ResourceLoader::loadCssResource('bundles/con4gisvisualization/css/c4g_visualization.css');
             $elementModel = $this->getModel();
             $chartId = $elementModel->chartID;
+            $chartModel = ChartModel::findByPk($chartId);
+            $fileModel = FilesModel::findByUuid($chartModel->image);
             $headline = unserialize($elementModel->headline);
             $this->Template->chartID = $chartId;
             $this->Template->headline = $headline;
+            $this->Template->path = $fileModel->path;
+            $this->Template->imageMaxHeight = $chartModel->imageMaxHeight;
+            $this->Template->imageMaxWidth = $chartModel->imageMaxWidth;
+            $this->Template->imageMarginTop = $chartModel->imageMarginTop;
+            $this->Template->imageMarginLeft = $chartModel->imageMarginLeft;
+            $this->Template->imageOpacity =  1 - ($chartModel->imageOpacity / 100);
             $this->Template->instance = static::$instances;
             static::$instances += 1;
         }
