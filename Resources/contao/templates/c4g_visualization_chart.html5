@@ -11,6 +11,11 @@
                    ."%;margin-left: ".$this->Template->imageMarginLeft
                    ."%;opacity: ".$this->Template->imageOpacity.";\">";
     }?>
+    <div class="c4g_chart_range_button_container" style="text-align: center">
+        <button class="c4g_chart_button c4g_chart_range_button" data-range="default" data-target="c4g_chart_2">Default</button>
+        <button class="c4g_chart_button c4g_chart_range_button" data-range="test" data-target="c4g_chart_2">Test</button>
+        <button class="c4g_chart_button c4g_chart_range_button" data-range="all" data-target="c4g_chart_2">Alle</button>
+    </div>
     <div class="c4g_chart" id="c4g_chart_<?php echo $this->instance ?>"
          data-chart="<?php echo $this->chartID ?>">
     </div>

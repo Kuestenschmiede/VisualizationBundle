@@ -10,68 +10,120 @@ c4gVisualization.generateCharts = function() {
             .then(function (response) {
                 return response.json();
             })
-            .then(function (myJson) {
-
-                let c3json = {
-                    bindto: '#' + element.id,
-                    data: {
-                        xs: {},
-                        columns: [],
-                        types: {},
-                        colors: {},
-                        names: {},
-                        groups: []
-                    },
-                    zoom: {
-                        enabled: false
-                    }
-                };
-
-                let index = 0;
-                while (index < myJson.colors.length) {
-                    c3json.data.colors['y' + index] = myJson.colors[index];
-                    index += 1;
-                }
-
-                index = 0;
-                while (index < myJson.data.length) {
-                    c3json.data.xs['y' + index] = 'x' + index;
-                    let x = ['x' + index];
-                    let y = ['y' + index];
-                    let i = 0;
-                    while (i < myJson.data[index].dataPoints.length) {
-                        x.push(myJson.data[index].dataPoints[i].x);
-                        y.push(myJson.data[index].dataPoints[i].y);
-                        i += 1;
-                    }
-                    c3json.data.columns.push(x, y);
-                    c3json.data.types['y' + index] = myJson.data[index].type;
-                    if (typeof myJson.data[index].name !== 'undefined') {
-                        c3json.data.names['y' + index] = myJson.data[index].name;
-                    }
-                    if (typeof myJson.data[index].group !== 'undefined') {
-                        while (typeof c3json.data.groups[myJson.data[index].group] === 'undefined') {
-                            c3json.data.groups.push([]);
-                        }
-                        c3json.data.groups[myJson.data[index].group].push('y' + index);
-                    }
-                    index += 1;
-                }
-
-                if ((typeof myJson.zoom !== 'undefined') && (typeof myJson.zoom.enabled !== 'undefined')) {
-                    c3json.zoom.enabled = myJson.zoom.enabled;
-                }
+            .then(function (responseJson) {
 
                 c4gVisualization.charts.push(
                     {
-                        chart: c3.generate(c3json),
-                        base: c3json
+                        bindto: '#' + element.id,
+                        base: responseJson,
+                        range: 'default',
+                        chart: c3.generate(c4gVisualization.parseJson('#' + element.id, responseJson)),
+                        update: function() {
+                            this.chart = c3.generate(c4gVisualization.parseJson(this.bindto, this.base, this.range));
+                        },
                     }
                 );
+                console.log(c4gVisualization.parseJson('#' + element.id, responseJson));
+                console.log(responseJson);
 
             });
         elIndex += 1;
     }
 };
 
+c4gVisualization.parseJson = function(bindto, json, range = 'default') {
+
+    console.log(range);
+    let c3json = {
+        bindto: bindto,
+        data: {
+            xs: {},
+            columns: [],
+            types: {},
+            colors: {},
+            names: {},
+            groups: []
+        },
+        zoom: {
+            enabled: false
+        }
+    };
+
+    let index = 0;
+    while (index < json.colors.length) {
+        c3json.data.colors['y' + index] = json.colors[index];
+        index += 1;
+    }
+
+    let rangeLowerBound;
+    let rangeUpperBound;
+    if (range !== 'all') {
+        if (typeof json.ranges[range] === 'undefined') {
+            range = 'all';
+        } else {
+            rangeLowerBound = json.ranges[range].lowerBound;
+            rangeUpperBound = json.ranges[range].upperBound;
+            console.log(rangeLowerBound + "/" + rangeUpperBound);
+        }
+    }
+
+    index = 0;
+    while (index < json.data.length) {
+        c3json.data.xs['y' + index] = 'x' + index;
+        let x = ['x' + index];
+        let y = ['y' + index];
+        let i = 0;
+        while (i < json.data[index].dataPoints.length) {
+            if ((json.data[index].type === 'pie') || (range === 'all') || (json.data[index].dataPoints[i].x >= rangeLowerBound  && json.data[index].dataPoints[i].x <= rangeUpperBound)) {
+                x.push(json.data[index].dataPoints[i].x);
+                y.push(json.data[index].dataPoints[i].y);
+            }
+            i += 1;
+        }
+        c3json.data.columns.push(x, y);
+        c3json.data.types['y' + index] = json.data[index].type;
+        if (typeof json.data[index].name !== 'undefined') {
+            c3json.data.names['y' + index] = json.data[index].name;
+        }
+        if (typeof json.data[index].group !== 'undefined') {
+            while (typeof c3json.data.groups[json.data[index].group] === 'undefined') {
+                c3json.data.groups.push([]);
+            }
+            c3json.data.groups[json.data[index].group].push('y' + index);
+        }
+        index += 1;
+    }
+
+    if ((typeof json.zoom !== 'undefined') && (typeof json.zoom.enabled !== 'undefined')) {
+        c3json.zoom.enabled = json.zoom.enabled;
+    }
+
+    return c3json;
+};
+
+c4gVisualization.getChartByBindId = function(id) {
+    let index = 0;
+    while (0 < c4gVisualization.charts.length) {
+        if (c4gVisualization.charts[index].bindto === '#' + id) {
+            return c4gVisualization.charts[index];
+        }
+        index += 1;
+    }
+    return null;
+};
+
+c4gVisualization.addClickListeners = function() {
+    let buttons = document.getElementsByClassName('c4g_chart_range_button');
+    let index = 0;
+    while (index < buttons.length) {
+        buttons.item(index).addEventListener('click', function() {
+            let chart = c4gVisualization.getChartByBindId(this.dataset.target);
+            chart.range = this.dataset.range;
+            chart.update();
+        });
+        index += 1;
+    }
+};
+
 c4gVisualization.generateCharts();
+c4gVisualization.addClickListeners();

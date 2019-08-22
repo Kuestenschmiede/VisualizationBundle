@@ -17,15 +17,17 @@ Class Chart
     protected $legendInteractive = true;
 
     protected $elements = [];
+    protected $ranges = [];
 
     protected $groups = [];
 
     /**
-     * @return string
+     * @return array
      */
     public function createEncodableArray() {
         $array = [
             'colors' => $this->getColors(),
+            'ranges' => $this->ranges,
             'data' => $this->createEncodableDataArray()
             ];
 
@@ -41,13 +43,13 @@ Class Chart
             $array['zoom'] = ['enabled' => true];
         }
 
-        if ($this->yAxis instanceof Axis === true) {
-            $array['axisY'] = $this->yAxis->createEncodableAxisArray();
-        }
-
-        if ($this->xAxis instanceof Axis === true) {
-            $array['axisX'] = $this->xAxis->createEncodableAxisArray();
-        }
+//        if ($this->yAxis instanceof Axis === true) {
+//            $array['axisY'] = $this->yAxis->createEncodableAxisArray();
+//        }
+//
+//        if ($this->xAxis instanceof Axis === true) {
+//            $array['axisX'] = $this->xAxis->createEncodableAxisArray();
+//        }
 
         return $array;
     }
@@ -63,6 +65,13 @@ Class Chart
     public function addElement(ChartElement $element) {
         $this->elements[] = $element;
         return $this;
+    }
+
+    public function addRange(string $name, float $lowerBound, float $upperBound) {
+        $this->ranges[$name] = [
+            'lowerBound' => $lowerBound,
+            'upperBound' => $upperBound
+        ];
     }
 
     public function group(string $group) {

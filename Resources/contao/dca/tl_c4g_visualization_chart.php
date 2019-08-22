@@ -109,7 +109,8 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
 	(
 		'default'                     => '{general_legend},backendtitle,frontendtitle,zoom;'.
                                          '{element_legend},elementWizard;'.
-										 '{watermark_legend},image;imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;'.
+										 '{watermark_legend},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;'.
+										 '{ranges_legend},rangeWizard,buttonAllCaption,buttonPosition;'.
 										 '{x_legend:hide},xshow;'.
 										 '{y_legend:hide},yshow;'.
 										 '{x2_legend:hide},x2show;'.
@@ -282,7 +283,55 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             ),
             'default'                 => '80',
             'sql'                     => "int(10) unsigned NOT NULL default '0'"
-        )
+        ),
+        'rangeWizard' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['rangeWizard'],
+            'inputType'               => 'multiColumnWizard',
+            'save_callback'           => array(array('tl_c4g_visualization_chart', 'saveRanges')),
+            'load_callback'           => array(array('tl_c4g_visualization_chart', 'loadRanges')),
+            'eval'                    => array
+            (
+                'columnFields' => array
+                (
+                    'name' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['name'],
+                        'inputType'               => 'text'
+                    ),
+                    'fromX' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['fromX'],
+                        'inputType'               => 'text',
+                        'eval'                    => array('rgxp' => 'digit'),
+                    ),
+                    'toX' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['toX'],
+                        'inputType'               => 'text',
+                        'eval'                    => array('rgxp' => 'digit'),
+                    ),
+                ),
+                'doNotSaveEmpty'    => true,
+            ),
+        ),
+        'buttonAllCaption' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['buttonAllCaption'],
+            'inputType'               => 'text',
+            'default'                 => '',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255 ),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'buttonPosition' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['buttonPosition'],
+            'inputType'               => 'select',
+            'default'                 => '1',
+            'options_callback'         => ['tl_c4g_visualization_chart', 'loadButtonPositionOptions'],
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255 ),
+            'sql'                     => "char(1) NOT NULL default ''"
+        ),
     )
 );
 
@@ -291,6 +340,18 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
  */
 class tl_c4g_visualization_chart extends \Backend
 {
+
+    public function loadButtonPositionOptions(DataContainer $dc) {
+        return [
+            '1' => 'Oben Links',
+            '2' => 'Oben Mittig',
+            '3' => 'Oben Rechts',
+            '4' => 'Unten Links',
+            '5' => 'Unten Mittig',
+            '6' => 'Unten Rechts',
+        ];
+    }
+
     /**
      * @param $value
      * @param DataContainer $dc
@@ -328,6 +389,44 @@ class tl_c4g_visualization_chart extends \Backend
             "INNER JOIN tl_c4g_visualization_chart_element ON tl_c4g_visualization_chart_element_relation.elementId=".
             "tl_c4g_visualization_chart_element.id ".
             "WHERE chartId = ?");
+        $result = $stmt->execute($dc->activeRecord->id);
+        return $result->fetchAllAssoc();
+    }
+
+    /**
+     * @param $value
+     * @param DataContainer $dc
+     * @return null
+     */
+    public function saveRanges($value, DataContainer $dc)  {
+//        var_dump($value);
+        $inputs = unserialize($value);
+//        var_dump($inputs);
+//        echo "<br>elementId = $inputs['elementId']";
+//        exit;
+        if (is_array($inputs) === true) {
+            $database = \Contao\Database::getInstance();
+            $database->prepare(
+                "DELETE FROM tl_c4g_visualization_chart_range WHERE chartId = ?")->execute($dc->activeRecord->id);
+            foreach($inputs as $input) {
+                $stmt = $database->prepare(
+                    "INSERT INTO tl_c4g_visualization_chart_range (chartId, name, fromX, toX) ".
+                    "VALUES (?, ?, ?, ?)");
+                $stmt->execute($dc->activeRecord->id, $input['name'], $input['fromX'], $input['toX']);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param $value
+     * @param DataContainer $dc
+     * @return array
+     */
+    public function loadRanges($value, DataContainer $dc) : array {
+        $database = \Contao\Database::getInstance();
+        $stmt = $database->prepare(
+            "SELECT name, fromX, toX FROM tl_c4g_visualization_chart_range WHERE chartId = ?");
         $result = $stmt->execute($dc->activeRecord->id);
         return $result->fetchAllAssoc();
     }
