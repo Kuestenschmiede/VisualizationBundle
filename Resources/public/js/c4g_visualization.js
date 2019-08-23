@@ -23,8 +23,8 @@ c4gVisualization.generateCharts = function() {
                         },
                     }
                 );
-                console.log(c4gVisualization.parseJson('#' + element.id, responseJson));
-                console.log(responseJson);
+                //console.log(c4gVisualization.parseJson('#' + element.id, responseJson));
+                //console.log(responseJson);
 
             });
         elIndex += 1;
@@ -33,7 +33,7 @@ c4gVisualization.generateCharts = function() {
 
 c4gVisualization.parseJson = function(bindto, json, range = 'range_default') {
 
-    console.log(range);
+    //console.log(range);
     let c3json = {
         bindto: bindto,
         data: {
@@ -63,7 +63,7 @@ c4gVisualization.parseJson = function(bindto, json, range = 'range_default') {
         } else {
             rangeLowerBound = json.ranges[range].lowerBound;
             rangeUpperBound = json.ranges[range].upperBound;
-            console.log(rangeLowerBound + "/" + rangeUpperBound);
+            //console.log(rangeLowerBound + "/" + rangeUpperBound);
         }
     }
 
