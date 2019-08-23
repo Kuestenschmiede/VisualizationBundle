@@ -40,6 +40,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'name'              => ['Bezeichnung', 'Der Text des Buttons.'],
     'fromX'             => ['Von', 'Ab diesem X-Wert (inklusiv) werden die Werte angezeigt.'],
     'toX'               => ['Bis', 'Bis zu diesem X-Wert (inklusiv) werden die Werte angezeigt.'],
+    'defaultRange'      => ['Standard', 'Der Standardwertebereich. Sind mehr als einer angegeben, gilt der erste als Standard.'],
     'buttonAllCaption'  => ['Button für alle Werte', 'Falls dieses Feld nicht leer ist, wird ein Button eingeblendet, mit dem alle Werte gezeichnet werden, so als wären keine Wertebereiche definiert. Der Button hat den eingegebenen Text.'],
     'buttonPosition'    => ['Button-Position', 'Definiert die Position der Buttons relativ zur Grafik.'],
     'general_legend'    => 'Allgemeine Einstellungen',

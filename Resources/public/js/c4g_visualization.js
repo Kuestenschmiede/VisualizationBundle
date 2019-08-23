@@ -31,7 +31,7 @@ c4gVisualization.generateCharts = function() {
     }
 };
 
-c4gVisualization.parseJson = function(bindto, json, range = 'default') {
+c4gVisualization.parseJson = function(bindto, json, range = 'range_default') {
 
     console.log(range);
     let c3json = {
@@ -57,9 +57,9 @@ c4gVisualization.parseJson = function(bindto, json, range = 'default') {
 
     let rangeLowerBound;
     let rangeUpperBound;
-    if (range !== 'all') {
+    if (range !== 'range_all') {
         if (typeof json.ranges[range] === 'undefined') {
-            range = 'all';
+            range = 'range_all';
         } else {
             rangeLowerBound = json.ranges[range].lowerBound;
             rangeUpperBound = json.ranges[range].upperBound;
@@ -74,7 +74,7 @@ c4gVisualization.parseJson = function(bindto, json, range = 'default') {
         let y = ['y' + index];
         let i = 0;
         while (i < json.data[index].dataPoints.length) {
-            if ((json.data[index].type === 'pie') || (range === 'all') || (json.data[index].dataPoints[i].x >= rangeLowerBound  && json.data[index].dataPoints[i].x <= rangeUpperBound)) {
+            if ((json.data[index].type === 'pie') || (range === 'range_all') || (json.data[index].dataPoints[i].x >= rangeLowerBound  && json.data[index].dataPoints[i].x <= rangeUpperBound)) {
                 x.push(json.data[index].dataPoints[i].x);
                 y.push(json.data[index].dataPoints[i].y);
             }

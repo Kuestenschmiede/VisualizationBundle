@@ -56,6 +56,10 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_range'] = array
         (
             'sql'                     => "DECIMAL(20,10) unsigned NOT NULL default 0.0"
         ),
+        'defaultRange' => array
+        (
+            'sql'                     => "CHAR(1) NOT NULL default '0'"
+        ),
     )
 );
 

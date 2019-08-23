@@ -222,7 +222,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
                 'extensions' => $GLOBALS['TL_CONFIG']['validImageTypes']
             ),
             'save_callback'           => array(array('tl_c4g_visualization_chart', 'changeFileBinToUuid')),
-            'sql'                     => "varchar(255) NOT NULL default ''"
+            'sql'                     => "varchar(255) NULL default ''"
         ),
         'imageMaxHeight' => array
         (
@@ -311,6 +311,12 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
                         'inputType'               => 'text',
                         'eval'                    => array('rgxp' => 'digit'),
                     ),
+                    'defaultRange' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['defaultRange'],
+                        'inputType'               => 'checkbox',
+                        'default'                 => '0',
+                    ),
                 ),
                 'doNotSaveEmpty'    => true,
             ),
@@ -358,16 +364,15 @@ class tl_c4g_visualization_chart extends \Backend
      * @return null
      */
     public function saveElements($value, DataContainer $dc)  {
-//        var_dump($value);
         $inputs = unserialize($value);
-//        var_dump($inputs);
-//        echo "<br>elementId = $inputs['elementId']";
-//        exit;
         if (is_array($inputs) === true) {
             $database = \Contao\Database::getInstance();
             $database->prepare(
                 "DELETE FROM tl_c4g_visualization_chart_element_relation WHERE chartId = ?")->execute($dc->activeRecord->id);
             foreach($inputs as $input) {
+                if (empty($input) === true || $input['elementId'] === '') {
+                    continue;
+                }
                 $stmt = $database->prepare(
                     "INSERT INTO tl_c4g_visualization_chart_element_relation (chartId, elementId) ".
                     "VALUES (?, ?)");
@@ -399,20 +404,22 @@ class tl_c4g_visualization_chart extends \Backend
      * @return null
      */
     public function saveRanges($value, DataContainer $dc)  {
-//        var_dump($value);
         $inputs = unserialize($value);
-//        var_dump($inputs);
-//        echo "<br>elementId = $inputs['elementId']";
-//        exit;
         if (is_array($inputs) === true) {
             $database = \Contao\Database::getInstance();
             $database->prepare(
                 "DELETE FROM tl_c4g_visualization_chart_range WHERE chartId = ?")->execute($dc->activeRecord->id);
             foreach($inputs as $input) {
+                if (empty($input) === true || $input['name'] === '' || $input['fromX'] === '' || $input['toX'] === '') {
+                    continue;
+                }
+                if ($input['defaultRange'] !== '1') {
+                    $input['defaultRange'] = '0';
+                }
                 $stmt = $database->prepare(
-                    "INSERT INTO tl_c4g_visualization_chart_range (chartId, name, fromX, toX) ".
-                    "VALUES (?, ?, ?, ?)");
-                $stmt->execute($dc->activeRecord->id, $input['name'], $input['fromX'], $input['toX']);
+                    "INSERT INTO tl_c4g_visualization_chart_range (chartId, name, fromX, toX, defaultRange) ".
+                    "VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute($dc->activeRecord->id, $input['name'], $input['fromX'], $input['toX'], $input['defaultRange']);
             }
         }
         return null;
@@ -426,7 +433,7 @@ class tl_c4g_visualization_chart extends \Backend
     public function loadRanges($value, DataContainer $dc) : array {
         $database = \Contao\Database::getInstance();
         $stmt = $database->prepare(
-            "SELECT name, fromX, toX FROM tl_c4g_visualization_chart_range WHERE chartId = ?");
+            "SELECT name, fromX, toX, defaultRange FROM tl_c4g_visualization_chart_range WHERE chartId = ?");
         $result = $stmt->execute($dc->activeRecord->id);
         return $result->fetchAllAssoc();
     }

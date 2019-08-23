@@ -13,7 +13,9 @@
 namespace con4gis\VisualizationBundle\Resources\contao\elements;
 
 use con4gis\CoreBundle\Resources\contao\classes\ResourceLoader;
+use con4gis\VisualizationBundle\Classes\Charts\Chart;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
+use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
 use Contao\ContentElement;
 use Contao\FilesModel;
 
@@ -44,11 +46,42 @@ class ChartContentElement extends ContentElement
             $this->Template->chartID = $chartId;
             $this->Template->headline = $headline;
             $this->Template->path = $fileModel->path;
+
             $this->Template->imageMaxHeight = $chartModel->imageMaxHeight;
             $this->Template->imageMaxWidth = $chartModel->imageMaxWidth;
             $this->Template->imageMarginTop = $chartModel->imageMarginTop;
             $this->Template->imageMarginLeft = $chartModel->imageMarginLeft;
             $this->Template->imageOpacity =  1 - ($chartModel->imageOpacity / 100);
+
+            $buttons = [];
+            $rangeModels = ChartRangeModel::findByChartId($chartId);
+            $defaultDefined = false;
+            foreach ($rangeModels as $model) {
+                if (($model->defaultRange === '1') && ($defaultDefined === false)) {
+                    $defaultDefined = true;
+                    $buttons[] = [
+                        'range' => Chart::RANGE_DEFAULT,
+                        'target' => 'c4g_chart_' . static::$instances,
+                        'caption' => $model->name
+                    ];
+                } else {
+                    $buttons[] = [
+                        'range' => $model->name,
+                        'target' => 'c4g_chart_' . static::$instances,
+                        'caption' => $model->name
+                    ];
+                }
+            }
+            if ($chartModel->buttonAllCaption !== '') {
+                $buttons[] = [
+                    'range' => Chart::RANGE_ALL,
+                    'target' => 'c4g_chart_' . static::$instances,
+                    'caption' => $chartModel->buttonAllCaption
+                ];
+            }
+            $this->Template->buttons = $buttons;
+            $this->Template->buttonPosition = $chartModel->buttonPosition;
+
             $this->Template->instance = static::$instances;
             static::$instances += 1;
         }

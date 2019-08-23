@@ -9,6 +9,9 @@ use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 
 Class Chart
 {
+    const RANGE_DEFAULT = 'range_default';
+    const RANGE_ALL = 'range_all';
+
     protected $zoom = false;
     protected $axes = [];
 
@@ -67,11 +70,18 @@ Class Chart
         return $this;
     }
 
-    public function addRange(string $name, float $lowerBound, float $upperBound) {
-        $this->ranges[$name] = [
-            'lowerBound' => $lowerBound,
-            'upperBound' => $upperBound
-        ];
+    public function addRange(string $name, float $lowerBound, float $upperBound, bool $default = false) {
+        if (($default === true) && (empty($this->ranges[static::RANGE_DEFAULT]) === true)) {
+            $this->ranges[static::RANGE_DEFAULT] = [
+                'lowerBound' => $lowerBound,
+                'upperBound' => $upperBound
+            ];
+        } else {
+            $this->ranges[$name] = [
+                'lowerBound' => $lowerBound,
+                'upperBound' => $upperBound
+            ];
+        }
     }
 
     public function group(string $group) {

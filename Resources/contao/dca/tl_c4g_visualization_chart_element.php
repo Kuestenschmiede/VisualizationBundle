@@ -320,12 +320,8 @@ class tl_c4g_visualization_chart_element extends \Backend
 
     public function loadColumnNames(DataContainer $dc) {
         $db = Database::getInstance();
-//        var_dump($dc->activeRecord);
-//        exit;
         if ($dc->activeRecord->table !== '') {
             $columns = $db->listFields($dc->activeRecord->table);
-//            var_dump($columns);
-//            exit;
             if (is_array($columns) === true) {
                 $columnsFormatted = [];
                 foreach ($columns as $column) {
@@ -333,8 +329,6 @@ class tl_c4g_visualization_chart_element extends \Backend
                         $columnsFormatted[$column['name']] = $column['name'];
                     }
                 }
-//                var_dump($columnsFormatted);
-//                exit;
                 return $columnsFormatted;
             }
         }

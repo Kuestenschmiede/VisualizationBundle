@@ -17,14 +17,11 @@ use con4gis\VisualizationBundle\Classes\Charts\ChartElement;
 use con4gis\VisualizationBundle\Classes\Exceptions\EmptyChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartSourceException;
-use con4gis\VisualizationBundle\Classes\Labels\AllLabel;
-use con4gis\VisualizationBundle\Classes\Labels\Label;
 use con4gis\VisualizationBundle\Classes\Source\Source;
-use con4gis\VisualizationBundle\Classes\Transformers\Interpolator;
-use con4gis\VisualizationBundle\Classes\Transformers\Multiplier;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementInputModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
+use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
 use Contao\Database;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,6 +38,11 @@ class ChartController extends AbstractController
                 $chartModel = ChartModel::findByPk($chartId);
                 if ($chartModel instanceof ChartModel === true) {
                     $chart = new Chart();
+
+                    $rangeModels = ChartRangeModel::findByChartId($chartId);
+                    foreach ($rangeModels as $model) {
+                        $chart->addRange($model->name, $model->fromX, $model->toX, $model->defaultRange === '1');
+                    }
 
                     $elementModels = ChartElementModel::findByChartId($chartId);
                     if ($elementModels === null) {
