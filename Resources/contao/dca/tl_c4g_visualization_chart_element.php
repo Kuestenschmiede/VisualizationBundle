@@ -297,7 +297,10 @@ class tl_c4g_visualization_chart_element extends \Backend
             foreach($inputs as $input) {
                 $x = floatval($input['xinput']);
                 $y = floatval($input['yinput']);
-                if ($x !== 0.0 && $y !== 0.0) {
+                if ($y !== 0.0) {
+                    if ($x === 0.0) {
+                        $x = 1.0;
+                    }
                     $stmt = $database->prepare(
                         "INSERT INTO tl_c4g_visualization_chart_element_input (elementId, x, y) ".
                         "VALUES (?, ?, ?)");
