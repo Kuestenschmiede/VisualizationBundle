@@ -36,7 +36,7 @@ class ChartController extends AbstractController
             $this->get('contao.framework')->initialize();
             if ($this->authorized() === true) {
                 $chartModel = ChartModel::findByPk($chartId);
-                if ($chartModel instanceof ChartModel === true) {
+                if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
                     $chart = new Chart();
 
                     $rangeModels = ChartRangeModel::findByChartId($chartId);
@@ -50,36 +50,38 @@ class ChartController extends AbstractController
                     }
 
                     foreach ($elementModels as $elementModel) {
-                        switch ($elementModel->origin) {
-                            case ChartElement::ORIGIN_INPUT:
-                                $inputModels = ChartElementInputModel::findByElementId($elementModel->id);
-                                if ($inputModels !== null) {
-                                    $source = new Source($inputModels);
+                        if ($elementModel->published === '1') {
+                            switch ($elementModel->origin) {
+                                case ChartElement::ORIGIN_INPUT:
+                                    $inputModels = ChartElementInputModel::findByElementId($elementModel->id);
+                                    if ($inputModels !== null) {
+                                        $source = new Source($inputModels);
 
-                                }
-                                break;
-                            case ChartElement::ORIGIN_TABLE:
-                                $table = $elementModel->table;
-                                $database = Database::getInstance();
-                                $stmt = $database->prepare("SELECT * FROM ".$table);
-                                $result = $stmt->execute();
-                                $source = new Source($result->fetchAllAssoc());
-                                break;
-                            default:
-                                throw new UnknownChartSourceException();
-                                break;
+                                    }
+                                    break;
+                                case ChartElement::ORIGIN_TABLE:
+                                    $table = $elementModel->table;
+                                    $database = Database::getInstance();
+                                    $stmt = $database->prepare("SELECT * FROM " . $table);
+                                    $result = $stmt->execute();
+                                    $source = new Source($result->fetchAllAssoc());
+                                    break;
+                                default:
+                                    throw new UnknownChartSourceException();
+                                    break;
+                            }
+                            $element = new ChartElement($elementModel->type, $source);
+                            if ($elementModel->color) {
+                                $element->setColor($elementModel->color);
+                            }
+                            if ($elementModel->frontendtitle) {
+                                $element->setName($elementModel->frontendtitle);
+                            }
+                            if ($elementModel->origin === ChartElement::ORIGIN_TABLE) {
+                                $element->setX($elementModel->tablex)->setY($elementModel->tabley);
+                            }
+                            $chart->addElement($element);
                         }
-                        $element = new ChartElement($elementModel->type, $source);
-                        if ($elementModel->color) {
-                            $element->setColor($elementModel->color);
-                        }
-                        if ($elementModel->frontendtitle) {
-                            $element->setName($elementModel->frontendtitle);
-                        }
-                        if ($elementModel->origin === ChartElement::ORIGIN_TABLE) {
-                            $element->setX($elementModel->tablex)->setY($elementModel->tabley);
-                        }
-                        $chart->addElement($element);
                     }
                 } else {
                     throw new UnknownChartException();

@@ -1,69 +1,70 @@
-<div class="c4g_chart_container">
-    <?php if ($this->headline !== []) {
-        echo "<".$this->headline['unit'].">".$this->headline['value']."</".$this->headline['unit'].">";
-    }
-    ?>
-    <?php if ($this->path !== '') {
-        echo "<img src=\"".$this->path."\"
-                   style=\"max-height: ".$this->Template->imageMaxHeight.
-                   "px;max-width: ".$this->Template->imageMaxWidth.
-                   "px;position: absolute;z-index: -1;margin-top: ". $this->Template->imageMarginTop
-                   ."%;margin-left: ".$this->Template->imageMarginLeft
-                   ."%;opacity: ".$this->Template->imageOpacity.";\">";
-    }?>
-    <?php if ($this->buttons !== [] && intval($this->buttonPosition) < 4) {
-        switch ($this->buttonPosition) {
-            case '1':
-                $style = "text-align: left";
-                break;
-            case '2':
-                $style = "text-align: center";
-                break;
-            case '3':
-                $style = "text-align: right";
-                break;
-            default:
-                break;
+<?php if ($this->published === '1') { ?>
+    <div class="c4g_chart_container">
+        <?php if ($this->headline !== []) {
+            echo "<".$this->headline['unit'].">".$this->headline['value']."</".$this->headline['unit'].">";
         }
-        echo "<div class=\"c4g_chart_range_button_container\" style=\"$style\">";
-        foreach ($this->buttons as $button) {
-            echo "<button class=\"c4g_chart_button c4g_chart_range_button\" ".
-                 "data-range=\"".$button['range']."\" ".
-                 "data-target=\"".$button['target']."\">".
-                 $button['caption'].
-                 "</button>";
+        ?>
+        <?php if ($this->path !== '') {
+            echo "<img src=\"".$this->path."\"
+                     style=\"max-height: ".$this->Template->imageMaxHeight.
+                     "px;max-width: ".$this->Template->imageMaxWidth.
+                       "px;position: absolute;z-index: -1;margin-top: ". $this->Template->imageMarginTop
+                       ."%;margin-left: ".$this->Template->imageMarginLeft
+                       ."%;opacity: ".$this->Template->imageOpacity.";\">";
+        }?>
+        <?php if ($this->buttons !== [] && intval($this->buttonPosition) < 4) {
+            switch ($this->buttonPosition) {
+                case '1':
+                    $style = "text-align: left";
+                    break;
+                case '2':
+                    $style = "text-align: center";
+                    break;
+                case '3':
+                    $style = "text-align: right";
+                    break;
+                default:
+                    break;
+            }
+            echo "<div class=\"c4g_chart_range_button_container\" style=\"$style\">";
+            foreach ($this->buttons as $button) {
+                echo "<button class=\"c4g_chart_button c4g_chart_range_button\" ".
+                    "data-range=\"".$button['range']."\" ".
+                    "data-target=\"".$button['target']."\">".
+                     $button['caption'].
+                     "</button>";
+            }
+            echo "</div>";
         }
-        echo "</div>";
-    }
-    ?>
-    <div class="c4g_chart" id="c4g_chart_<?php echo $this->instance ?>"
-         data-chart="<?php echo $this->chartID ?>">
+        ?>
+        <div class="c4g_chart" id="c4g_chart_<?php echo $this->instance ?>"
+            data-chart="<?php echo $this->chartID ?>">
+        </div>
+
+        <?php if ($this->buttons !== [] && intval($this->buttonPosition) > 3) {
+            switch ($this->buttonPosition) {
+                case '4':
+                    $style = "text-align: left";
+                    break;
+                case '5':
+                    $style = "text-align: center";
+                    break;
+                case '6':
+                    $style = "text-align: right";
+                    break;
+                default:
+                    break;
+            }
+            echo "<div class=\"c4g_chart_range_button_container\" style=\"$style\">";
+            foreach ($this->buttons as $button) {
+                echo "<button class=\"c4g_chart_button c4g_chart_range_button\" ".
+                "data-range=\"".$button['range']."\" ".
+                "data-target=\"".$button['target']."\">".
+                $button['caption'].
+                "</button>";
+            }
+            echo "</div>";
+        }
+        ?>
     </div>
-
-    <?php if ($this->buttons !== [] && intval($this->buttonPosition) > 3) {
-        switch ($this->buttonPosition) {
-            case '4':
-                $style = "text-align: left";
-                break;
-            case '5':
-                $style = "text-align: center";
-                break;
-            case '6':
-                $style = "text-align: right";
-                break;
-            default:
-                break;
-        }
-        echo "<div class=\"c4g_chart_range_button_container\" style=\"$style\">";
-        foreach ($this->buttons as $button) {
-            echo "<button class=\"c4g_chart_button c4g_chart_range_button\" ".
-            "data-range=\"".$button['range']."\" ".
-            "data-target=\"".$button['target']."\">".
-            $button['caption'].
-            "</button>";
-        }
-        echo "</div>";
-    }
-    ?>
-
-</div>
+<?php } ?>
