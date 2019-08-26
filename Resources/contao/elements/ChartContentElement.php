@@ -57,6 +57,15 @@ class ChartContentElement extends ContentElement
 
                 $buttons = [];
                 $rangeModels = ChartRangeModel::findByChartId($chartId);
+
+                if (($chartModel->buttonAllCaption !== '') && ($chartModel->buttonAllPosition === '1')) {
+                    $buttons[] = [
+                        'range' => Chart::RANGE_ALL,
+                        'target' => 'c4g_chart_' . static::$instances,
+                        'caption' => $chartModel->buttonAllCaption
+                    ];
+                }
+
                 $defaultDefined = false;
                 foreach ($rangeModels as $model) {
                     if (($model->defaultRange === '1') && ($defaultDefined === false)) {
@@ -74,13 +83,15 @@ class ChartContentElement extends ContentElement
                         ];
                     }
                 }
-                if ($chartModel->buttonAllCaption !== '') {
+
+                if (($chartModel->buttonAllCaption !== '') && ($chartModel->buttonAllPosition === '2')) {
                     $buttons[] = [
                         'range' => Chart::RANGE_ALL,
                         'target' => 'c4g_chart_' . static::$instances,
                         'caption' => $chartModel->buttonAllCaption
                     ];
                 }
+
                 $this->Template->buttons = $buttons;
                 $this->Template->buttonPosition = $chartModel->buttonPosition;
 

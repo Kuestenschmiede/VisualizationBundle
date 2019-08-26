@@ -110,7 +110,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
 		'default'                     => '{general_legend},backendtitle,frontendtitle,zoom;'.
                                          '{element_legend},elementWizard;'.
 										 '{watermark_legend},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;'.
-										 '{ranges_legend},rangeWizard,buttonAllCaption,buttonPosition;'.
+										 '{ranges_legend},rangeWizard,buttonAllCaption,buttonPosition,buttonAllPosition;'.
 										 '{x_legend:hide},xshow;'.
 										 '{y_legend:hide},yshow;'.
 										 '{x2_legend:hide},x2show;'.
@@ -326,7 +326,11 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['buttonAllCaption'],
             'inputType'               => 'text',
             'default'                 => '',
-            'eval'                    => array('mandatory'=>false, 'maxlength'=>255 ),
+            'eval'                    => array
+            (
+                'mandatory' => false,
+                'maxlength' => 255
+            ),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'buttonPosition' => array
@@ -335,8 +339,23 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'inputType'               => 'select',
             'default'                 => '1',
             'options_callback'         => ['tl_c4g_visualization_chart', 'loadButtonPositionOptions'],
-            'eval'                    => array('mandatory'=>false, 'maxlength'=>255 ),
-            'sql'                     => "char(1) NOT NULL default ''"
+            'eval'                    => array(
+                'tl_class' => 'w50'
+            ),
+            'sql'                     => "char(1) NOT NULL default '1'"
+        ),
+        'buttonAllPosition' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['buttonAllPosition'],
+            'inputType'               => 'select',
+            'default'                 => '2',
+            'options_callback'         => ['tl_c4g_visualization_chart', 'loadButtonAllPositionOptions'],
+            'eval'                    => array
+            (
+                'mandatory' => false,
+                'tl_class' => 'w50'
+            ),
+            'sql'                     => "char(1) NOT NULL default '2'"
         ),
     )
 );
@@ -346,6 +365,13 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
  */
 class tl_c4g_visualization_chart extends \Backend
 {
+
+    public function loadButtonAllPositionOptions(DataContainer $dc) {
+        return [
+            '1' => 'als erster',
+            '2' => 'als letzter'
+        ];
+    }
 
     public function loadButtonPositionOptions(DataContainer $dc) {
         return [
