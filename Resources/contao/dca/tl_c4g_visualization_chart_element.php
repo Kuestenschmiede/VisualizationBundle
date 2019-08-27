@@ -45,12 +45,13 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
 		(
             'mode'                    => 2,
             'panelLayout'             => 'filter;sort,search,limit',
-            'headerFields'            => array('backendtitle', 'frontendtitle'),
+            'headerFields'            => array('id', 'backendtitle', 'frontendtitle', 'chartTitles'),
 		),
 		'label' => array
 		(
-			'fields'                  => array('backendtitle', 'frontendtitle'),
+			'fields'                  => array('id', 'backendtitle', 'frontendtitle', 'chartTitles'),
             'showColumns'             => true,
+            'label_callback'          => array('tl_c4g_visualization_chart_element','getLabel')
 		),
 		'global_operations' => array
 		(
@@ -126,6 +127,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
 	(
         'id' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['id'],
             'sql'                     => "int(10) unsigned NOT NULL auto_increment"
         ),
         'published' => array
@@ -159,6 +161,10 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
             'default'                 => '',
             'eval'                    => array('mandatory'=>false, 'maxlength'=>255 ),
             'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'chartTitles' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['chartTitles'],
         ),
         'color' => array
         (
@@ -217,7 +223,8 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
             'eval'                    => [
                 'maxlength'=>255,
                 'doNotSaveEmpty' => true,
-                'submitOnChange' => true
+                'submitOnChange' => true,
+                'includeBlankOption' => true
             ],
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
@@ -253,6 +260,21 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
  */
 class tl_c4g_visualization_chart_element extends \Backend
 {
+    public function getLabel($row) {
+        $labels = [];
+        $labels['id'] = $row['id'];
+        $labels['backendtitle'] = $row['backendtitle'];
+        $labels['frontendtitle'] = $row['frontendtitle'];
+        $relations = \con4gis\VisualizationBundle\Resources\contao\models\ChartElementRelationModel::findByElementId($row['id']);
+        $chartTitles = [];
+        foreach ($relations as $relation) {
+            $chart = \con4gis\VisualizationBundle\Resources\contao\models\ChartModel::findByPk($relation->chartId);
+            $chartTitles[] = $chart->backendtitle;
+        }
+        $labels['chartTitles'] = implode(', ', array_unique($chartTitles));
+        return $labels;
+    }
+
     public function loadOriginOptions(DataContainer $dc)
     {
         return [

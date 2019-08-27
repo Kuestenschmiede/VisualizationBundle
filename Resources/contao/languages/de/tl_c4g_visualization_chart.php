@@ -20,6 +20,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'show'              => ['Anzeigen','Grafik anzeigen'],
     'toggle'            => ['Veröffentlichen/verbergen','Grafik veröffentlichen/verbergen'],
     'all'               => ['Mehrere bearbeiten','Mehrere Grafiken bearbeiten'],
+    'id'                => ['ID', ''],
     'backendtitle'      => ['Bezeichnung (nur Backend)', 'Dient zur eindeutigen Indentifikation im Backend.'],
     'frontendtitle'     => ['Titel (Frontend)', 'Dies wird im Frontend über der Grafik angezeigt, falls gesetzt.'],
     'published'         => ['Grafik veröffentlichen', 'Die Grafik auf der Webseite anzeigen.'],

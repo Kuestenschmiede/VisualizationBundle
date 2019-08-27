@@ -43,11 +43,11 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
 		(
             'mode'                    => 2,
             'panelLayout'             => 'search,limit',
-            'headerFields'            => array('backendtitle'),
+            'headerFields'            => array('id', 'backendtitle'),
 		),
 		'label' => array
 		(
-			'fields'                  => array('backendtitle'),
+			'fields'                  => array('id', 'backendtitle'),
             'showColumns'             => true,
 		),
 		'global_operations' => array
@@ -123,6 +123,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
 	(
         'id' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['id'],
             'sql'                     => "int(10) unsigned NOT NULL auto_increment"
         ),
         'published' => array
