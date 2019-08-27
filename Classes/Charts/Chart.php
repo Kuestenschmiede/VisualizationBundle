@@ -3,9 +3,6 @@
 
 namespace con4gis\VisualizationBundle\Classes\Charts;
 
-use con4gis\VisualizationBundle\Classes\Exceptions\InvalidChartTypeException;
-use con4gis\VisualizationBundle\Classes\Source\Source;
-use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 
 Class Chart
 {
@@ -13,7 +10,6 @@ Class Chart
     const RANGE_ALL = 'range_all';
 
     protected $zoom = false;
-    protected $axes = [];
 
     protected $showLegend = false;
     protected $legendFontSize = 16;
@@ -23,6 +19,8 @@ Class Chart
     protected $ranges = [];
 
     protected $groups = [];
+
+    protected $coordinateSystem = null;
 
     /**
      * @return array
@@ -46,13 +44,9 @@ Class Chart
             $array['zoom'] = ['enabled' => true];
         }
 
-//        if ($this->yAxis instanceof Axis === true) {
-//            $array['axisY'] = $this->yAxis->createEncodableAxisArray();
-//        }
-//
-//        if ($this->xAxis instanceof Axis === true) {
-//            $array['axisX'] = $this->xAxis->createEncodableAxisArray();
-//        }
+        if ($this->coordinateSystem instanceof CoordinateSystem === true) {
+            $array['axis'] = $this->coordinateSystem->createEncodableArray();
+        }
 
         return $array;
     }
@@ -106,26 +100,6 @@ Class Chart
         return $colors;
     }
 
-    public function y(Axis $axis) {
-        $this->axes['y'] = $axis;
-        return $this;
-    }
-
-    public function y2(Axis $axis) {
-        $this->axes['y2'] = $axis;
-        return $this;
-    }
-
-    public function x(Axis $axis) {
-        $this->axes['x'] = $axis;
-        return $this;
-    }
-
-    public function x2(Axis $axis) {
-        $this->axes['x2'] = $axis;
-        return $this;
-    }
-
     /**
      * @param bool $zoom
      * @return Chart
@@ -143,6 +117,16 @@ Class Chart
     public function setTheme(string $theme): Chart
     {
         $this->theme = $theme;
+        return $this;
+    }
+
+    /**
+     * @param null $coordinateSystem
+     * @return Chart
+     */
+    public function setCoordinateSystem($coordinateSystem)
+    {
+        $this->coordinateSystem = $coordinateSystem;
         return $this;
     }
 }

@@ -6,132 +6,106 @@ namespace con4gis\VisualizationBundle\Classes\Charts;
 
 class Axis
 {
-    protected $title = '';
-    protected $includeZero = true;
-    protected $suffix = '';
-    protected $logarithmic = false;
-    protected $logarithmBase = 2;
-    protected $interval = 0;
-    protected $reversed = true;
-    protected $tickThickness = 0;
-    protected $labelAngle = 0;
+    protected $horizontal = true;
+    protected $show = false;
+    protected $type = 'indexed';
+    protected $scale = 'linear';
+    protected $rotate = 0;
+    protected $label = [];
+    protected $inverted = false;
 
-    public function createEncodableAxisArray() {
+    public function createEncodableArray() {
         $array = [];
+        $array['show'] = $this->show;
+        $array['type'] = $this->type;
 
-        if ($this->title !== '') {
-            $array['title'] = $this->title;
+        if ($this->horizontal === false) {
+            $array['scale'] = $this->scale;
         }
-        $array['includeZero'] = $this->includeZero;
-        if ($this->suffix !== '') {
-            $array['suffix'] = $this->suffix;
+
+        if ($this->rotate !== 0) {
+            $array['label']['rotate'] = $this->rotate;
         }
-        if ($this->logarithmic === true) {
-            $array['logarithmic'] = $this->logarithmic;
-            $array['logarithmBase'] = $this->logarithmBase;
+
+        if (!empty($this->label)) {
+            $array['label'] = $this->label;
         }
-        if ($this->interval === true) {
-            $array['interval'] = $this->interval;
+
+        if ($this->horizontal === false) {
+            $array['inverted'] = $this->inverted;
         }
-        if ($this->reversed === true) {
-            $array['reversed'] = $this->reversed;
-        }
-        if ($this->tickThickness > 0) {
-            $array['tickThickness'] = $this->tickThickness;
-        }
-        if ($this->labelAngle) {
-            $array['labelAngle'] = $this->labelAngle;
-        }
+
         return $array;
     }
 
     /**
-     * @param string $title
+     * @param bool $horizontal
      * @return Axis
      */
-    public function setTitle(string $title): Axis
+    public function setHorizontal(bool $horizontal): Axis
     {
-        $this->title = $title;
+        $this->horizontal = $horizontal;
         return $this;
     }
 
     /**
-     * @param bool $includeZero
+     * @param bool $show
      * @return Axis
      */
-    public function setIncludeZero(bool $includeZero): Axis
+    public function setShow(bool $show): Axis
     {
-        $this->includeZero = $includeZero;
+        $this->show = $show;
         return $this;
     }
 
     /**
-     * @param string $suffix
+     * @param string $type
      * @return Axis
      */
-    public function setSuffix(string $suffix): Axis
+    public function setType(string $type): Axis
     {
-        $this->suffix = $suffix;
+        $this->type = $type;
         return $this;
     }
 
     /**
-     * @param bool $logarithmic
+     * @param string $scale
      * @return Axis
      */
-    public function setLogarithmic(bool $logarithmic): Axis
+    public function setScale(string $scale): Axis
     {
-        $this->logarithmic = $logarithmic;
+        $this->scale = $scale;
         return $this;
     }
 
     /**
-     * @param int $logarithmBase
+     * @param int $rotate
      * @return Axis
      */
-    public function setLogarithmBase(int $logarithmBase): Axis
+    public function setRotate(int $rotate): Axis
     {
-        $this->logarithmBase = $logarithmBase;
+        $this->rotate = $rotate;
         return $this;
     }
 
     /**
-     * @param int $interval
+     * @param string $text
+     * @param string $position
      * @return Axis
      */
-    public function setInterval(int $interval): Axis
+    public function setLabel(string $text, string $position): Axis
     {
-        $this->interval = $interval;
+        $this->label = ['text' => $text, 'position' => $position];
         return $this;
     }
 
     /**
-     * @param bool $reversed
+     * @param bool $inverted
      * @return Axis
      */
-    public function setReversed(bool $reversed): Axis
+    public function setInverted(bool $inverted): Axis
     {
-        $this->reversed = $reversed;
-        return $this;
-    }
-
-    /**
-     * @param int $tickThickness
-     * @return Axis
-     */
-    public function setTickThickness(int $tickThickness): Axis
-    {
-        $this->tickThickness = $tickThickness;
-        return $this;
-    }
-
-    /**
-     * @param int $labelAngle
-     * @return Axis
-     */
-    public function setLabelAngle(int $labelAngle): Axis
-    {
-        $this->labelAngle = $labelAngle;
+        $this->inverted = $inverted;
         return $this;
     }
 }
