@@ -185,10 +185,10 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['origin'],
             'inputType'               => 'select',
-            'default'                 => '1',
+            'default'                 => '2',
             'options_callback'        => array('tl_c4g_visualization_chart_element', 'loadOriginOptions'),
             'eval'                    => array('submitOnChange' => true),
-            'sql'                     => "varchar(10) NOT NULL default ''"
+            'sql'                     => "char(1) NOT NULL default '2'"
         ),
         'inputWizard' => array
         (
@@ -288,7 +288,7 @@ class tl_c4g_visualization_chart_element extends \Backend
         return [
             ChartElement::TYPE_LINE => 'Linie',
             ChartElement::TYPE_PIE => 'Kuchenstück',
-            ChartElement::TYPE_BAR => 'Vertikale Balken'
+            ChartElement::TYPE_BAR => 'Balken'
         ];
     }
 

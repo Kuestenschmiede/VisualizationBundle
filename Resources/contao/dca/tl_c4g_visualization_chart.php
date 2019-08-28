@@ -111,10 +111,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
                                          '{element_legend},elementWizard;'.
 										 '{watermark_legend},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;'.
 										 '{ranges_legend},rangeWizard,buttonAllCaption,buttonPosition,buttonAllPosition;'.
-										 '{x_legend:hide},xshow;'.
-										 '{y_legend:hide},yshow;'.
-										 '{x2_legend:hide},x2show;'.
-										 '{y2_legend:hide},y2show;'.
+										 '{coordinate_system_legend:hide},swapAxes,xshow,xType,xRotate,xLabelText,xLabelPosition,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;'.
 										 '{publish_legend},published;'
 	),
 
@@ -156,37 +153,152 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'eval'                    => array(),
             'sql'                     => "char(1) NOT NULL default ''"
         ),
+        'swapAxes' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['swapAxes'],
+            'default'                 => true,
+            'inputType'               => 'checkbox',
+            'eval'                    => [],
+            'sql'                     => "char(1) NOT NULL default ''"
+        ),
         'xshow' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xshow'],
             'default'                 => true,
             'inputType'               => 'checkbox',
-            'eval'                    => array(),
+            'eval'                    => [
+                'tl_class'            => 'clr'
+            ],
             'sql'                     => "char(1) NOT NULL default ''"
         ),
-        'x2show' => array
+        'xType' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['x2show'],
-            'default'                 => false,
-            'inputType'               => 'checkbox',
-            'eval'                    => array(),
-            'sql'                     => "char(1) NOT NULL default ''"
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xType'],
+            'default'                 => '1',
+            'inputType'               => 'select',
+            'options_callback'        => ['tl_c4g_visualization_chart', 'loadXTypeOptions'],
+            'eval'                    => [],
+            'sql'                     => "char(1) NOT NULL default '1'"
+        ),
+        'xRotate' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xRotate'],
+            'inputType'               => 'text',
+            'eval'                    =>
+            [
+                'maxlength'=>10,
+                'rgxp'=>'digit'
+            ],
+            'sql'                     => "int(10) signed NOT NULL default '0'"
+        ),
+        'xLabelText' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xLabelText'],
+            'inputType'               => 'text',
+            'eval'                    => [
+                'tl_class'            => 'w50'
+            ],
+            'sql'                     => "varchar(255) signed NOT NULL default ''"
+        ),
+        'xLabelPosition' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xLabelPosition'],
+            'inputType'               => 'select',
+            'options_callback'        => ['tl_c4g_visualization_chart', 'loadLabelPositionOptions'],
+            'eval'                    => [
+                'tl_class'            => 'w50'
+            ],
+            'default'                 => '1',
+            'sql'                     => "char(1) NOT NULL default '1'"
         ),
         'yshow' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['yshow'],
             'default'                 => true,
             'inputType'               => 'checkbox',
-            'eval'                    => array(),
+            'eval'                    => [
+                'tl_class'            => 'clr'
+            ],
             'sql'                     => "char(1) NOT NULL default ''"
+        ),
+        'yInverted' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['yInverted'],
+            'default'                 => false,
+            'inputType'               => 'checkbox',
+            'eval'                    => [
+                'tl_class'            => 'clr'
+            ],
+            'sql'                     => "char(1) NOT NULL default '0'"
+        ),
+//        'yScale' => array
+//        (
+//            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['yInverted'],
+//            'default'                 => '1',
+//            'inputType'               => 'select',
+//            'eval'                    => [],
+//            'options_callback'        => ['tl_c4g_visualization_chart', 'loadScaleOptions'],
+//            'sql'                     => "char(1) NOT NULL default '1'"
+//        ),
+        'yLabelText' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['yLabelText'],
+            'inputType'               => 'text',
+            'eval'                    => [
+                'tl_class'            => 'w50'
+            ],
+            'sql'                     => "varchar(255) signed NOT NULL default ''"
+        ),
+        'yLabelPosition' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['yLabelPosition'],
+            'inputType'               => 'select',
+            'options_callback'        => ['tl_c4g_visualization_chart', 'loadLabelPositionOptions'],
+            'eval'                    => [
+                'tl_class'            => 'w50'
+            ],
+            'default'                 => '1',
+            'sql'                     => "char(1) NOT NULL default '1'"
         ),
         'y2show' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['y2show'],
             'default'                 => false,
             'inputType'               => 'checkbox',
-            'eval'                    => array(),
+            'eval'                    => [
+                'tl_class'            => 'clr'
+            ],
             'sql'                     => "char(1) NOT NULL default ''"
+        ),
+        'y2Inverted' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['y2Inverted'],
+            'default'                 => false,
+            'inputType'               => 'checkbox',
+            'eval'                    => [
+                'tl_class'            => 'clr'
+            ],
+            'sql'                     => "char(1) NOT NULL default '0'"
+        ),
+        'y2LabelText' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['y2LabelText'],
+            'inputType'               => 'text',
+            'eval'                    => [
+                'tl_class'            => 'w50'
+            ],
+            'sql'                     => "varchar(255) signed NOT NULL default ''"
+        ),
+        'y2LabelPosition' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['y2LabelPosition'],
+            'inputType'               => 'select',
+            'options_callback'        => ['tl_c4g_visualization_chart', 'loadLabelPositionOptions'],
+            'eval'                    => [
+                'tl_class'            => 'w50'
+            ],
+            'default'                 => '1',
+            'sql'                     => "char(1) NOT NULL default '1'"
         ),
 
         'elementWizard' => array
@@ -384,6 +496,36 @@ class tl_c4g_visualization_chart extends \Backend
             '6' => 'Unten Rechts',
         ];
     }
+
+    public function loadXTypeOptions(DataContainer $dc) {
+        return [
+            '1' => 'Tatsächliche Werte',
+            '2' => 'Zeit',
+            '3' => 'Kategorien'
+        ];
+    }
+
+    public function loadLabelPositionOptions(DataContainer $dc) {
+        return [
+            '1' => 'innen rechts/oben',
+            '2' => 'innen mittig',
+            '3' => 'innen links/unten',
+            '4' => 'außen rechts/oben',
+            '5' => 'außen mittig',
+            '6' => 'außen links/unten'
+        ];
+    }
+
+//    public function loadScaleOptions(DataContainer $dc) {
+//        return [
+//            '1' => 'innen rechts/oben',
+//            '2' => 'innen mittig',
+//            '3' => 'innen links/unten',
+//            '4' => 'außen rechts/oben',
+//            '5' => 'außen mittig',
+//            '6' => 'außen links/unten'
+//        ];
+//    }
 
     /**
      * @param $value

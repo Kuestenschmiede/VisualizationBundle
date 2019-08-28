@@ -44,6 +44,7 @@ c4gVisualization.parseJson = function(bindto, json, range = 'range_default') {
             names: {},
             groups: []
         },
+        axis: {},
         zoom: {
             enabled: false
         }
@@ -94,10 +95,15 @@ c4gVisualization.parseJson = function(bindto, json, range = 'range_default') {
         index += 1;
     }
 
+    if (typeof json.axis !== 'undefined') {
+        c3json.axis = json.axis;
+    }
+
     if ((typeof json.zoom !== 'undefined') && (typeof json.zoom.enabled !== 'undefined')) {
         c3json.zoom.enabled = json.zoom.enabled;
     }
 
+    console.log(c3json);
     return c3json;
 };
 

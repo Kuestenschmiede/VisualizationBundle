@@ -12,8 +12,10 @@
  */
 namespace con4gis\VisualizationBundle\Controller;
 
+use con4gis\VisualizationBundle\Classes\Charts\Axis;
 use con4gis\VisualizationBundle\Classes\Charts\Chart;
 use con4gis\VisualizationBundle\Classes\Charts\ChartElement;
+use con4gis\VisualizationBundle\Classes\Charts\CoordinateSystem;
 use con4gis\VisualizationBundle\Classes\Exceptions\EmptyChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartSourceException;
@@ -38,6 +40,51 @@ class ChartController extends AbstractController
                 $chartModel = ChartModel::findByPk($chartId);
                 if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
                     $chart = new Chart();
+                    $coordinateSystem = new CoordinateSystem(new Axis, new Axis, new Axis);
+                    if ($chartModel->swapAxes === '1') {
+                        $coordinateSystem->setRotated(true);
+                    }
+                    $chart->setCoordinateSystem($coordinateSystem);
+                    if ($chartModel->xshow === '1') {
+                        $coordinateSystem->x()->setShow(true);
+                        switch ($chartModel->xType) {
+                            case '1':
+                                $coordinateSystem->x()->setType(Axis::TYPE_INDEXED);
+                                break;
+                            case '2':
+                                $coordinateSystem->x()->setType(Axis::TYPE_TIME_SERIES);
+                                break;
+                            case '3':
+                                $coordinateSystem->x()->setType(Axis::TYPE_CATEGORY);
+                                break;
+                            default:
+                                break;
+                        }
+                        if (is_string($chartModel->xLabelText) === true) {
+                            $coordinateSystem->x()->setRotate(intval($chartModel->xRotate));
+                            $coordinateSystem->x()->setLabel($chartModel->xLabelText, intval($chartModel->xLabelPosition));
+                        }
+                    }
+
+                    if ($chartModel->yshow === '1') {
+                        $coordinateSystem->y()->setShow(true);
+                        if ($chartModel->yInverted === '1') {
+                            $coordinateSystem->y()->setInverted(true);
+                        }
+                        if (is_string($chartModel->yLabelText) === true) {
+                            $coordinateSystem->y()->setLabel($chartModel->yLabelText, intval($chartModel->yLabelPosition));
+                        }
+                    }
+
+                    if ($chartModel->y2show === '1') {
+                        $coordinateSystem->y2()->setShow(true);
+                        if ($chartModel->yInverted === '1') {
+                            $coordinateSystem->y2()->setInverted(true);
+                        }
+                        if (is_string($chartModel->y2LabelText) === true) {
+                            $coordinateSystem->y2()->setLabel($chartModel->y2LabelText, intval($chartModel->y2LabelPosition));
+                        }
+                    }
 
                     $rangeModels = ChartRangeModel::findByChartId($chartId);
                     foreach ($rangeModels as $model) {
