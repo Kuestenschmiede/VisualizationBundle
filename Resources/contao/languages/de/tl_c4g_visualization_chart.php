@@ -27,6 +27,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'zoom'              => ['Zoom aktivieren', 'Falls gesetzt, kann der Nutzer in die Grafik zoomen und den Ausschnitt verschieben.'],
     'swapAxes'          => ['Achsen vertauschen', 'Falls gesetzt, tauschen die X- und Y-Achsen die Positionen.'],
     'xType'             => ['X-Achsentyp', 'Definiert die Beschriftung der X-Werte.'],
+    'xTimeFormat'       => ['Zeitformat', 'Definiert die Darstellung der Zeit, beispielhaft am 1. Januar 2019.'],
     'xRotate'           => ['X-Achsenrotation', 'Rotiert die Beschriftung der X-Werte. Das Vorzeichen gibt die Rotationsrichtung an.'],
     'xshow'             => ['X-Achse anzeigen', 'Zeigt die X-Achse an oder nicht.'],
     'xLabelText'        => ['Bezeichnung der X-Achse', 'Definiert die Bezeichnung der X-Achse.'],

@@ -107,13 +107,18 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'default'                     => '{general_legend},backendtitle,frontendtitle,zoom;'.
+//        '__selector__'                => ['xType'],
+	    'default'                     => '{general_legend},backendtitle,frontendtitle,zoom;'.
                                          '{element_legend},elementWizard;'.
 										 '{watermark_legend},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;'.
 										 '{ranges_legend},rangeWizard,buttonAllCaption,buttonPosition,buttonAllPosition;'.
-										 '{coordinate_system_legend:hide},swapAxes,xshow,xType,xRotate,xLabelText,xLabelPosition,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;'.
+										 '{coordinate_system_legend:hide},swapAxes,xshow,xLabelText,xLabelPosition,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;'.
 										 '{publish_legend},published;'
 	),
+
+//    'subpalettes' => [
+//        'xType_2' => 'xTimeFormat',
+//    ],
 
 	// Fields
 	'fields' => array
@@ -177,9 +182,19 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'default'                 => '1',
             'inputType'               => 'select',
             'options_callback'        => ['tl_c4g_visualization_chart', 'loadXTypeOptions'],
-            'eval'                    => [],
+            'eval'                    => [
+                'submitOnChange' => true
+            ],
             'sql'                     => "char(1) NOT NULL default '1'"
         ),
+//        'xTimeFormat' => array
+//        (
+//            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xTimeFormat'],
+//            'default'                 => 'd.m.Y',
+//            'inputType'               => 'text',
+//            'eval'                    => [],
+//            'sql'                     => "varchar(255) NOT NULL default 'd.m.Y'"
+//        ),
         'xRotate' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xRotate'],
@@ -345,9 +360,10 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'eval'                    => array(
                 'maxlength'=>10,
                 'rgxp'=>'natural',
+                'tl_class' => 'w50'
             ),
             'default'                 => '200',
-            'sql'                     => "int(10) unsigned NOT NULL default '0'"
+            'sql'                     => "int(10) unsigned NOT NULL default '200'"
         ),
         'imageMaxWidth' => array
         (
@@ -357,9 +373,10 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'eval'                    => array(
                 'maxlength'=>10,
                 'rgxp'=>'natural',
+                'tl_class' => 'w50'
             ),
             'default'                 => '200',
-            'sql'                     => "int(10) unsigned NOT NULL default '0'"
+            'sql'                     => "int(10) unsigned NOT NULL default '200'"
         ),
         'imageMarginTop' => array
         (
@@ -369,9 +386,10 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'eval'                    => array(
                 'maxlength'=>10,
                 'rgxp'=>'natural',
+                'tl_class' => 'w50'
             ),
-            'default'                 => '5',
-            'sql'                     => "int(10) unsigned NOT NULL default '0'"
+            'default'                 => '50',
+            'sql'                     => "int(10) unsigned NOT NULL default '50'"
         ),
         'imageMarginLeft' => array
         (
@@ -381,9 +399,10 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'eval'                    => array(
                 'maxlength'=>10,
                 'rgxp'=>'natural',
+                'tl_class' => 'w50'
             ),
-            'default'                 => '10',
-            'sql'                     => "int(10) unsigned NOT NULL default '0'"
+            'default'                 => '100',
+            'sql'                     => "int(10) unsigned NOT NULL default '100'"
         ),
         'imageOpacity' => array
         (
@@ -392,7 +411,8 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'inputType'               => 'text',
             'eval'                    => array(
                 'maxlength'=>10,
-                'rgxp'=>'natural'
+                'rgxp'=>'natural',
+                'tl_class' => 'clr'
             ),
             'default'                 => '80',
             'sql'                     => "int(10) unsigned NOT NULL default '0'"
