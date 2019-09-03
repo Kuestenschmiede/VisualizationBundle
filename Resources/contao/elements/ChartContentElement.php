@@ -35,7 +35,7 @@ class ChartContentElement extends ContentElement
         } else {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/js/d3.js', ResourceLoader::HEAD);
             ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/js/c3.js', ResourceLoader::HEAD);
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/js/c4g_visualization.js', ResourceLoader::HEAD);
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/build/c4g_visualization.js', ResourceLoader::HEAD);
             ResourceLoader::loadCssResource('bundles/con4gisvisualization/css/c3.css');
             ResourceLoader::loadCssResource('bundles/con4gisvisualization/css/c4g_visualization.css');
             $elementModel = $this->getModel();
