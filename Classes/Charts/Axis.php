@@ -26,7 +26,6 @@ class Axis
 
     protected $horizontal = true;
     protected $show = false;
-    protected $type = 'indexed';
     protected $scale = 'linear';
     protected $rotate = 0;
     protected $labelText = '';
@@ -36,7 +35,6 @@ class Axis
     public function createEncodableArray() {
         $array = [];
         $array['show'] = $this->show;
-        $array['type'] = $this->type;
 
         if ($this->horizontal === false) {
             $array['scale'] = $this->scale;
@@ -125,16 +123,6 @@ class Axis
     public function setShow(bool $show = true): Axis
     {
         $this->show = $show;
-        return $this;
-    }
-
-    /**
-     * @param string $type
-     * @return Axis
-     */
-    public function setType(string $type): Axis
-    {
-        $this->type = $type;
         return $this;
     }
 
