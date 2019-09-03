@@ -12,7 +12,7 @@
                        ."px;margin-left: ".$this->Template->imageMarginLeft
                        ."px;opacity: ".$this->Template->imageOpacity.";\">";
         }?>
-        <?php if ($this->buttons !== [] && intval($this->buttonPosition) < 4) {
+        <?php if ($this->buttons !== [] && sizeof($this->buttons) > 1 && intval($this->buttonPosition) < 4) {
             switch ($this->buttonPosition) {
                 case '1':
                     $style = "text-align: left";
@@ -41,7 +41,7 @@
             data-chart="<?php echo $this->chartID ?>">
         </div>
 
-        <?php if ($this->buttons !== [] && intval($this->buttonPosition) > 3) {
+        <?php if ($this->buttons !== [] && sizeof($this->buttons) > 1 && intval($this->buttonPosition) > 3) {
             switch ($this->buttonPosition) {
                 case '4':
                     $style = "text-align: left";

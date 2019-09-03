@@ -1,9 +1,9 @@
 var path = require('path');
 var config = {
-  entry: './Resources/public/js/PLACEHOLDER.js',
+  entry: './Resources/public/js/c4g_visualization.js',
   mode: "development",
   output: {
-    filename: 'PLACEHOLDER.js',
+    filename: 'c4g_visualization.js',
     path: path.resolve('./Resources/public/build/')
   },
   devtool: "inline-source-map",

@@ -1,6 +1,6 @@
 {
   "name": "visualizationbundle",
-  "version": "0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
@@ -29,6 +29,6 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
-    "c3": "^0.7.4"
+    "c3": "^0.7.8"
   }
 }
