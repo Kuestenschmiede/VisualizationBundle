@@ -25,6 +25,7 @@ use con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
 use Contao\Database;
+use Contao\Model\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,19 +48,7 @@ class ChartController extends AbstractController
                     $chart->setCoordinateSystem($coordinateSystem);
                     if ($chartModel->xshow === '1') {
                         $coordinateSystem->x()->setShow(true);
-                        switch ($chartModel->xType) {
-                            case '1':
-                                $coordinateSystem->x()->setType(Axis::TYPE_INDEXED);
-                                break;
-                            case '2':
-                                $coordinateSystem->x()->setType(Axis::TYPE_TIME_SERIES);
-                                break;
-                            case '3':
-                                $coordinateSystem->x()->setType(Axis::TYPE_CATEGORY);
-                                break;
-                            default:
-                                break;
-                        }
+                        $coordinateSystem->x()->setTickValue(1546415101, 'Foobar');
                         if (is_string($chartModel->xLabelText) === true) {
                             $coordinateSystem->x()->setRotate(intval($chartModel->xRotate));
                             $coordinateSystem->x()->setLabel($chartModel->xLabelText, intval($chartModel->xLabelPosition));
@@ -108,10 +97,28 @@ class ChartController extends AbstractController
                                     break;
                                 case ChartElement::ORIGIN_TABLE:
                                     $table = $elementModel->table;
+                                    $x = $elementModel->tablex;
                                     $database = Database::getInstance();
-                                    $stmt = $database->prepare("SELECT * FROM " . $table);
-                                    $result = $stmt->execute();
-                                    $source = new Source($result->fetchAllAssoc());
+                                    if ($rangeModels instanceof Collection && $chartModel->loadOutOfRangeData !== '1') {
+                                        $fromX = 0;
+                                        $toX = 0;
+                                        foreach ($rangeModels as $model) {
+                                            if ($fromX === 0 || $fromX > $model->fromX) {
+                                                $fromX = $model->fromX;
+                                            }
+
+                                            if ($toX === 0 || $toX < $model->toX) {
+                                                $toX = $model->toX;
+                                            }
+                                        }
+                                        $stmt = $database->prepare("SELECT * FROM $table WHERE $x >= ? AND $x <= ?");
+                                        $result = $stmt->execute($fromX, $toX);
+                                        $source = new Source($result->fetchAllAssoc());
+                                    } else {
+                                        $stmt = $database->prepare("SELECT * FROM " . $table);
+                                        $result = $stmt->execute();
+                                        $source = new Source($result->fetchAllAssoc());
+                                    }
                                     break;
                                 default:
                                     throw new UnknownChartSourceException();
