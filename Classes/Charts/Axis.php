@@ -31,6 +31,8 @@ class Axis
     protected $labelText = '';
     protected $labelPosition = 0;
     protected $inverted = false;
+    protected $ticks = [];
+    protected $tickFormattedValue = [];
 
     public function createEncodableArray() {
         $array = [];
@@ -103,6 +105,11 @@ class Axis
             $array['inverted'] = $this->inverted;
         }
 
+        if (!empty($this->ticks) === true) {
+            $array['tick']['values'] = $this->ticks;
+            $array['tick']['format'] = $this->tickFormattedValue;
+        }
+
         return $array;
     }
 
@@ -166,5 +173,12 @@ class Axis
     {
         $this->inverted = $inverted;
         return $this;
+    }
+
+    public function setTickValue(int $value, string $formattedValue) {
+        if (in_array($value, $this->ticks) === false) {
+            $this->ticks[] = $value;
+            $this->tickFormattedValue[$value] = $formattedValue;
+        }
     }
 }
