@@ -11,6 +11,18 @@
  * @link       https://www.con4gis.org
  */
 
+$palettes = [
+    'general' => '{general_legend},backendtitle,frontendtitle,xValueCharacter,',
+    'zoom' => 'zoom;',
+    'element' => '{element_legend},elementWizard;',
+    'watermark' => '{watermark_legend},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;',
+    'ranges_nominal' => '{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData;',
+    'ranges_time' => '{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData;',
+    'coordinate_system_nominal' => '{coordinate_system_legend:hide},swapAxes,xshow,xLabelText,xLabelPosition,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
+    'coordinate_system_time' => '{coordinate_system_legend:hide},swapAxes,xshow,xLabelText,xLabelPosition,xTimeFormat,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
+    'publish' => '{publish_legend},published;'
+];
+
 /**
  * Table tl_c4g_visualization_chart
  */
@@ -107,18 +119,16 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
 	// Palettes
 	'palettes' => array
 	(
-//        '__selector__'                => ['xType'],
-	    'default'                     => '{general_legend},backendtitle,frontendtitle,zoom;'.
-                                         '{element_legend},elementWizard;'.
-										 '{watermark_legend},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;'.
-										 '{ranges_legend},rangeWizard,buttonAllCaption,buttonPosition,buttonAllPosition;'.
-										 '{coordinate_system_legend:hide},swapAxes,xshow,xLabelText,xLabelPosition,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;'.
-										 '{publish_legend},published;'
+        '__selector__'                => ['xValueCharacter'],
+	    'default'                     => $palettes['general']
 	),
 
-//    'subpalettes' => [
-//        'xType_2' => 'xTimeFormat',
-//    ],
+    'subpalettes' => [
+        'xValueCharacter_1' => $palettes['zoom'] . $palettes['element'] . $palettes['watermark'] . $palettes['ranges_nominal'] .
+            $palettes['coordinate_system_nominal'] . $palettes['publish'],
+        'xValueCharacter_2' => $palettes['zoom'] . $palettes['element'] . $palettes['watermark'] . $palettes['ranges_time'] .
+            $palettes['coordinate_system_time'] . $palettes['publish'],
+    ],
 
 	// Fields
 	'fields' => array
@@ -158,10 +168,21 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'eval'                    => array(),
             'sql'                     => "char(1) NOT NULL default ''"
         ),
+        'xValueCharacter' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xValueCharacter'],
+            'default'                 => '1',
+            'inputType'               => 'select',
+            'options_callback'        => ['tl_c4g_visualization_chart', 'loadXValueCharacterOptions'],
+            'eval'                    => [
+                'submitOnChange' => true
+            ],
+            'sql'                     => "char(1) NOT NULL default '1'"
+        ),
         'swapAxes' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['swapAxes'],
-            'default'                 => true,
+            'default'                 => false,
             'inputType'               => 'checkbox',
             'eval'                    => [],
             'sql'                     => "char(1) NOT NULL default ''"
@@ -176,25 +197,14 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             ],
             'sql'                     => "char(1) NOT NULL default ''"
         ),
-        'xType' => array
+        'xTimeFormat' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xType'],
-            'default'                 => '1',
-            'inputType'               => 'select',
-            'options_callback'        => ['tl_c4g_visualization_chart', 'loadXTypeOptions'],
-            'eval'                    => [
-                'submitOnChange' => true
-            ],
-            'sql'                     => "char(1) NOT NULL default '1'"
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xTimeFormat'],
+            'default'                 => 'd.m.Y',
+            'inputType'               => 'text',
+            'eval'                    => [],
+            'sql'                     => "varchar(255) NOT NULL default 'd.m.Y'"
         ),
-//        'xTimeFormat' => array
-//        (
-//            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xTimeFormat'],
-//            'default'                 => 'd.m.Y',
-//            'inputType'               => 'text',
-//            'eval'                    => [],
-//            'sql'                     => "varchar(255) NOT NULL default 'd.m.Y'"
-//        ),
         'xRotate' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xRotate'],
@@ -417,9 +427,9 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'default'                 => '80',
             'sql'                     => "int(10) unsigned NOT NULL default '0'"
         ),
-        'rangeWizard' => array
+        'rangeWizardNominal' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['rangeWizard'],
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['rangeWizardNominal'],
             'inputType'               => 'multiColumnWizard',
             'save_callback'           => array(array('tl_c4g_visualization_chart', 'saveRanges')),
             'load_callback'           => array(array('tl_c4g_visualization_chart', 'loadRanges')),
@@ -443,6 +453,43 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
                         'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['toX'],
                         'inputType'               => 'text',
                         'eval'                    => array('rgxp' => 'digit'),
+                    ),
+                    'defaultRange' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['defaultRange'],
+                        'inputType'               => 'checkbox',
+                        'default'                 => '0',
+                    ),
+                ),
+                'doNotSaveEmpty'    => true,
+            ),
+        ),
+        'rangeWizardTime' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['rangeWizardTime'],
+            'inputType'               => 'multiColumnWizard',
+            'save_callback'           => array(array('tl_c4g_visualization_chart', 'saveRanges')),
+            'load_callback'           => array(array('tl_c4g_visualization_chart', 'loadRanges')),
+            'eval'                    => array
+            (
+                'columnFields' => array
+                (
+                    'name' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['name'],
+                        'inputType'               => 'text'
+                    ),
+                    'fromX' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['fromX'],
+                        'inputType'               => 'text',
+                        'eval'                    => array('datepicker'=>true, 'tl_class'=>'w50 wizard')
+                    ),
+                    'toX' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['toX'],
+                        'inputType'               => 'text',
+                        'eval'                    => array('datepicker'=>true, 'tl_class'=>'w50 wizard')
                     ),
                     'defaultRange' => array
                     (
@@ -485,10 +532,19 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'options_callback'         => ['tl_c4g_visualization_chart', 'loadButtonAllPositionOptions'],
             'eval'                    => array
             (
-                'mandatory' => false,
                 'tl_class' => 'w50'
             ),
             'sql'                     => "char(1) NOT NULL default '2'"
+        ),
+        'loadOutOfRangeData' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['loadOutOfRangeData'],
+            'default'                 => false,
+            'inputType'               => 'checkbox',
+            'eval'                    => array(
+                'tl_class' => 'clr'
+            ),
+            'sql'                     => "char(1) NOT NULL default ''"
         ),
     )
 );
@@ -517,14 +573,6 @@ class tl_c4g_visualization_chart extends \Backend
         ];
     }
 
-    public function loadXTypeOptions(DataContainer $dc) {
-        return [
-            '1' => 'Tatsächliche Werte',
-            '2' => 'Zeit',
-            '3' => 'Kategorien'
-        ];
-    }
-
     public function loadLabelPositionOptions(DataContainer $dc) {
         return [
             '1' => 'innen rechts/oben',
@@ -533,6 +581,13 @@ class tl_c4g_visualization_chart extends \Backend
             '4' => 'außen rechts/oben',
             '5' => 'außen mittig',
             '6' => 'außen links/unten'
+        ];
+    }
+
+    public function loadXValueCharacterOptions(DataContainer $dc) {
+        return [
+            '1' => 'Nominalwerte',
+            '2' => 'Zeitwerte',
         ];
     }
 
@@ -605,6 +660,31 @@ class tl_c4g_visualization_chart extends \Backend
                 if ($input['defaultRange'] !== '1') {
                     $input['defaultRange'] = '0';
                 }
+
+//                var_dump($dc->activeRecord);
+//                exit;
+
+                if ($dc->activeRecord->xValueCharacter === '2') {
+
+                    $dateTime = new \DateTime();
+
+                    $array = explode('/', $input['fromX']);
+
+                    $month = $array[0];
+                    $day = $array[1];
+                    $year = $array[2];
+                    $dateTime->setDate($year, $month, $day);
+                    $input['fromX'] = floatval($dateTime->getTimestamp());
+
+                    $array = explode('/', $input['toX']);
+                    $month = $array[0];
+                    $day = $array[1];
+                    $year = $array[2];
+                    $dateTime->setDate($year, $month, $day);
+                    $input['toX'] = floatval($dateTime->getTimestamp());
+                }
+
+
                 $stmt = $database->prepare(
                     "INSERT INTO tl_c4g_visualization_chart_range (chartId, name, fromX, toX, defaultRange) ".
                     "VALUES (?, ?, ?, ?, ?)");
@@ -618,13 +698,36 @@ class tl_c4g_visualization_chart extends \Backend
      * @param $value
      * @param DataContainer $dc
      * @return array
+     * @throws Exception
      */
     public function loadRanges($value, DataContainer $dc) : array {
         $database = \Contao\Database::getInstance();
         $stmt = $database->prepare(
             "SELECT name, fromX, toX, defaultRange FROM tl_c4g_visualization_chart_range WHERE chartId = ?");
-        $result = $stmt->execute($dc->activeRecord->id);
-        return $result->fetchAllAssoc();
+        $result = $stmt->execute($dc->activeRecord->id)->fetchAllAssoc();
+        if ($dc->activeRecord->xValueCharacter === '2') {
+            $dateTime = new DateTime();
+            foreach ($result as $key => $value) {
+                if ($value['fromX'] === 0.0) {
+                    $value['fromX'] = time();
+                }
+                $dateTime->setTimestamp(intval($value['fromX']));
+                $year = $dateTime->format('Y');
+                $month = $dateTime->format('m');
+                $day = $dateTime->format('d');
+                $result[$key]['fromX'] = "$month/$day/$year";
+
+                if ($value['toX'] === 0.0) {
+                    $value['toX'] = time();
+                }
+                $dateTime->setTimestamp(intval($value['toX']));
+                $year = $dateTime->format('Y');
+                $month = $dateTime->format('m');
+                $day = $dateTime->format('d');
+                $result[$key]['toX'] = "$month/$day/$year";
+            }
+        }
+        return $result;
     }
 
     public function changeFileBinToUuid($fieldValue, DataContainer $dc) {
