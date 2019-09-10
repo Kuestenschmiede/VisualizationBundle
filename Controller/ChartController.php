@@ -16,6 +16,7 @@ use con4gis\VisualizationBundle\Classes\Charts\Axis;
 use con4gis\VisualizationBundle\Classes\Charts\Chart;
 use con4gis\VisualizationBundle\Classes\Charts\ChartElement;
 use con4gis\VisualizationBundle\Classes\Charts\CoordinateSystem;
+use con4gis\VisualizationBundle\Classes\Charts\Tooltip;
 use con4gis\VisualizationBundle\Classes\Exceptions\EmptyChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartSourceException;
@@ -42,13 +43,15 @@ class ChartController extends AbstractController
                 if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
                     $chart = new Chart();
                     $coordinateSystem = new CoordinateSystem(new Axis, new Axis, new Axis);
+                    $tooltip = new Tooltip();
+                    $chart->setTooltip($tooltip);
                     if ($chartModel->swapAxes === '1') {
                         $coordinateSystem->setRotated(true);
                     }
                     $chart->setCoordinateSystem($coordinateSystem);
                     if ($chartModel->xshow === '1') {
                         $coordinateSystem->x()->setShow(true);
-                        $coordinateSystem->x()->setTickValue(1546415101, 'Foobar');
+//                        $coordinateSystem->x()->setTickValue(1546415101, 'Foobar');
                         if (is_string($chartModel->xLabelText) === true) {
                             $coordinateSystem->x()->setRotate(intval($chartModel->xRotate));
                             $coordinateSystem->x()->setLabel($chartModel->xLabelText, intval($chartModel->xLabelPosition));
@@ -124,6 +127,23 @@ class ChartController extends AbstractController
                                     throw new UnknownChartSourceException();
                                     break;
                             }
+
+                            if ($chartModel->xValueCharacter  === '2') {
+                                $datetime = new \DateTime();
+                                $map = [];
+                                foreach ($source as $entry) {
+                                    $tstamp = $entry->get($elementModel->tablex);
+                                    $datetime->setTimestamp($tstamp);
+                                    $map[$tstamp] = $datetime->format($chartModel->xTimeFormat);
+                                    if ($datetime->format('d') === '01') {
+                                        $coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp]);
+                                    }
+                                }
+                                foreach ($map as $key => $value) {
+                                    $tooltip->setTitle($key, $value);
+                                }
+                            }
+
                             $element = new ChartElement($elementModel->type, $source);
                             if ($elementModel->color) {
                                 $element->setColor($elementModel->color);

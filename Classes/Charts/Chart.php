@@ -21,6 +21,7 @@ Class Chart
     protected $groups = [];
 
     protected $coordinateSystem = null;
+    protected $tooltip = null;
 
     /**
      * @return array
@@ -46,6 +47,10 @@ Class Chart
 
         if ($this->coordinateSystem instanceof CoordinateSystem === true) {
             $array['axis'] = $this->coordinateSystem->createEncodableArray();
+        }
+
+        if ($this->tooltip instanceof Tooltip === true) {
+            $array['tooltip'] = $this->tooltip->createEncodableArray();
         }
 
         return $array;
@@ -127,6 +132,16 @@ Class Chart
     public function setCoordinateSystem($coordinateSystem)
     {
         $this->coordinateSystem = $coordinateSystem;
+        return $this;
+    }
+
+    /**
+     * @param Tooltip $tooltip
+     * @return $this
+     */
+    public function setTooltip(Tooltip $tooltip)
+    {
+        $this->tooltip = $tooltip;
         return $this;
     }
 }
