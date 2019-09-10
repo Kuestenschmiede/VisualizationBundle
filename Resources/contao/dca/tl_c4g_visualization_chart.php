@@ -661,9 +661,6 @@ class tl_c4g_visualization_chart extends \Backend
                     $input['defaultRange'] = '0';
                 }
 
-//                var_dump($dc->activeRecord);
-//                exit;
-
                 if ($dc->activeRecord->xValueCharacter === '2') {
 
                     $dateTime = new \DateTime();
@@ -674,14 +671,14 @@ class tl_c4g_visualization_chart extends \Backend
                     $day = $array[1];
                     $year = $array[2];
                     $dateTime->setDate($year, $month, $day);
-                    $input['fromX'] = floatval($dateTime->getTimestamp());
+                    $input['fromX'] = floatval(strtotime('today', $dateTime->getTimestamp()));
 
                     $array = explode('/', $input['toX']);
                     $month = $array[0];
                     $day = $array[1];
                     $year = $array[2];
                     $dateTime->setDate($year, $month, $day);
-                    $input['toX'] = floatval($dateTime->getTimestamp());
+                    $input['toX'] = floatval(strtotime('today', $dateTime->getTimestamp()));
                 }
 
 
