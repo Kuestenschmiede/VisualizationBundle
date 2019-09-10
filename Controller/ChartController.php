@@ -165,17 +165,14 @@ class ChartController extends AbstractController
             } else {
                 $response = new Response('', Response::HTTP_UNAUTHORIZED);
             }
+        } catch (UnknownChartException $exception) {
+            $response = new Response('', Response::HTTP_NOT_FOUND);
+        } catch (UnknownChartSourceException $exception) {
+            $response = new Response('', Response::HTTP_NOT_FOUND);
+        } catch (EmptyChartException $exception) {
+            $response = new Response('', Response::HTTP_NOT_FOUND);
         } catch (\Throwable $throwable) {
-            //Todo Error handling
-            $response = new Response($throwable->getMessage() .
-                "\n" .
-                $throwable->getTraceAsString() .
-                "\n ".
-                $throwable->getFile() .
-                "\n ".
-                $throwable->getLine()
-                , Response::HTTP_NOT_FOUND);
-            //$response = new Response('', Response::HTTP_NOT_FOUND);
+            $response = new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $response;
