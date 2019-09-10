@@ -22,7 +22,8 @@ array_insert($GLOBALS['BE_MOD'], array_search('con4gis_core', array_keys($GLOBAL
     ['con4gis_visualization' => [
         'tl_c4g_visualization_chart' => array
         (
-            'tables' 		=> array('tl_c4g_visualization_chart')
+            'tables' 		=> array('tl_c4g_visualization_chart'),
+            'stylesheet' => 'bundles/con4gisvisualization/css/backend_chart.css'
         ),
         'tl_c4g_visualization_chart_element' => array
         (

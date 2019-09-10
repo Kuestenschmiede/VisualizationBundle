@@ -23,14 +23,16 @@ class Vis {
                     let chart = {
                         bindto: '#' + element.id,
                         base: responseJson,
-                        json: scope.parseJson('#' + element.id, responseJson),
+                        json: {},
                         range: function(range) {
-                            this.json = scope.parseJson(this.bindto, this.base, range);
+                            this.json = scope.parseJson(this.bindto, this.base, this, range);
                         },
                         update: function() {
                             this.chart = c3.generate(this.json);
                         },
                     };
+
+                    chart.json = scope.parseJson('#' + element.id, responseJson, chart);
 
                     if (typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.format !== 'undefined') {
                         chart.format = responseJson.axis.x.tick.format;
@@ -49,7 +51,7 @@ class Vis {
         }
     }
 
-    parseJson(bindto, json, range = 'range_default') {
+    parseJson(bindto, json, chart, range = 'range_default') {
         //console.log(range);
         let c3json = {
             bindto: bindto,
@@ -62,6 +64,11 @@ class Vis {
                 groups: []
             },
             axis: {},
+            tooltip: {
+                format: {
+
+                }
+            },
             zoom: {
                 enabled: false
             }
@@ -121,6 +128,15 @@ class Vis {
 
         if ((typeof json.zoom !== 'undefined') && (typeof json.zoom.enabled !== 'undefined')) {
             c3json.zoom.enabled = json.zoom.enabled;
+        }
+
+        if (typeof json.tooltip !== 'undefined' && typeof json.tooltip.format !== 'undefined' && typeof json.tooltip.format.title !== 'undefined') {
+            chart.tooltipformattitle = json.tooltip.format.title;
+            let scope = this;
+            c3json.tooltip.format.title = function (x) {
+                let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
+                return chrt.tooltipformattitle[x];
+            };
         }
 
         console.log(c3json);
