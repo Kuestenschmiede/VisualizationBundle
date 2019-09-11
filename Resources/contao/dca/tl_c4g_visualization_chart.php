@@ -202,7 +202,9 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xTimeFormat'],
             'default'                 => 'd.m.Y',
             'inputType'               => 'text',
-            'eval'                    => [],
+            'eval'                    => [
+                'tl_class'            => 'clr'
+            ],
             'sql'                     => "varchar(255) NOT NULL default 'd.m.Y'"
         ),
         'xRotate' => array
