@@ -42,6 +42,9 @@ class ChartController extends AbstractController
                 $chartModel = ChartModel::findByPk($chartId);
                 if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
                     $chart = new Chart();
+                    if ($chartModel->zoom === '1') {
+                        $chart->setZoom();
+                    }
                     $coordinateSystem = new CoordinateSystem(new Axis, new Axis, new Axis);
                     $tooltip = new Tooltip();
                     $chart->setTooltip($tooltip);
