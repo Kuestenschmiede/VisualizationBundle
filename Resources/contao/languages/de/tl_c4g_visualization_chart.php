@@ -65,6 +65,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'watermark_legend'  => 'Wasserzeichen',
     'ranges_legend'     => 'Wertebereiche',
     'coordinate_system_legend'          => 'Koordinatensystem',
+    'expert_legend'     => 'Experten-Einstellungen',
     'publish_legend'    => 'Veröffentlichung'
 
 ];

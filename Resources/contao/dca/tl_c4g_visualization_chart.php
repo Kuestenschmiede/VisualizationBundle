@@ -12,14 +12,14 @@
  */
 
 $palettes = [
-    'general' => '{general_legend},backendtitle,frontendtitle,xValueCharacter,',
-    'zoom' => 'zoom;',
-    'element' => '{element_legend},elementWizard;',
-    'watermark' => '{watermark_legend},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;',
+    'general' => '{general_legend},backendtitle,xValueCharacter,',
+    'elements' => 'elementWizard;',
     'ranges_nominal' => '{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData;',
     'ranges_time' => '{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData;',
-    'coordinate_system_nominal' => '{coordinate_system_legend:hide},swapAxes,xshow,xLabelText,xLabelPosition,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
-    'coordinate_system_time' => '{coordinate_system_legend:hide},swapAxes,xshow,xLabelText,xLabelPosition,xTimeFormat,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
+    'coordinate_system_nominal' => '{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
+    'coordinate_system_time' => '{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xTimeFormat,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
+    'watermark' => '{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;',
+    'expert' => '{expert_legend:hide},zoom;',
     'publish' => '{publish_legend},published;'
 ];
 
@@ -124,10 +124,10 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
 	),
 
     'subpalettes' => [
-        'xValueCharacter_1' => $palettes['zoom'] . $palettes['element'] . $palettes['watermark'] . $palettes['ranges_nominal'] .
-            $palettes['coordinate_system_nominal'] . $palettes['publish'],
-        'xValueCharacter_2' => $palettes['zoom'] . $palettes['element'] . $palettes['watermark'] . $palettes['ranges_time'] .
-            $palettes['coordinate_system_time'] . $palettes['publish'],
+        'xValueCharacter_1' => $palettes['elements'] . $palettes['ranges_nominal'] .
+            $palettes['coordinate_system_nominal'] . $palettes['watermark'] . $palettes['expert'] . $palettes['publish'],
+        'xValueCharacter_2' => $palettes['elements'] . $palettes['ranges_time'] .
+            $palettes['coordinate_system_time'] . $palettes['watermark'] . $palettes['expert'] . $palettes['publish'],
     ],
 
 	// Fields
@@ -346,7 +346,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
                         'eval'                    => array('includeBlankOption' => true),
                     ),
                 ),
-                'doNotSaveEmpty'    => true,
+                'doNotSaveEmpty'    => true
             ),
         ),
         'image' => array
