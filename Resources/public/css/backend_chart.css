@@ -1,3 +1,15 @@
 .wizard .tl_text {
     width: calc(100% - 29px);
 }
+
+#ctrl_elementWizard tr {
+    display: flex;
+}
+
+#ctrl_elementWizard tr td {
+    display: block;
+}
+
+#ctrl_elementWizard tr td.operations {
+    padding-top: 6px;
+}
