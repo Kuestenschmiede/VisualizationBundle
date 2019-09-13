@@ -114,7 +114,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
         '__selector__'                => ['origin'],
 	    'default'                     => '{general_legend},backendtitle,frontendtitle,color;'.
                                          '{type_origin_legend},type,origin;'.
-                                         '{group_legend},groupIdenticalX;'.
+                                         '{transform_legend},groupIdenticalX;'.
                                          '{publish_legend},published;'
 	),
 
@@ -333,17 +333,17 @@ class tl_c4g_visualization_chart_element extends \Backend
     public function loadOriginOptions(DataContainer $dc)
     {
         return [
-            '1' => 'Eingabe',
-            '2' => 'aus Tabelle laden'
+            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_input'],
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_load_from_table']
         ];
     }
 
     public function loadTypeOptions(DataContainer $dc)
     {
         return [
-            ChartElement::TYPE_LINE => 'Linie',
-            ChartElement::TYPE_PIE => 'Kuchenstück',
-            ChartElement::TYPE_BAR => 'Balken'
+            ChartElement::TYPE_LINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_line'],
+            ChartElement::TYPE_PIE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_pie'],
+            ChartElement::TYPE_BAR => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_bar']
         ];
     }
 

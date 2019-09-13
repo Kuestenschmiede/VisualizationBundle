@@ -559,37 +559,37 @@ class tl_c4g_visualization_chart extends \Backend
 
     public function loadButtonAllPositionOptions(DataContainer $dc) {
         return [
-            '1' => 'als erster',
-            '2' => 'als letzter'
+            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_as_first'],
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_as_last']
         ];
     }
 
     public function loadButtonPositionOptions(DataContainer $dc) {
         return [
-            '1' => 'Oben Links',
-            '2' => 'Oben Mittig',
-            '3' => 'Oben Rechts',
-            '4' => 'Unten Links',
-            '5' => 'Unten Mittig',
-            '6' => 'Unten Rechts',
+            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_top_left'],
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_top_middle'],
+            '3' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_top_right'],
+            '4' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_bottom_left'],
+            '5' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_bottom_middle'],
+            '6' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_bottom_right'],
         ];
     }
 
     public function loadLabelPositionOptions(DataContainer $dc) {
         return [
-            '1' => 'innen rechts/oben',
-            '2' => 'innen mittig',
-            '3' => 'innen links/unten',
-            '4' => 'außen rechts/oben',
-            '5' => 'außen mittig',
-            '6' => 'außen links/unten'
+            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_right_up'],
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_middle'],
+            '3' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_left_down'],
+            '4' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_right_up'],
+            '5' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_middle'],
+            '6' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_left_down']
         ];
     }
 
     public function loadXValueCharacterOptions(DataContainer $dc) {
         return [
-            '1' => 'Nominalwerte',
-            '2' => 'Zeitwerte',
+            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_nominal_values'],
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_temporal_values'],
         ];
     }
 
