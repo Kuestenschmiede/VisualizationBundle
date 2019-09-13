@@ -2,14 +2,10 @@
     width: calc(100% - 29px);
 }
 
-#ctrl_elementWizard tr {
-    display: flex;
+#ctrl_elementWizard tr select {
+    width: 100%;
 }
 
-#ctrl_elementWizard tr td {
-    display: block;
-}
-
-#ctrl_elementWizard tr td.operations {
-    padding-top: 6px;
+#ctrl_rangeWizardNominal tr input[type='checkbox'] {
+    margin-left: 36px;
 }
