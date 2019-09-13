@@ -34,6 +34,11 @@ class ChartElement
     protected $group = -1;
     protected $color = '';
 
+    protected $mapTimeValues = false;
+    protected $dateTimeFormat = '';
+    protected $coordinateSystem = null;
+    protected $toolTip = null;
+
     public function __construct(string $type, Source $source)
     {
         $this->type = $type;
@@ -72,6 +77,22 @@ class ChartElement
 
         foreach ($this->transformers as $transformer) {
             $dataPoints = $transformer->transform($dataPoints);
+        }
+
+        if ($this->mapTimeValues === true) {
+            $datetime = new \DateTime();
+            $map = [];
+            foreach ($dataPoints as $dataPoint) {
+                $tstamp = $dataPoint['x'];
+                $datetime->setTimestamp($tstamp);
+                $map[$tstamp] = $datetime->format($this->dateTimeFormat);
+                if ($datetime->format('d') === '01') {
+                    $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp]);
+                }
+            }
+            foreach ($map as $key => $value) {
+                $this->toolTip->setTitle($key, $value);
+            }
         }
 
         foreach ($this->labels as $label) {
@@ -165,5 +186,12 @@ class ChartElement
     {
         $this->color = '#'.$color;
         return $this;
+    }
+
+    public function mapTimeValues(string $dateTimeFormat, CoordinateSystem $coordinateSystem, Tooltip $tooltip) {
+        $this->mapTimeValues = true;
+        $this->dateTimeFormat = $dateTimeFormat;
+        $this->coordinateSystem = $coordinateSystem;
+        $this->toolTip = $tooltip;
     }
 }

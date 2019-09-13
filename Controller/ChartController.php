@@ -131,22 +131,6 @@ class ChartController extends AbstractController
                                     break;
                             }
 
-                            if ($chartModel->xValueCharacter  === '2') {
-                                $datetime = new \DateTime();
-                                $map = [];
-                                foreach ($source as $entry) {
-                                    $tstamp = $entry->get($elementModel->tablex);
-                                    $datetime->setTimestamp($tstamp);
-                                    $map[$tstamp] = $datetime->format($chartModel->xTimeFormat);
-                                    if ($datetime->format('d') === '01') {
-                                        $coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp]);
-                                    }
-                                }
-                                foreach ($map as $key => $value) {
-                                    $tooltip->setTitle($key, $value);
-                                }
-                            }
-
                             $element = new ChartElement($elementModel->type, $source);
                             if ($elementModel->color) {
                                 $element->setColor($elementModel->color);
@@ -156,6 +140,9 @@ class ChartController extends AbstractController
                             }
                             if ($elementModel->origin === ChartElement::ORIGIN_TABLE) {
                                 $element->setX($elementModel->tablex)->setY($elementModel->tabley);
+                            }
+                            if ($chartModel->xValueCharacter === '2') {
+                                $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $tooltip);
                             }
                             $chart->addElement($element);
                         }
