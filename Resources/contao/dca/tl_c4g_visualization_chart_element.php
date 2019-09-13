@@ -114,12 +114,13 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
         '__selector__'                => ['origin'],
 	    'default'                     => '{general_legend},backendtitle,frontendtitle,color;'.
                                          '{type_origin_legend},type,origin;'.
+                                         '{group_legend},groupIdenticalX;'.
                                          '{publish_legend},published;'
 	),
 
     'subpalettes' => [
         'origin_1' => 'inputWizard',
-        'origin_2' => 'table,tablex,tabley'
+        'origin_2' => 'table,tablex,tabley,whereWizard'
     ],
 
 	// Fields
@@ -251,7 +252,59 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
                 'doNotSaveEmpty' => true,
             ],
             'sql'                     => "varchar(255) NOT NULL default ''"
-        )
+        ),
+        'whereWizard' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['whereWizard'],
+            'inputType'               => 'multiColumnWizard',
+            'save_callback'           => array(array('tl_c4g_visualization_chart_element', 'saveWhere')),
+            'load_callback'           => array(array('tl_c4g_visualization_chart_element', 'loadWhere')),
+            'eval'                    => array
+            (
+                'columnFields' => array
+                (
+                    'whereColumn' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['whereColumn'],
+                        'inputType'               => 'select',
+                        'options_callback'        => ['tl_c4g_visualization_chart_element', 'loadColumnNames'],
+                        'eval'                    => [
+                            'includeBlankOption'  => true
+                        ]
+                    ),
+                    'whereComparison' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['whereComparison'],
+                        'inputType'               => 'select',
+                        'options_callback'        => ['tl_c4g_visualization_chart_element', 'loadComparisonOptions'],
+                        'eval'                    => [
+                            'includeBlankOption'  => true
+                        ]
+                    ),
+                    'whereValue' => array
+                    (
+                        'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['whereValue'],
+                        'inputType'               => 'text',
+                        'eval'                    => [
+                            'rgxp'                => 'alnum'
+                        ]
+                    ),
+                ),
+                'doNotSaveEmpty'    => true,
+                'tl_class' => 'clr'
+            ),
+        ),
+        'groupIdenticalX' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['groupIdenticalX'],
+            'default'                 => false,
+            'inputType'               => 'checkbox',
+            'eval'                    => [
+                'tl_class'            => 'clr'
+            ],
+            'sql'                     => "char(1) NOT NULL default ''"
+        ),
+
     )
 );
 
@@ -260,6 +313,8 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element'] = array
  */
 class tl_c4g_visualization_chart_element extends \Backend
 {
+    protected $columns = [];
+
     public function getLabel($row) {
         $labels = [];
         $labels['id'] = $row['id'];
@@ -333,6 +388,42 @@ class tl_c4g_visualization_chart_element extends \Backend
         return null;
     }
 
+    /**
+     * @param $value
+     * @param DataContainer $dc
+     * @return array
+     */
+    public function loadWhere($value, DataContainer $dc) : array {
+        $database = \Contao\Database::getInstance();
+        $stmt = $database->prepare(
+            "SELECT whereColumn, whereComparison, whereValue FROM tl_c4g_visualization_chart_element_condition WHERE elementId = ?");
+        $result = $stmt->execute($dc->activeRecord->id);
+        return $result->fetchAllAssoc();
+    }
+
+    /**
+     * @param $value
+     * @param DataContainer $dc
+     * @return null
+     */
+    public function saveWhere($value, DataContainer $dc) {
+        $conditions = unserialize($value);
+        if (is_array($conditions) === true) {
+            $database = \Contao\Database::getInstance();
+            $database->prepare(
+                "DELETE FROM tl_c4g_visualization_chart_element_condition WHERE elementId = ?")->execute($dc->activeRecord->id);
+            foreach($conditions as $condition) {
+                if ($condition['whereColumn'] !== '' && $condition['whereComparison'] !== '' && $condition['whereValue'] !== '') {
+                    $stmt = $database->prepare(
+                        "INSERT INTO tl_c4g_visualization_chart_element_condition (elementId, whereColumn, whereComparison, whereValue) ".
+                        "VALUES (?, ?, ?, ?)");
+                    $stmt->execute($dc->activeRecord->id, $condition['whereColumn'], $condition['whereComparison'], $condition['whereValue']);
+                }
+            }
+        }
+        return null;
+    }
+
     public function loadTableNames(DataContainer $dc) {
         $db = Database::getInstance();
         $tables = $db->listTables();
@@ -343,21 +434,37 @@ class tl_c4g_visualization_chart_element extends \Backend
         return $tablesFormatted;
     }
 
-    public function loadColumnNames(DataContainer $dc) {
-        $db = Database::getInstance();
-        if ($dc->activeRecord->table !== '') {
-            $columns = $db->listFields($dc->activeRecord->table);
-            if (is_array($columns) === true) {
-                $columnsFormatted = [];
-                foreach ($columns as $column) {
-                    if ($column['name'] !== 'PRIMARY') {
-                        $columnsFormatted[$column['name']] = $column['name'];
+    public function loadColumnNames($dc) {
+        if ($this->columns === []) {
+            $db = Database::getInstance();
+            if ($dc->activeRecord->table !== '') {
+                $columns = $db->listFields($dc->activeRecord->table);
+                if (is_array($columns) === true) {
+                    $columnsFormatted = [];
+                    foreach ($columns as $column) {
+                        if ($column['name'] !== 'PRIMARY') {
+                            $columnsFormatted[$column['name']] = $column['name'];
+                        }
                     }
+                    $this->columns = $columnsFormatted;
+                    return $columnsFormatted;
                 }
-                return $columnsFormatted;
             }
+        } else {
+            return $this->columns;
         }
         return [];
+    }
+
+    public function loadComparisonOptions($dc) {
+        return [
+            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_equal'],
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_greater_or_equal'],
+            '3' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_lesser_or_equal'],
+            '4' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_not_equal'],
+            '5' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_greater'],
+            '6' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_lesser']
+        ];
     }
     
 
