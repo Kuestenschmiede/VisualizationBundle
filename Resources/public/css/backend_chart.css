@@ -9,3 +9,7 @@
 #ctrl_rangeWizardNominal tr input[type='checkbox'] {
     margin-left: 36px;
 }
+
+#ctrl_rangeWizardTime tr input[type='checkbox'] {
+    margin-left: 36px;
+}
