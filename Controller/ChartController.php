@@ -12,6 +12,7 @@
  */
 namespace con4gis\VisualizationBundle\Controller;
 
+use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\VisualizationBundle\Classes\Charts\Axis;
 use con4gis\VisualizationBundle\Classes\Charts\Chart;
 use con4gis\VisualizationBundle\Classes\Charts\ChartElement;
@@ -172,15 +173,32 @@ class ChartController extends AbstractController
             }
         } catch (UnknownChartException $exception) {
             $response = new Response('', Response::HTTP_NOT_FOUND);
+            $this->log($exception);
         } catch (UnknownChartSourceException $exception) {
             $response = new Response('', Response::HTTP_NOT_FOUND);
+            $this->log($exception);
         } catch (EmptyChartException $exception) {
             $response = new Response('', Response::HTTP_NOT_FOUND);
+            $this->log($exception);
         } catch (\Throwable $throwable) {
             $response = new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
+            $this->log($throwable);
         }
 
         return $response;
+    }
+
+    private function log(\Throwable $throwable) {
+        C4gLogModel::addLogEntry(
+            'Visualization',
+            "Message: " . $throwable->getMessage() .
+            "\n" .
+            "Trace: " . $throwable->getTraceAsString() .
+            "\n" .
+            "File: " . $throwable->getFile() .
+            "\n" .
+            "Line: " . $throwable->getLine()
+        );
     }
 
     private function authorized() : bool {
