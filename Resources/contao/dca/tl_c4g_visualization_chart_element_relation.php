@@ -11,45 +11,15 @@
  * @link       https://www.con4gis.org
  */
 
-/**
- * Table tl_c4g_visualization_chart_element_relation
- */
-$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element_relation'] = array
-(
+use con4gis\CoreBundle\Classes\DCA\DCA;
+use con4gis\CoreBundle\Classes\DCA\Fields\IdField;
+use con4gis\CoreBundle\Classes\DCA\Fields\SQLField;
 
-    // Config
-    'config' => array
-    (
-        'label'                       => $GLOBALS['TL_CONFIG']['websiteTitle'],
-        'dataContainer'               => 'Table',
-        'enableVersioning'            => true,  // I suppose it does not do anything, needs investigation
-        'sql'                         => array
-        (
-            'keys' => array
-            (
-                'id' => 'primary'
-            )
-        )
+$dca = new DCA('tl_c4g_visualization_chart_element_relation');
+new IdField('id', $dca);
+new SQLField('chartId', $dca, "int(10) unsigned NOT NULL");
+new SQLField('elementId', $dca, "int(10) unsigned NOT NULL");
 
-    ),
-
-    // Fields
-    'fields' => array
-    (
-        'id' => array
-        (
-            'sql'                     => "int(10) unsigned NOT NULL auto_increment"
-        ),
-        'chartId' => array
-        (
-            'sql'                     => "int(10) unsigned NOT NULL"
-        ),
-        'elementId' => array
-        (
-            'sql'                     => "int(10) unsigned NOT NULL"
-        ),
-    )
-);
 
 /**
  * Class tl_c4g_visualization_chart_element_relation

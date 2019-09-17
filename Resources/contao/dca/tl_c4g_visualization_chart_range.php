@@ -1,4 +1,5 @@
-<?php if (!defined('TL_ROOT')) die('You cannot access this file directly!');
+<?php
+
 /*
  * This file is part of con4gis,
  * the gis-kit for Contao CMS.
@@ -11,57 +12,17 @@
  * @link       https://www.con4gis.org
  */
 
-/**
- * Table tl_c4g_visualization_chart_range
- */
-$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_range'] = array
-(
+use con4gis\CoreBundle\Classes\DCA\DCA;
+use con4gis\CoreBundle\Classes\DCA\Fields\IdField;
+use con4gis\CoreBundle\Classes\DCA\Fields\SQLField;
 
-	// Config
-	'config' => array
-	(
-	    'label'                       => $GLOBALS['TL_CONFIG']['websiteTitle'],
-	    'dataContainer'               => 'Table',
-		'enableVersioning'            => true,  // I suppose it does not do anything, needs investigation
-        'sql'                         => array
-        (
-            'keys' => array
-            (
-                'id' => 'primary'
-            )
-        )
-
-	),
-
-	// Fields
-	'fields' => array
-	(
-        'id' => array
-        (
-            'sql'                     => "int(10) unsigned NOT NULL auto_increment"
-        ),
-        'chartId' => array
-        (
-            'sql'                     => "int(10) unsigned NOT NULL"
-        ),
-        'name' => array
-        (
-            'sql'                     => "varchar(255) NOT NULL default''"
-        ),
-        'fromX' => array
-        (
-            'sql'                     => "DECIMAL(20,10) unsigned NOT NULL default 0.0"
-        ),
-        'toX' => array
-        (
-            'sql'                     => "DECIMAL(20,10) unsigned NOT NULL default 0.0"
-        ),
-        'defaultRange' => array
-        (
-            'sql'                     => "CHAR(1) NOT NULL default '0'"
-        ),
-    )
-);
+$dca = new DCA('tl_c4g_visualization_chart_range');
+new IdField('id', $dca);
+new SQLField('chartId', $dca, "int(10) unsigned NOT NULL");
+new SQLField('name', $dca, "varchar(255) NOT NULL default''");
+new SQLField('fromX', $dca, "DECIMAL(20,10) unsigned NOT NULL default 0.0");
+new SQLField('toX', $dca, "DECIMAL(20,10) unsigned NOT NULL default 0.0");
+new SQLField('defaultRange', $dca, "CHAR(1) NOT NULL default '0'");
 
 /**
  * Class tl_c4g_visualization_chart_range
