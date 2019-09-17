@@ -155,7 +155,7 @@ class ChartController extends AbstractController
                                 $element->setX($elementModel->tablex)->setY($elementModel->tabley);
                             }
                             if ($chartModel->xValueCharacter === '2') {
-                                $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $tooltip);
+                                $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $tooltip, $chartModel->xLabelCount);
                             }
                             if ($elementModel->groupIdenticalX === '1') {
                                 $element->addTransformer(new GroupIdenticalXTransformer());

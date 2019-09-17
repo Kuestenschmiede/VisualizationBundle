@@ -27,6 +27,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'swapAxes'          => ['Swap axes', 'If checked, the x and y axes swap places.'],
     'xValueCharacter'   => ['X value character', 'Defines the character of the values on the x axis. This influences the form and the way the data is loaded.'],
     'xTimeFormat'       => ['Time format', 'Format string for the timestamp.'],
+    'xLabelCount'       => ['Show every ...th label', 'The number of labels should be displayed below the X-axis. Default: 1'],
     'xshow'             => ['Show x axis', 'Whether to show the x axis or not.'],
     'xLabelText'        => ['X axis label', 'Defines the label for the x axis.'],
     'xLabelPosition'    => ['Label position', 'Defines the position of the label relatively to the axis.'],
