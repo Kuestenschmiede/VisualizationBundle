@@ -29,6 +29,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'xType'             => ['X-Achsentyp', 'Definiert die Beschriftung der X-Werte.'],
     'xValueCharacter'   => ['Charakter der X-Werte', 'Gibt den Charakter der X-Werte an. Diese Auswahl beeinflusst das Formular und das Laden der Daten.'],
     'xTimeFormat'       => ['Zeitformat', 'Formatierungsstring für den Zeitstempel.'],
+    'xLabelCount'       => ['Jedes X. Label anzeigen', 'Das wievielte Label soll unterhalb der X-Achse angezeigt werden. Standard: 1'],
     'xRotate'           => ['X-Achsenrotation', 'Rotiert die Beschriftung der X-Werte. Das Vorzeichen gibt die Rotationsrichtung an.'],
     'xshow'             => ['X-Achse anzeigen', 'Zeigt die X-Achse an oder nicht.'],
     'xLabelText'        => ['Bezeichnung der X-Achse', 'Definiert die Bezeichnung der X-Achse.'],

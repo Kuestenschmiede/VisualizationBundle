@@ -82,13 +82,26 @@ class ChartElement
         if ($this->mapTimeValues === true) {
             $datetime = new \DateTime();
             $map = [];
+            $count = $this->xLabelCount;
+            $i = 0;
+            $oldFormat = '';
+            $oldstamp  = '';
             foreach ($dataPoints as $dataPoint) {
+
                 $tstamp = $dataPoint['x'];
+                if ($tstamp != $oldstamp) {
+                  $i++;
+                }
+
                 $datetime->setTimestamp($tstamp);
                 $map[$tstamp] = $datetime->format($this->dateTimeFormat);
-                if ($datetime->format('d') === '01') {
-                    $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp]);
+                if ($oldFormat != $datetime->format($map[$tstamp])) {
+                    if ($i % $count == 0) {
+                        $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp]);
+                    }
                 }
+                $oldFormat = $datetime->format($map[$tstamp]);
+                $oldstamp = $tstamp;
             }
             foreach ($map as $key => $value) {
                 $this->toolTip->setTitle($key, $value);
@@ -188,10 +201,11 @@ class ChartElement
         return $this;
     }
 
-    public function mapTimeValues(string $dateTimeFormat, CoordinateSystem $coordinateSystem, Tooltip $tooltip) {
+    public function mapTimeValues(string $dateTimeFormat, CoordinateSystem $coordinateSystem, Tooltip $tooltip, int $xLabelCount) {
         $this->mapTimeValues = true;
         $this->dateTimeFormat = $dateTimeFormat;
         $this->coordinateSystem = $coordinateSystem;
         $this->toolTip = $tooltip;
+        $this->xLabelCount = $xLabelCount;
     }
 }

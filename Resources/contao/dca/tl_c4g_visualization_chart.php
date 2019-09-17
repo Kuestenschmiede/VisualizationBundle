@@ -16,8 +16,8 @@ $palettes = [
     'elements' => 'elementWizard;',
     'ranges_nominal' => '{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData;',
     'ranges_time' => '{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData;',
-    'coordinate_system_nominal' => '{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
-    'coordinate_system_time' => '{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xTimeFormat,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
+    'coordinate_system_nominal' => '{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
+    'coordinate_system_time' => '{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
     'watermark' => '{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;',
     'expert' => '{expert_legend:hide},zoom;',
     'publish' => '{publish_legend},published;'
@@ -206,6 +206,18 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
                 'tl_class'            => 'clr'
             ],
             'sql'                     => "varchar(255) NOT NULL default 'd.m.Y'"
+        ),
+        'xLabelCount' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xLabelCount'],
+            'inputType'               => 'text',
+            'eval'                    =>
+                [
+                    'maxlength'=>10,
+                    'rgxp'=>'digit'
+                ],
+            'default'                 => '1',
+            'sql'                     => "int(10) signed NOT NULL default '1'"
         ),
         'xRotate' => array
         (
