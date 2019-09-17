@@ -12,6 +12,7 @@
  */
 namespace con4gis\VisualizationBundle\Controller;
 
+use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\VisualizationBundle\Classes\Charts\Axis;
 use con4gis\VisualizationBundle\Classes\Charts\Chart;
 use con4gis\VisualizationBundle\Classes\Charts\ChartElement;
@@ -21,6 +22,8 @@ use con4gis\VisualizationBundle\Classes\Exceptions\EmptyChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartSourceException;
 use con4gis\VisualizationBundle\Classes\Source\Source;
+use con4gis\VisualizationBundle\Classes\Transformers\GroupIdenticalXTransformer;
+use con4gis\VisualizationBundle\Resources\contao\models\ChartElementConditionModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementInputModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
@@ -42,6 +45,9 @@ class ChartController extends AbstractController
                 $chartModel = ChartModel::findByPk($chartId);
                 if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
                     $chart = new Chart();
+                    if ($chartModel->zoom === '1') {
+                        $chart->setZoom();
+                    }
                     $coordinateSystem = new CoordinateSystem(new Axis, new Axis, new Axis);
                     $tooltip = new Tooltip();
                     $chart->setTooltip($tooltip);
@@ -114,11 +120,21 @@ class ChartController extends AbstractController
                                                 $toX = $model->toX;
                                             }
                                         }
-                                        $stmt = $database->prepare("SELECT * FROM $table WHERE $x >= ? AND $x <= ?");
+                                        $query = "SELECT * FROM $table WHERE $x >= ? AND $x <= ?";
+                                        $additionalWhereString = $this->createAdditionalWhereString($elementModel);
+                                        if ($additionalWhereString !== '') {
+                                            $query .= " AND " . $additionalWhereString;
+                                        }
+                                        $stmt = $database->prepare($query);
                                         $result = $stmt->execute($fromX, $toX);
                                         $source = new Source($result->fetchAllAssoc());
                                     } else {
-                                        $stmt = $database->prepare("SELECT * FROM " . $table);
+                                        $query = "SELECT * FROM " . $table;
+                                        $additionalWhereString = $this->createAdditionalWhereString($elementModel);
+                                        if ($additionalWhereString !== '') {
+                                            $query .= " WHERE " . $additionalWhereString;
+                                        }
+                                        $stmt = $database->prepare($query);
                                         $result = $stmt->execute();
                                         $source = new Source($result->fetchAllAssoc());
                                     }
@@ -126,22 +142,6 @@ class ChartController extends AbstractController
                                 default:
                                     throw new UnknownChartSourceException();
                                     break;
-                            }
-
-                            if ($chartModel->xValueCharacter  === '2') {
-                                $datetime = new \DateTime();
-                                $map = [];
-                                foreach ($source as $entry) {
-                                    $tstamp = $entry->get($elementModel->tablex);
-                                    $datetime->setTimestamp($tstamp);
-                                    $map[$tstamp] = $datetime->format($chartModel->xTimeFormat);
-                                    if ($datetime->format('d') === '01') {
-                                        $coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp]);
-                                    }
-                                }
-                                foreach ($map as $key => $value) {
-                                    $tooltip->setTitle($key, $value);
-                                }
                             }
 
                             $element = new ChartElement($elementModel->type, $source);
@@ -153,6 +153,12 @@ class ChartController extends AbstractController
                             }
                             if ($elementModel->origin === ChartElement::ORIGIN_TABLE) {
                                 $element->setX($elementModel->tablex)->setY($elementModel->tabley);
+                            }
+                            if ($chartModel->xValueCharacter === '2') {
+                                $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $tooltip);
+                            }
+                            if ($elementModel->groupIdenticalX === '1') {
+                                $element->addTransformer(new GroupIdenticalXTransformer());
                             }
                             $chart->addElement($element);
                         }
@@ -167,20 +173,78 @@ class ChartController extends AbstractController
             }
         } catch (UnknownChartException $exception) {
             $response = new Response('', Response::HTTP_NOT_FOUND);
+            $this->log($exception);
         } catch (UnknownChartSourceException $exception) {
             $response = new Response('', Response::HTTP_NOT_FOUND);
+            $this->log($exception);
         } catch (EmptyChartException $exception) {
             $response = new Response('', Response::HTTP_NOT_FOUND);
+            $this->log($exception);
         } catch (\Throwable $throwable) {
             $response = new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
+            $this->log($throwable);
         }
 
         return $response;
     }
 
+    private function log(\Throwable $throwable) {
+        C4gLogModel::addLogEntry(
+            'Visualization',
+            "Message: " . $throwable->getMessage() .
+            "\n" .
+            "Trace: " . $throwable->getTraceAsString() .
+            "\n" .
+            "File: " . $throwable->getFile() .
+            "\n" .
+            "Line: " . $throwable->getLine()
+        );
+    }
+
     private function authorized() : bool {
         //Todo implement
         return true;
+    }
+
+    private function createAdditionalWhereString($elementModel) {
+        $conditionModels = ChartElementConditionModel::findByElementId($elementModel->id);
+        if ($conditionModels instanceof Collection) {
+            $first = true;
+            $where = '';
+            foreach($conditionModels as $model) {
+                if ($first === true) {
+                    $first = false;
+                } else {
+                    $where .= ' AND ';
+                }
+                switch ($model->whereComparison) {
+                    case 1:
+                        $comparison = '=';
+                        break;
+                    case 2:
+                        $comparison = '>=';
+                        break;
+                    case 3:
+                        $comparison = '<=';
+                        break;
+                    case 4:
+                        $comparison = '!=';
+                        break;
+                    case 5:
+                        $comparison = '>';
+                        break;
+                    case 6:
+                        $comparison = '<';
+                        break;
+                    default:
+                        return '';
+                }
+                $where .= $model->whereColumn . ' ' . $comparison . ' ' . $model->whereValue;
+            }
+            return $where;
+        } else {
+            return '';
+        }
     }
 }
 

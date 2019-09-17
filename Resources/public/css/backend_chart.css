@@ -1,3 +1,15 @@
 .wizard .tl_text {
     width: calc(100% - 29px);
 }
+
+#ctrl_elementWizard tr select {
+    width: 100%;
+}
+
+#ctrl_rangeWizardNominal tr input[type='checkbox'] {
+    margin-left: 36px;
+}
+
+#ctrl_rangeWizardTime tr input[type='checkbox'] {
+    margin-left: 36px;
+}

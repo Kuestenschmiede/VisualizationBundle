@@ -65,6 +65,22 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'watermark_legend'  => 'Wasserzeichen',
     'ranges_legend'     => 'Wertebereiche',
     'coordinate_system_legend'          => 'Koordinatensystem',
-    'publish_legend'    => 'Veröffentlichung'
-
+    'expert_legend'     => 'Experten-Einstellungen',
+    'publish_legend'    => 'Veröffentlichung',
+    'option_as_first'   => 'als erster',
+    'option_as_last'    => 'als letzter',
+    'option_top_left'   => 'Oben Links',
+    'option_top_middle' => 'Oben Mittig',
+    'option_top_right'  => 'Oben Rechts',
+    'option_bottom_left' => 'Unten Links',
+    'option_bottom_middle' => 'Unten Mittig',
+    'option_bottom_right' => 'Unten Rechts',
+    'option_inner_right_up' => 'innen rechts/oben',
+    'option_inner_middle' => 'innen mittig',
+    'option_inner_left_down' => 'innen links/unten',
+    'option_outer_right_up' => 'außen rechts/oben',
+    'option_outer_middle' => 'außen mittig',
+    'option_outer_left_down' => 'außen links/unten',
+    'option_nominal_values' => 'Nominalwerte',
+    'option_temporal_values' => 'Zeitwerte'
 ];

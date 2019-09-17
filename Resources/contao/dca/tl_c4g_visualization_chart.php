@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You cannot access this file directly!');
+<?php
 /*
  * This file is part of con4gis,
  * the gis-kit for Contao CMS.
@@ -12,14 +12,14 @@
  */
 
 $palettes = [
-    'general' => '{general_legend},backendtitle,frontendtitle,xValueCharacter,',
-    'zoom' => 'zoom;',
-    'element' => '{element_legend},elementWizard;',
-    'watermark' => '{watermark_legend},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;',
+    'general' => '{general_legend},backendtitle,xValueCharacter,',
+    'elements' => 'elementWizard;',
     'ranges_nominal' => '{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData;',
     'ranges_time' => '{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData;',
-    'coordinate_system_nominal' => '{coordinate_system_legend:hide},swapAxes,xshow,xLabelText,xLabelPosition,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
-    'coordinate_system_time' => '{coordinate_system_legend:hide},swapAxes,xshow,xLabelText,xLabelPosition,xTimeFormat,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
+    'coordinate_system_nominal' => '{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
+    'coordinate_system_time' => '{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xTimeFormat,yshow,yInverted,yLabelText,yLabelPosition,y2show,y2Inverted,y2LabelText,y2LabelPosition;',
+    'watermark' => '{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;',
+    'expert' => '{expert_legend:hide},zoom;',
     'publish' => '{publish_legend},published;'
 ];
 
@@ -124,10 +124,10 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
 	),
 
     'subpalettes' => [
-        'xValueCharacter_1' => $palettes['zoom'] . $palettes['element'] . $palettes['watermark'] . $palettes['ranges_nominal'] .
-            $palettes['coordinate_system_nominal'] . $palettes['publish'],
-        'xValueCharacter_2' => $palettes['zoom'] . $palettes['element'] . $palettes['watermark'] . $palettes['ranges_time'] .
-            $palettes['coordinate_system_time'] . $palettes['publish'],
+        'xValueCharacter_1' => $palettes['elements'] . $palettes['ranges_nominal'] .
+            $palettes['coordinate_system_nominal'] . $palettes['watermark'] . $palettes['expert'] . $palettes['publish'],
+        'xValueCharacter_2' => $palettes['elements'] . $palettes['ranges_time'] .
+            $palettes['coordinate_system_time'] . $palettes['watermark'] . $palettes['expert'] . $palettes['publish'],
     ],
 
 	// Fields
@@ -202,7 +202,9 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['xTimeFormat'],
             'default'                 => 'd.m.Y',
             'inputType'               => 'text',
-            'eval'                    => [],
+            'eval'                    => [
+                'tl_class'            => 'clr'
+            ],
             'sql'                     => "varchar(255) NOT NULL default 'd.m.Y'"
         ),
         'xRotate' => array
@@ -344,7 +346,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart'] = array
                         'eval'                    => array('includeBlankOption' => true),
                     ),
                 ),
-                'doNotSaveEmpty'    => true,
+                'doNotSaveEmpty'    => true
             ),
         ),
         'image' => array
@@ -557,37 +559,37 @@ class tl_c4g_visualization_chart extends \Backend
 
     public function loadButtonAllPositionOptions(DataContainer $dc) {
         return [
-            '1' => 'als erster',
-            '2' => 'als letzter'
+            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_as_first'],
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_as_last']
         ];
     }
 
     public function loadButtonPositionOptions(DataContainer $dc) {
         return [
-            '1' => 'Oben Links',
-            '2' => 'Oben Mittig',
-            '3' => 'Oben Rechts',
-            '4' => 'Unten Links',
-            '5' => 'Unten Mittig',
-            '6' => 'Unten Rechts',
+            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_top_left'],
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_top_middle'],
+            '3' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_top_right'],
+            '4' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_bottom_left'],
+            '5' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_bottom_middle'],
+            '6' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_bottom_right'],
         ];
     }
 
     public function loadLabelPositionOptions(DataContainer $dc) {
         return [
-            '1' => 'innen rechts/oben',
-            '2' => 'innen mittig',
-            '3' => 'innen links/unten',
-            '4' => 'außen rechts/oben',
-            '5' => 'außen mittig',
-            '6' => 'außen links/unten'
+            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_right_up'],
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_middle'],
+            '3' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_left_down'],
+            '4' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_right_up'],
+            '5' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_middle'],
+            '6' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_left_down']
         ];
     }
 
     public function loadXValueCharacterOptions(DataContainer $dc) {
         return [
-            '1' => 'Nominalwerte',
-            '2' => 'Zeitwerte',
+            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_nominal_values'],
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_temporal_values'],
         ];
     }
 
