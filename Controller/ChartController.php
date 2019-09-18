@@ -105,38 +105,51 @@ class ChartController extends AbstractController
                                     }
                                     break;
                                 case ChartElement::ORIGIN_TABLE:
-                                    $table = $elementModel->table;
-                                    $x = $elementModel->tablex;
-                                    $database = Database::getInstance();
-                                    if ($rangeModels instanceof Collection && $chartModel->loadOutOfRangeData !== '1') {
-                                        $fromX = 0;
-                                        $toX = 0;
-                                        foreach ($rangeModels as $model) {
-                                            if ($fromX === 0 || $fromX > $model->fromX) {
-                                                $fromX = $model->fromX;
-                                            }
+                                    try {
+                                        $table = $elementModel->table;
+                                        $x = $elementModel->tablex;
+                                        $database = Database::getInstance();
+                                        if ($rangeModels instanceof Collection && $chartModel->loadOutOfRangeData !== '1') {
+                                            $fromX = 0;
+                                            $toX = 0;
+                                            foreach ($rangeModels as $model) {
+                                                if ($fromX === 0 || $fromX > $model->fromX) {
+                                                    $fromX = $model->fromX;
+                                                }
 
-                                            if ($toX === 0 || $toX < $model->toX) {
-                                                $toX = $model->toX;
+                                                if ($toX === 0 || $toX < $model->toX) {
+                                                    $toX = $model->toX;
+                                                }
                                             }
+                                            $query = "SELECT * FROM $table WHERE $x >= ? AND $x <= ?";
+                                            $additionalWhereString = $this->createAdditionalWhereString($elementModel);
+                                            if ($additionalWhereString !== '') {
+                                                $query .= " AND " . $additionalWhereString;
+                                            }
+                                            $stmt = $database->prepare($query);
+                                            $result = $stmt->execute($fromX, $toX);
+                                            $arrResult = $result->fetchAllAssoc();
+                                            if (!$arrResult || count($arrResult) <= 0) {
+                                                continue 2;
+                                            }
+                                            $source = new Source($arrResult);
+                                        } else {
+                                            $query = "SELECT * FROM " . $table;
+                                            $additionalWhereString = $this->createAdditionalWhereString($elementModel);
+                                            if ($additionalWhereString !== '') {
+                                                $query .= " WHERE " . $additionalWhereString;
+                                            }
+                                            $stmt = $database->prepare($query);
+                                            $result = $stmt->execute();
+                                            $arrResult = $result->fetchAllAssoc();
+                                            if (!$arrResult || count($arrResult) <= 0) {
+                                                continue 2;
+                                            }
+                                            $source = new Source($arrResult);
                                         }
-                                        $query = "SELECT * FROM $table WHERE $x >= ? AND $x <= ?";
-                                        $additionalWhereString = $this->createAdditionalWhereString($elementModel);
-                                        if ($additionalWhereString !== '') {
-                                            $query .= " AND " . $additionalWhereString;
-                                        }
-                                        $stmt = $database->prepare($query);
-                                        $result = $stmt->execute($fromX, $toX);
-                                        $source = new Source($result->fetchAllAssoc());
-                                    } else {
-                                        $query = "SELECT * FROM " . $table;
-                                        $additionalWhereString = $this->createAdditionalWhereString($elementModel);
-                                        if ($additionalWhereString !== '') {
-                                            $query .= " WHERE " . $additionalWhereString;
-                                        }
-                                        $stmt = $database->prepare($query);
-                                        $result = $stmt->execute();
-                                        $source = new Source($result->fetchAllAssoc());
+                                    } catch (\Throwable $throwable) {
+                                        $this->log($throwable);
+                                        continue;
                                     }
                                     break;
                                 default:
