@@ -134,7 +134,7 @@ $fromX = new TextField('fromX', $dca, $rangeWizardNominal);
 $toX = new TextField('toX', $dca, $rangeWizardNominal);
 $defaultRange = new CheckboxField('defaultRange', $dca, $rangeWizardNominal);
 
-$rangeWizardTime = new MultiColumnField('rangeWizardNominal', $dca);
+$rangeWizardTime = new MultiColumnField('rangeWizardTime', $dca);
 $rangeWizardTime->saveCallback('tl_c4g_visualization_chart', 'saveRanges')
     ->loadCallback('tl_c4g_visualization_chart', 'loadRanges');
 $name = new TextField('name', $dca, $rangeWizardTime);
