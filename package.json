@@ -27,8 +27,5 @@
     "echo-loader": "0.0.1",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.6"
-  },
-  "dependencies": {
-    "c3": "^0.7.8"
   }
 }
