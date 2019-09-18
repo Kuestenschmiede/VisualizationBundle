@@ -74,7 +74,9 @@ $xTimeFormat = new TextField('xTimeFormat', $dca);
 $xTimeFormat->default('d.m.Y')->sql("varchar(255) NOT NULL default 'd.m.Y'")->eval()->class('clr');
 $xLabelCount = new NaturalField('xLabelCount', $dca);
 $xLabelCount->default('1')->sql("int(10) unsigned NOT NULL default '1'")
-    ->eval()->maxlength(10)->regEx('natural');
+    ->eval()->maxlength(10)
+        ->regEx('natural')
+        ->class('clr');
 $xRotate = new DigitField('xRotate', $dca);
 $xRotate->eval()->maxlength(10);
 $xLabelText = new TextField('xLabeltext', $dca);
