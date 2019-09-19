@@ -10,6 +10,10 @@
     margin-left: 36px;
 }
 
+#ctrl_rangeWizardTime .wizard {
+    width: 40%;
+}
+
 #ctrl_rangeWizardTime tr input[type='checkbox'] {
     margin-left: 36px;
 }
