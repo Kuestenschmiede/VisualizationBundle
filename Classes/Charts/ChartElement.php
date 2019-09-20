@@ -68,6 +68,7 @@ class ChartElement
 
     private function createEncodableDataPointsArray() {
         $dataPoints = [];
+
         foreach ($this->source as $entry) {
             $dataPoints[] = [
                 'x' => $entry->get($this->x),
@@ -96,8 +97,8 @@ class ChartElement
                 $datetime->setTimestamp($tstamp);
                 $map[$tstamp] = $datetime->format($this->dateTimeFormat);
                 if ($oldFormat != $datetime->format($map[$tstamp])) {
-                    if ($i % $count == 0) {
-                        $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp]);
+                    if (($i % $count == 0) || ($i ==1)) {
+                        $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
                     }
                 }
                 $oldFormat = $datetime->format($map[$tstamp]);
@@ -201,11 +202,12 @@ class ChartElement
         return $this;
     }
 
-    public function mapTimeValues(string $dateTimeFormat, CoordinateSystem $coordinateSystem, Tooltip $tooltip, int $xLabelCount) {
+    public function mapTimeValues(string $dateTimeFormat, CoordinateSystem $coordinateSystem, Tooltip $tooltip, int $xLabelCount = 1, int $xRotate = 0) {
         $this->mapTimeValues = true;
         $this->dateTimeFormat = $dateTimeFormat;
         $this->coordinateSystem = $coordinateSystem;
         $this->toolTip = $tooltip;
         $this->xLabelCount = $xLabelCount;
+        $this->xRotate = $xRotate;
     }
 }

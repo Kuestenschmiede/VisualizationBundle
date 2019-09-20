@@ -33,6 +33,7 @@ class Axis
     protected $inverted = false;
     protected $ticks = [];
     protected $tickFormattedValue = [];
+    protected $tickRotate = [];
 
     public function createEncodableArray() {
         $array = [];
@@ -108,6 +109,7 @@ class Axis
         if (!empty($this->ticks) === true) {
             $array['tick']['values'] = $this->ticks;
             $array['tick']['format'] = $this->tickFormattedValue;
+            $array['tick']['rotate'] = $this->rotate;
         }
 
         return $array;
@@ -175,10 +177,11 @@ class Axis
         return $this;
     }
 
-    public function setTickValue(int $value, string $formattedValue) {
+    public function setTickValue(int $value, string $formattedValue, int $rotate = 0) {
         if (in_array($value, $this->ticks) === false) {
             $this->ticks[] = $value;
             $this->tickFormattedValue[$value] = $formattedValue;
+            $this->rotate = $rotate;
         }
     }
 }

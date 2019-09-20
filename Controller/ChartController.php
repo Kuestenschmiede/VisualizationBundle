@@ -57,9 +57,7 @@ class ChartController extends AbstractController
                     $chart->setCoordinateSystem($coordinateSystem);
                     if ($chartModel->xshow === '1') {
                         $coordinateSystem->x()->setShow(true);
-//                        $coordinateSystem->x()->setTickValue(1546415101, 'Foobar');
                         if (is_string($chartModel->xLabelText) === true) {
-                            $coordinateSystem->x()->setRotate(intval($chartModel->xRotate));
                             $coordinateSystem->x()->setLabel($chartModel->xLabelText, intval($chartModel->xLabelPosition));
                         }
                     }
@@ -168,7 +166,7 @@ class ChartController extends AbstractController
                                 $element->setX($elementModel->tablex)->setY($elementModel->tabley);
                             }
                             if ($chartModel->xValueCharacter === '2') {
-                                $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $tooltip, $chartModel->xLabelCount);
+                                $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $tooltip, $chartModel->xLabelCount, intval($chartModel->xRotate));
                             }
                             if ($elementModel->groupIdenticalX === '1') {
                                 $element->addTransformer(new GroupIdenticalXTransformer());

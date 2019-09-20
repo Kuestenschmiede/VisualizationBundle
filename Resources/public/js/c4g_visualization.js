@@ -42,6 +42,14 @@ class Vis {
                         };
                     }
 
+                    if (typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.rotate !== 'undefined') {
+                        chart.rotate = responseJson.axis.x.tick.rotate;
+                        chart.json.axis.x.tick.rotate = function (x) {
+                            let chrt = scope.getChartByBindId(element.id);
+                            return chrt.rotate[x];
+                        };
+                    }
+
                     scope.charts.push(chart);
 
                     chart.update();
