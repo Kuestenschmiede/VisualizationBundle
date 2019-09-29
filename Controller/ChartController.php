@@ -147,7 +147,7 @@ class ChartController extends AbstractController
                                         }
                                     } catch (\Throwable $throwable) {
                                         $this->log($throwable);
-                                        continue;
+                                        continue 2;
                                     }
                                     break;
                                 default:
