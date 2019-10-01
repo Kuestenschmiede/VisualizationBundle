@@ -95,7 +95,7 @@ $yLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositio
 $yLabelPosition->eval()->class('w50');
 
 $y2Show = new CheckboxField('y2show', $dca);
-$y2Show->default(true);
+$y2Show->default(false);
 $y2Inverted = new CheckboxField('y2Inverted', $dca);
 $y2LabelText = new TextField('y2Labeltext', $dca);
 $y2LabelText->eval()->class('w50');
