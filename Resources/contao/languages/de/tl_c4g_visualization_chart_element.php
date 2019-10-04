@@ -53,5 +53,5 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'option_load_from_table' => 'Aus Tabelle laden',
     'option_line' => 'Linie',
     'option_pie' => 'Kuchenstück',
-    'option_bar' => 'Balken',
+    'option_bar' => 'Balken / Säulen',
 ];
