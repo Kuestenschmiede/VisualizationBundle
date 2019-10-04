@@ -78,7 +78,8 @@ $xLabelCount->default('1')->sql("int(10) unsigned NOT NULL default '1'")
         ->regEx('natural')
         ->class('clr');
 $xRotate = new DigitField('xRotate', $dca);
-$xRotate->eval()->maxlength(10);
+$xRotate->eval()->maxlength(10)
+    ->class('clr');
 $xLabelText = new TextField('xLabeltext', $dca);
 $xLabelText->eval()->class('w50');
 $xLabelPosition = new SelectField('xLabelPosition', $dca);
