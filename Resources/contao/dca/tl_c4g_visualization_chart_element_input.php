@@ -19,8 +19,8 @@ use con4gis\CoreBundle\Classes\DCA\Fields\SQLField;
 $dca = new DCA('tl_c4g_visualization_chart_element_input');
 new IdField('id', $dca);
 new SQLField('elementId', $dca, "int(10) unsigned NOT NULL");
-new SQLField('x', $dca, "DECIMAL(20,10) unsigned NOT NULL default 0.0");
-new SQLField('y', $dca, "DECIMAL(20,10) unsigned NOT NULL default 0.0");
+new SQLField('x', $dca, "DECIMAL(20,10) signed NOT NULL default 0.0");
+new SQLField('y', $dca, "DECIMAL(20,10) signed NOT NULL default 0.0");
 
 /**
  * Class tl_c4g_visualization_chart_element_input
