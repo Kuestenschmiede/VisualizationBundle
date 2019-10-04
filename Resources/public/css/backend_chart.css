@@ -10,7 +10,8 @@
     margin-left: 36px;
 }
 
-#ctrl_rangeWizardTime .wizard {
+#ctrl_rangeWizardTime .wizard,
+#ctrl_rangeWizardNominal td:not(:first-child) {
     width: 40%;
 }
 
