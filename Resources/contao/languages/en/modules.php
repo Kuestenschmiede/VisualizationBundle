@@ -11,10 +11,8 @@
  * @link       https://www.con4gis.org
  */
 
-$GLOBALS['TL_LANG']['MOD']['con4gis_visualization'] = array('con4gis '.$GLOBALS['con4gis']['version'].' - Charts');
-
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['tl_c4g_visualization_chart'] 			    = ['Charts', 'Create and manage charts'];
-$GLOBALS['TL_LANG']['MOD']['tl_c4g_visualization_chart_element'] 	    = ['Chart elements', 'Create and manage chart elements'];
+$GLOBALS['TL_LANG']['MOD']['c4g_visualization_chart'] 			    = ['Charts', 'Create and manage charts'];
+$GLOBALS['TL_LANG']['MOD']['c4g_visualization_chart_element'] 	    = ['Chart elements', 'Create and manage chart elements'];

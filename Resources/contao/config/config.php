@@ -18,21 +18,24 @@ $GLOBALS['con4gis']['visualization']['installed'] = true;
 /**
  * Backend modules
  */
-array_insert($GLOBALS['BE_MOD'], array_search('con4gis_core', array_keys($GLOBALS['BE_MOD'])) + 2,
-    ['con4gis_visualization' => [
-        'tl_c4g_visualization_chart' => array
+$GLOBALS['BE_MOD']['con4gis'] = array_merge($GLOBALS['BE_MOD']['con4gis'], [
+        'c4g_visualization_chart' => array
         (
             'tables' 		=> array('tl_c4g_visualization_chart'),
             'stylesheet' => 'bundles/con4gisvisualization/css/backend_chart.css'
         ),
-        'tl_c4g_visualization_chart_element' => array
+        'c4g_visualization_chart_element' => array
         (
             'tables' 		=> array('tl_c4g_visualization_chart_element'),
             'stylesheet' => 'bundles/con4gisvisualization/css/backend_chart_element.css'
         ),
 
-    ]]
+    ]
 );
+
+if(TL_MODE == "BE") {
+    $GLOBALS['TL_CSS'][] = '/bundles/con4gisvisualization/css/con4gis.css';
+}
 
 /**
  * MODELS
