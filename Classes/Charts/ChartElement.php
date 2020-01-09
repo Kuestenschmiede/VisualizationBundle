@@ -1,15 +1,10 @@
 <?php
 
-
 namespace con4gis\VisualizationBundle\Classes\Charts;
 
-use con4gis\VisualizationBundle\Classes\Charts\Chart;
-use con4gis\VisualizationBundle\Classes\Exceptions\InvalidElementTypeException;
-use con4gis\VisualizationBundle\Classes\Exceptions\InvalidSourceTypeException;
 use con4gis\VisualizationBundle\Classes\Labels\Label;
 use con4gis\VisualizationBundle\Classes\Source\Source;
 use con4gis\VisualizationBundle\Classes\Transformers\Transformer;
-use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 
 class ChartElement
 {
@@ -45,10 +40,11 @@ class ChartElement
         $this->source = $source;
     }
 
-    public function createEncodableArray($showLegend = false) {
+    public function createEncodableArray($showLegend = false)
+    {
         $array = [
             'type' => $this->type,
-            'dataPoints' => $this->createEncodableDataPointsArray()
+            'dataPoints' => $this->createEncodableDataPointsArray(),
         ];
 
 //        if ($showLegend === true && $this->showInLegend === true) {
@@ -66,7 +62,8 @@ class ChartElement
         return $array;
     }
 
-    private function createEncodableDataPointsArray() {
+    private function createEncodableDataPointsArray()
+    {
         $dataPoints = [];
 
         foreach ($this->source as $entry) {
@@ -86,18 +83,17 @@ class ChartElement
             $count = $this->xLabelCount;
             $i = 0;
             $oldFormat = '';
-            $oldstamp  = '';
+            $oldstamp = '';
             foreach ($dataPoints as $dataPoint) {
-
                 $tstamp = $dataPoint['x'];
                 if ($tstamp != $oldstamp) {
-                  $i++;
+                    $i++;
                 }
 
                 $datetime->setTimestamp($tstamp);
                 $map[$tstamp] = $datetime->format($this->dateTimeFormat);
                 if ($oldFormat != $datetime->format($map[$tstamp])) {
-                    if (($i % $count == 0) || ($i ==1)) {
+                    if (($i % $count == 0) || ($i == 1)) {
                         $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
                     }
                 }
@@ -123,6 +119,7 @@ class ChartElement
     public function setX(string $x): ChartElement
     {
         $this->x = $x;
+
         return $this;
     }
 
@@ -133,6 +130,7 @@ class ChartElement
     public function setY(string $y): ChartElement
     {
         $this->y = $y;
+
         return $this;
     }
 
@@ -143,6 +141,7 @@ class ChartElement
     public function setShowInLegend(bool $showInLegend = true): ChartElement
     {
         $this->showInLegend = $showInLegend;
+
         return $this;
     }
 
@@ -153,6 +152,7 @@ class ChartElement
     public function setName(string $name): ChartElement
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -163,24 +163,31 @@ class ChartElement
     public function setGroup(int $group): ChartElement
     {
         $this->group = $group;
+
         return $this;
     }
 
-    public function addTransformer(Transformer $transformer) {
+    public function addTransformer(Transformer $transformer)
+    {
         $this->transformers[] = $transformer;
+
         return $this;
     }
 
-    public function transform(Transformer $transformer) {
+    public function transform(Transformer $transformer)
+    {
         return $this->addTransformer($transformer);
     }
 
-    public function addLabel(Label $label) {
+    public function addLabel(Label $label)
+    {
         $this->labels[] = $label;
+
         return $this;
     }
 
-    public function label(Label $label) {
+    public function label(Label $label)
+    {
         return $this->addLabel($label);
     }
 
@@ -198,11 +205,13 @@ class ChartElement
      */
     public function setColor(string $color): ChartElement
     {
-        $this->color = '#'.$color;
+        $this->color = '#' . $color;
+
         return $this;
     }
 
-    public function mapTimeValues(string $dateTimeFormat, CoordinateSystem $coordinateSystem, Tooltip $tooltip, int $xLabelCount = 1, int $xRotate = 0) {
+    public function mapTimeValues(string $dateTimeFormat, CoordinateSystem $coordinateSystem, Tooltip $tooltip, int $xLabelCount = 1, int $xRotate = 0)
+    {
         $this->mapTimeValues = true;
         $this->dateTimeFormat = $dateTimeFormat;
         $this->coordinateSystem = $coordinateSystem;

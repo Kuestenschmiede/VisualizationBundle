@@ -1,8 +1,6 @@
 <?php
 
-
 namespace con4gis\VisualizationBundle\Classes\Charts;
-
 
 class Axis
 {
@@ -35,7 +33,8 @@ class Axis
     protected $tickFormattedValue = [];
     protected $tickRotate = [];
 
-    public function createEncodableArray() {
+    public function createEncodableArray()
+    {
         $array = [];
         $array['show'] = $this->show;
 
@@ -48,53 +47,66 @@ class Axis
         }
 
         if (($this->labelText !== '') && ($this->labelPosition !== 0)) {
-
             if ($this->horizontal === true) {
                 switch ($this->labelPosition) {
                     case 1:
                         $position = static::LABEL_POSITION_INNER_RIGHT;
-                        breaK;
+
+                        break;
                     case 2:
                         $position = static::LABEL_POSITION_INNER_CENTER;
-                        breaK;
+
+                        break;
                     case 3:
                         $position = static::LABEL_POSITION_INNER_LEFT;
-                        breaK;
+
+                        break;
                     case 4:
                         $position = static::LABEL_POSITION_OUTER_RIGHT;
-                        breaK;
+
+                        break;
                     case 5:
                         $position = static::LABEL_POSITION_OUTER_CENTER;
-                        breaK;
+
+                        break;
                     case 6:
                         $position = static::LABEL_POSITION_OUTER_LEFT;
-                        breaK;
+
+                        break;
                     default:
                         $position = static::LABEL_POSITION_INNER_RIGHT;
+
                         break;
                 }
             } else {
                 switch ($this->labelPosition) {
                     case 1:
                         $position = static::LABEL_POSITION_INNER_UP;
-                        breaK;
+
+                        break;
                     case 2:
                         $position = static::LABEL_POSITION_INNER_MIDDLE;
-                        breaK;
+
+                        break;
                     case 3:
                         $position = static::LABEL_POSITION_INNER_DOWN;
-                        breaK;
+
+                        break;
                     case 4:
                         $position = static::LABEL_POSITION_OUTER_UP;
-                        breaK;
+
+                        break;
                     case 5:
                         $position = static::LABEL_POSITION_OUTER_MIDDLE;
-                        breaK;
+
+                        break;
                     case 6:
                         $position = static::LABEL_POSITION_OUTER_DOWN;
-                        breaK;
+
+                        break;
                     default:
                         $position = static::LABEL_POSITION_INNER_UP;
+
                         break;
                 }
             }
@@ -122,6 +134,7 @@ class Axis
     public function setHorizontal(bool $horizontal = true): Axis
     {
         $this->horizontal = $horizontal;
+
         return $this;
     }
 
@@ -132,6 +145,7 @@ class Axis
     public function setShow(bool $show = true): Axis
     {
         $this->show = $show;
+
         return $this;
     }
 
@@ -142,6 +156,7 @@ class Axis
     public function setScale(string $scale): Axis
     {
         $this->scale = $scale;
+
         return $this;
     }
 
@@ -152,6 +167,7 @@ class Axis
     public function setRotate(int $rotate): Axis
     {
         $this->rotate = $rotate;
+
         return $this;
     }
 
@@ -162,8 +178,9 @@ class Axis
      */
     public function setLabel(string $text, int $position): Axis
     {
-        $this->labelText =  $text;
-        $this->labelPosition =  $position;
+        $this->labelText = $text;
+        $this->labelPosition = $position;
+
         return $this;
     }
 
@@ -174,10 +191,12 @@ class Axis
     public function setInverted(bool $inverted = true): Axis
     {
         $this->inverted = $inverted;
+
         return $this;
     }
 
-    public function setTickValue(int $value, string $formattedValue, int $rotate = 0) {
+    public function setTickValue(int $value, string $formattedValue, int $rotate = 0)
+    {
         if (in_array($value, $this->ticks) === false) {
             $this->ticks[] = $value;
             $this->tickFormattedValue[$value] = $formattedValue;

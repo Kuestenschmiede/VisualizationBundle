@@ -1,6 +1,5 @@
 <?php
 
-
 namespace con4gis\VisualizationBundle\Classes\Labels;
 
 class AllLabel extends Label
@@ -15,6 +14,7 @@ class AllLabel extends Label
         foreach ($dataPoints as $key => $value) {
             $dataPoints[$key]['indexLabel'] = $this->label;
         }
+
         return $dataPoints;
     }
 }

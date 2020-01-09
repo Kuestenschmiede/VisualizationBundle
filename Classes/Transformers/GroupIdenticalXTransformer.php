@@ -1,8 +1,6 @@
 <?php
 
-
 namespace con4gis\VisualizationBundle\Classes\Transformers;
-
 
 class GroupIdenticalXTransformer implements Transformer
 {
@@ -25,11 +23,11 @@ class GroupIdenticalXTransformer implements Transformer
         while ($i < count($xValues)) {
             $grouped[] = [
                 'x' => $xValues[$i],
-                'y' => $yValues[$i]
+                'y' => $yValues[$i],
             ];
             $i += 1;
         }
+
         return $grouped;
     }
-
 }

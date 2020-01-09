@@ -1,6 +1,5 @@
 <?php
 
-
 namespace con4gis\VisualizationBundle\Classes\Labels;
 
 abstract class Label
@@ -14,5 +13,5 @@ abstract class Label
     protected $color;
     protected $placement;
 
-    public abstract function label(array $dataPoints): array;
+    abstract public function label(array $dataPoints): array;
 }

@@ -6,7 +6,8 @@ class Interpolator implements Transformer
 {
     protected $interval = 1;
 
-    public function __construct(int $interval) {
+    public function __construct(int $interval)
+    {
         $this->interval = $interval;
     }
 
@@ -19,7 +20,6 @@ class Interpolator implements Transformer
         $size = sizeof($dataPoints);
         $index = 1;
         while ($index <= ($size - 1)) {
-
             $x1 = $dataPoints[$index - 1]['x'];
             $x2 = $dataPoints[$index]['x'];
             $y1 = $dataPoints[$index - 1]['y'];
@@ -49,6 +49,7 @@ class Interpolator implements Transformer
 
             $index += 1;
         }
+
         return $interpolated;
     }
 }

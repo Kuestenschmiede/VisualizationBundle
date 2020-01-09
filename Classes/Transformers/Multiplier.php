@@ -1,8 +1,6 @@
 <?php
 
-
 namespace con4gis\VisualizationBundle\Classes\Transformers;
-
 
 class Multiplier implements Transformer
 {
@@ -24,7 +22,7 @@ class Multiplier implements Transformer
         foreach ($dataPoints as $key => $value) {
             $dataPoints[$key][$this->axis] = $value[$this->axis] * $this->factor;
         }
+
         return $dataPoints;
     }
-
 }

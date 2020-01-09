@@ -1,8 +1,6 @@
 <?php
 
-
 namespace con4gis\VisualizationBundle\Classes\Source;
-
 
 class Entry
 {
@@ -13,7 +11,8 @@ class Entry
         $this->values = $array;
     }
 
-    public function get($index) {
+    public function get($index)
+    {
         return $this->values[$index];
     }
 }

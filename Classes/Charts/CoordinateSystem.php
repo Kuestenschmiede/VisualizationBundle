@@ -1,8 +1,6 @@
 <?php
 
-
 namespace con4gis\VisualizationBundle\Classes\Charts;
-
 
 class CoordinateSystem
 {
@@ -16,7 +14,8 @@ class CoordinateSystem
         $this->axes['y2'] = $y2->setHorizontal(false);
     }
 
-    public function createEncodableArray() {
+    public function createEncodableArray()
+    {
         $array = [];
         $array['rotated'] = $this->rotated;
 
@@ -37,19 +36,22 @@ class CoordinateSystem
     public function setRotated(bool $rotated): CoordinateSystem
     {
         $this->rotated = $rotated;
+
         return $this;
     }
 
-    public function x() : Axis {
+    public function x() : Axis
+    {
         return $this->axes['x'];
     }
 
-    public function y() : Axis {
+    public function y() : Axis
+    {
         return $this->axes['y'];
     }
 
-    public function y2() : Axis {
+    public function y2() : Axis
+    {
         return $this->axes['y2'];
     }
-
 }
