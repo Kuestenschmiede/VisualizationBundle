@@ -15,3 +15,7 @@
 li .c4g_visualization_chart, li .c4g_visualization_chart_element {
   display: none !important;
 }
+
+li .active .c4g_visualization_chart, li .active .c4g_visualization_chart_element {
+  display: block !important;
+}

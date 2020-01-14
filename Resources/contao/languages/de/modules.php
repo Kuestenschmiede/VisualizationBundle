@@ -14,5 +14,5 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['c4g_visualization_chart'] 			    = ['Grafiken', 'Grafiken erstellen und verwalten'];
-$GLOBALS['TL_LANG']['MOD']['c4g_visualization_chart_element'] 	    = ['Grafikelemente', 'Grafikelemente erstellen und verwalten'];
+$GLOBALS['TL_LANG']['MOD']['c4g_visualization_chart'] 			    = ['Visualization: Grafiken', 'Grafiken erstellen und verwalten'];
+$GLOBALS['TL_LANG']['MOD']['c4g_visualization_chart_element'] 	    = ['Visualization: Grafikelemente', 'Grafikelemente erstellen und verwalten'];
