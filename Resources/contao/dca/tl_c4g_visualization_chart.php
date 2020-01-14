@@ -24,14 +24,14 @@ use con4gis\CoreBundle\Classes\DCA\Fields\TextField;
 
 $palettes = [
     'general' => '{general_legend},backendtitle,xValueCharacter,',
-    'elements' => 'elementWizard;',
-    'ranges_nominal' => '{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData;',
-    'ranges_time' => '{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData;',
-    'coordinate_system_nominal' => '{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition;', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
-    'coordinate_system_time' => '{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition;', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
-    'watermark' => '{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity;',
-    'expert' => '{expert_legend:hide},zoom;',
-    'publish' => '{publish_legend},published;'
+    'elements' => 'elementWizard',
+    'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData',
+    'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData',
+    'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
+    'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
+    'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
+    'expert' => ';{expert_legend:hide},zoom',
+    'publish' => ';{publish_legend},published'
 ];
 
 /**
@@ -80,7 +80,7 @@ $xLabelCount->default('1')->sql("int(10) unsigned NOT NULL default '1'")
 $xRotate = new DigitField('xRotate', $dca);
 $xRotate->eval()->maxlength(10)
     ->class('clr');
-$xLabelText = new TextField('xLabeltext', $dca);
+$xLabelText = new TextField('xLabelText', $dca);
 $xLabelText->eval()->class('w50');
 $xLabelPosition = new SelectField('xLabelPosition', $dca);
 $xLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
@@ -89,7 +89,7 @@ $xLabelPosition->eval()->class('w50');
 $yShow = new CheckboxField('yshow', $dca);
 $yShow->default(true);
 $yInverted = new CheckboxField('yInverted', $dca);
-$yLabelText = new TextField('yLabeltext', $dca);
+$yLabelText = new TextField('yLabelText', $dca);
 $yLabelText->eval()->class('w50');
 $yLabelPosition = new SelectField('yLabelPosition', $dca);
 $yLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
