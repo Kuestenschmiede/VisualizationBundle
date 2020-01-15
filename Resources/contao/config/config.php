@@ -11,11 +11,6 @@
  * @link       https://www.con4gis.org
  */
 /**
- * Global settings
- */
-$GLOBALS['con4gis']['visualization']['installed'] = true;
-
-/**
  * Backend modules
  */
 $GLOBALS['BE_MOD']['con4gis'] = array_merge($GLOBALS['BE_MOD']['con4gis'], [
