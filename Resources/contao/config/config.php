@@ -14,17 +14,20 @@
  * Backend modules
  */
 $GLOBALS['BE_MOD']['con4gis'] = array_merge($GLOBALS['BE_MOD']['con4gis'], [
-        'c4g_visualization_chart' => array
-        (
-            'tables' 		=> array('tl_c4g_visualization_chart'),
-            'stylesheet' => 'bundles/con4gisvisualization/css/backend_chart.css'
-        ),
         'c4g_visualization_chart_element' => array
         (
-            'tables' 		=> array('tl_c4g_visualization_chart_element'),
-            'stylesheet' => 'bundles/con4gisvisualization/css/backend_chart_element.css'
+            'brick' => 'visualization',
+            'tables' => array('tl_c4g_visualization_chart_element'),
+            'stylesheet' => 'bundles/con4gisvisualization/css/backend_chart_element.css',
+            'icon' => 'bundles/con4gisvisualization/images/be-icons/charts.svg'
         ),
-
+        'c4g_visualization_chart' => array
+        (
+            'brick' => 'visualization',
+            'tables' => array('tl_c4g_visualization_chart'),
+            'stylesheet' => 'bundles/con4gisvisualization/css/backend_chart.css',
+            'icon' => 'bundles/con4gisvisualization/images/be-icons/grafic.svg'
+        ),
     ]
 );
 
