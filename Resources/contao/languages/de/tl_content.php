@@ -13,5 +13,5 @@
 
 $GLOBALS['TL_LANG']['tl_content']['chart_legend'] = 'Grafik';
 $GLOBALS['TL_LANG']['tl_content']['c4g_visualization'] = [
-    'chartID' => ['Grafik', 'Wählen Sie die anzuzeigende Grafik.'],
+    'chartID' => ['Grafik (con4gis/visualization)', 'Wählen Sie die anzuzeigende Grafik.'],
 ];

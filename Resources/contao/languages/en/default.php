@@ -11,4 +11,4 @@
  * @link       https://www.con4gis.org
  */
 
-$GLOBALS['TL_LANG']['CTE']['c4g_visualization'] = ['Chart'];
+$GLOBALS['TL_LANG']['CTE']['c4g_visualization'] = ['Chart (con4gis/visualization)'];
