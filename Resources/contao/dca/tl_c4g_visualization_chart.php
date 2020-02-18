@@ -57,19 +57,50 @@ $dca->palette()->subPalette(
     $palettes['coordinate_system_time'] . $palettes['watermark'] . $palettes['expert'] . $palettes['publish']);
 
 $id = new IdField('id', $dca);
-$published = new CheckboxField('published', $dca);
-$published->default(true);
+
 $tstamp = new NaturalField('tstamp', $dca);
 $backendTitle = new TextField('backendtitle', $dca);
 $backendTitle->search()->sorting();
-$zoom = new CheckboxField('zoom', $dca);
+
 $xValueCharacter = new SelectField('xValueCharacter', $dca);
 $xValueCharacter->optionsCallback('tl_c4g_visualization_chart', 'loadXValueCharacterOptions')
     ->eval()->submitOnChange();
-$swapAxes = new CheckboxField('swapAxes', $dca);
 
+$elementWizard = new MultiColumnField('elementWizard', $dca);
+$elementWizard->saveCallback('tl_c4g_visualization_chart', 'saveElements')
+    ->loadCallback('tl_c4g_visualization_chart', 'loadElements');
+$elementId = new SelectField('elementId', $dca, $elementWizard);
+$elementId->foreignKey('tl_c4g_visualization_chart_element', 'backendtitle')->eval()->includeBlankOption();
+
+$rangeWizardNominal = new MultiColumnField('rangeWizardNominal', $dca);
+$rangeWizardNominal->saveCallback('tl_c4g_visualization_chart', 'saveRanges')
+    ->loadCallback('tl_c4g_visualization_chart', 'loadRanges');
+$name = new TextField('name', $dca, $rangeWizardNominal);
+$fromX = new TextField('fromX', $dca, $rangeWizardNominal);
+$toX = new TextField('toX', $dca, $rangeWizardNominal);
+$defaultRange = new CheckboxField('defaultRange', $dca, $rangeWizardNominal);
+
+$rangeWizardTime = new MultiColumnField('rangeWizardTime', $dca);
+$rangeWizardTime->saveCallback('tl_c4g_visualization_chart', 'saveRanges')
+    ->loadCallback('tl_c4g_visualization_chart', 'loadRanges');
+$name = new TextField('name', $dca, $rangeWizardTime);
+$fromX = new DatePickerField('fromX', $dca, $rangeWizardTime);
+$toX = new DatePickerField('toX', $dca, $rangeWizardTime);
+$defaultRange = new CheckboxField('defaultRange', $dca, $rangeWizardTime);
+
+$buttonAllCaption = new TextField('buttonAllCaption', $dca);
+$buttonPosition = new SelectField('buttonPosition', $dca);
+$buttonPosition->optionsCallback('tl_c4g_visualization_chart', 'loadButtonPositionOptions')
+    ->eval()->class('w50');
+$buttonAllPosition = new SelectField('buttonAllPosition', $dca);
+$buttonAllPosition->optionsCallback('tl_c4g_visualization_chart', 'loadButtonAllPositionOptions')
+    ->default('2')->sql("char(1) NOT NULL default '2'")->eval()->class('w50');
+$loadOutOfRangeData = new CheckboxField('loadOutOfRangeData', $dca);
+
+$swapAxes = new CheckboxField('swapAxes', $dca);
 $xShow = new CheckboxField('xshow', $dca);
 $xShow->default(true);
+$xLabelText = new TextField('xLabelText', $dca);
 $xTimeFormat = new TextField('xTimeFormat', $dca);
 $xTimeFormat->default('d.m.Y')->sql("varchar(255) NOT NULL default 'd.m.Y'")->eval()->class('clr');
 $xLabelCount = new NaturalField('xLabelCount', $dca);
@@ -80,7 +111,6 @@ $xLabelCount->default('1')->sql("int(10) unsigned NOT NULL default '1'")
 $xRotate = new DigitField('xRotate', $dca);
 $xRotate->eval()->maxlength(10)
     ->class('clr');
-$xLabelText = new TextField('xLabelText', $dca);
 $xLabelText->eval()->class('w50');
 $xLabelPosition = new SelectField('xLabelPosition', $dca);
 $xLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
@@ -98,17 +128,11 @@ $yLabelPosition->eval()->class('w50');
 $y2Show = new CheckboxField('y2show', $dca);
 $y2Show->default(false);
 $y2Inverted = new CheckboxField('y2Inverted', $dca);
-$y2LabelText = new TextField('y2Labeltext', $dca);
+$y2LabelText = new TextField('y2LabelText', $dca);
 $y2LabelText->eval()->class('w50');
 $y2LabelPosition = new SelectField('y2LabelPosition', $dca);
 $y2LabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
 $y2LabelPosition->eval()->class('w50');
-
-$elementWizard = new MultiColumnField('elementWizard', $dca);
-$elementWizard->saveCallback('tl_c4g_visualization_chart', 'saveElements')
-    ->loadCallback('tl_c4g_visualization_chart', 'loadElements');
-$elementId = new SelectField('elementId', $dca, $elementWizard);
-$elementId->foreignKey('tl_c4g_visualization_chart_element', 'backendtitle')->eval()->includeBlankOption();
 
 $image = new ImageField('image', $dca);
 $image->saveCallback('tl_c4g_visualization_chart', 'changeFileBinToUuid');
@@ -129,29 +153,11 @@ $imageOpacity = new NaturalField('imageOpacity', $dca);
 $imageOpacity->default('80')->sql("int(10) unsigned NOT NULL default '80'")
     ->eval()->maxlength(10)->class('clr');
 
-$rangeWizardNominal = new MultiColumnField('rangeWizardNominal', $dca);
-$rangeWizardNominal->saveCallback('tl_c4g_visualization_chart', 'saveRanges')
-    ->loadCallback('tl_c4g_visualization_chart', 'loadRanges');
-$name = new TextField('name', $dca, $rangeWizardNominal);
-$fromX = new TextField('fromX', $dca, $rangeWizardNominal);
-$toX = new TextField('toX', $dca, $rangeWizardNominal);
-$defaultRange = new CheckboxField('defaultRange', $dca, $rangeWizardNominal);
 
-$rangeWizardTime = new MultiColumnField('rangeWizardTime', $dca);
-$rangeWizardTime->saveCallback('tl_c4g_visualization_chart', 'saveRanges')
-    ->loadCallback('tl_c4g_visualization_chart', 'loadRanges');
-$name = new TextField('name', $dca, $rangeWizardTime);
-$fromX = new DatePickerField('fromX', $dca, $rangeWizardTime);
-$toX = new DatePickerField('toX', $dca, $rangeWizardTime);
-$defaultRange = new CheckboxField('defaultRange', $dca, $rangeWizardTime);
-$buttonAllCaption = new TextField('buttonAllCaption', $dca);
-$buttonPosition = new SelectField('buttonPosition', $dca);
-$buttonPosition->optionsCallback('tl_c4g_visualization_chart', 'loadButtonPositionOptions')
-    ->eval()->class('w50');
-$buttonAllPosition = new SelectField('buttonAllPosition', $dca);
-$buttonAllPosition->optionsCallback('tl_c4g_visualization_chart', 'loadButtonAllPositionOptions')
-    ->default('2')->sql("char(1) NOT NULL default '2'")->eval()->class('w50');
-$loadOutOfRangeData = new CheckboxField('loadOutOfRangeData', $dca);
+$zoom = new CheckboxField('zoom', $dca);
+
+$published = new CheckboxField('published', $dca);
+$published->default(true);
 
 /**
  * Class tl_c4g_visualization_chart

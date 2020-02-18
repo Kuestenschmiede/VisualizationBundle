@@ -38,14 +38,13 @@ $dca->palette()->selector(['origin'])
     ->subPalette('origin', '2', 'table,tablex,tabley,whereWizard');
 
 $id = new IdField('id', $dca);
-$published = new CheckboxField('published', $dca);
-$published->default(true);
 $tStamp = new NaturalField('tstamp', $dca);
-$frontendTitle = new TextField('frontendtitle', $dca);
-$frontendTitle->search()->sorting();
 $backendTitle = new TextField('backendtitle', $dca);
 $backendTitle->search()->sorting();
+$frontendTitle = new TextField('frontendtitle', $dca);
+$frontendTitle->search()->sorting();
 $chartTitles = new LabelField('chartTitles', $dca);
+$chartTitles->exclude(false);
 $color = new ColorPickerField('color', $dca);
 $type = new SelectField('type', $dca);
 $type->sql("varchar(10) NOT NULL default ''")
@@ -100,6 +99,9 @@ $whereComparison->optionsCallback('tl_c4g_visualization_chart_element', 'loadCom
 $whereValue = new TextField('whereValue', $dca, $whereWizard);
 $whereValue->eval()->regEx('alnum');
 $groupIdenticalX = new CheckboxField('groupIdenticalX', $dca);
+
+$published = new CheckboxField('published', $dca);
+$published->default(true);
 
 /**
  * Class tl_c4g_visualization_chart_element
