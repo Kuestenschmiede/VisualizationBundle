@@ -19,6 +19,7 @@ $dca = new DCA('tl_c4g_visualization_chart_element_relation');
 new IdField('id', $dca);
 new SQLField('chartId', $dca, "int(10) unsigned NOT NULL");
 new SQLField('elementId', $dca, "int(10) unsigned NOT NULL");
+$importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
 
 
 /**

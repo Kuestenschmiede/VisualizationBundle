@@ -20,6 +20,7 @@ use con4gis\CoreBundle\Classes\DCA\Fields\LabelField;
 use con4gis\CoreBundle\Classes\DCA\Fields\MultiColumnField;
 use con4gis\CoreBundle\Classes\DCA\Fields\NaturalField;
 use con4gis\CoreBundle\Classes\DCA\Fields\SelectField;
+use con4gis\CoreBundle\Classes\DCA\Fields\SQLField;
 use con4gis\CoreBundle\Classes\DCA\Fields\TextField;
 use con4gis\VisualizationBundle\Classes\Charts\ChartElement;
 
@@ -102,6 +103,8 @@ $groupIdenticalX = new CheckboxField('groupIdenticalX', $dca);
 
 $published = new CheckboxField('published', $dca);
 $published->default(true);
+
+$importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
 
 /**
  * Class tl_c4g_visualization_chart_element

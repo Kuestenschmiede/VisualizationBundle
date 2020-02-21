@@ -20,6 +20,7 @@ use con4gis\CoreBundle\Classes\DCA\Fields\ImageField;
 use con4gis\CoreBundle\Classes\DCA\Fields\MultiColumnField;
 use con4gis\CoreBundle\Classes\DCA\Fields\NaturalField;
 use con4gis\CoreBundle\Classes\DCA\Fields\SelectField;
+use con4gis\CoreBundle\Classes\DCA\Fields\SQLField;
 use con4gis\CoreBundle\Classes\DCA\Fields\TextField;
 
 $palettes = [
@@ -158,6 +159,8 @@ $zoom = new CheckboxField('zoom', $dca);
 
 $published = new CheckboxField('published', $dca);
 $published->default(true);
+
+$importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
 
 /**
  * Class tl_c4g_visualization_chart

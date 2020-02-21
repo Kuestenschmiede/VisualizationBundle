@@ -27,6 +27,7 @@ new SQLField('whereColumn', $dca, "varchar(255) NOT NULL default ''");
 new SQLField('whereComparison', $dca, "char(2) NOT NULL default''");
 new SQLField('whereValue', $dca, "varchar(255) NOT NULL default ''");
 new SQLField('and', $dca, "char(1) NOT NULL default '1'");
+$importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
 
 /**
  * Class tl_c4g_visualization_chart_element_condition
