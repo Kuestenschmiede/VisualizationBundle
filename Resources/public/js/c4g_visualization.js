@@ -1,5 +1,7 @@
 'use strict';
 
+import c3 from 'c3';
+
 class Vis {
 
     constructor() {

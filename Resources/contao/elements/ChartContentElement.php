@@ -33,8 +33,6 @@ class ChartContentElement extends ContentElement
             $this->Template->title      = $this->headline;
             $this->Template->wildcard   = "### $chartModel->backendtitle ###";
         } else {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/js/d3.min.js', ResourceLoader::HEAD);
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/js/c3.min.js', ResourceLoader::HEAD);
             ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/build/c4g_visualization.js', ResourceLoader::HEAD);
             ResourceLoader::loadCssResource('bundles/con4gisvisualization/css/c3.css');
             ResourceLoader::loadCssResource('bundles/con4gisvisualization/css/c4g_visualization.css');
