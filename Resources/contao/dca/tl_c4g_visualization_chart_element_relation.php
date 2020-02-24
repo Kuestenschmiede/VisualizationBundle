@@ -20,6 +20,7 @@ new IdField('id', $dca);
 new SQLField('chartId', $dca, "int(10) unsigned NOT NULL");
 new SQLField('elementId', $dca, "int(10) unsigned NOT NULL");
 $importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
+$importId->eval()->doNotCopy(true);
 
 
 /**

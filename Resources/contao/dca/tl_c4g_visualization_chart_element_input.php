@@ -22,6 +22,7 @@ new SQLField('elementId', $dca, "int(10) unsigned NOT NULL");
 new SQLField('x', $dca, "DECIMAL(20,10) signed NOT NULL default 0.0");
 new SQLField('y', $dca, "DECIMAL(20,10) signed NOT NULL default 0.0");
 $importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
+$importId->eval()->doNotCopy(true);
 
 /**
  * Class tl_c4g_visualization_chart_element_input

@@ -24,6 +24,7 @@ new SQLField('fromX', $dca, "DECIMAL(20,10) unsigned NOT NULL default 0.0");
 new SQLField('toX', $dca, "DECIMAL(20,10) unsigned NOT NULL default 0.0");
 new SQLField('defaultRange', $dca, "CHAR(1) NOT NULL default '0'");
 $importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
+$importId->eval()->doNotCopy(true);
 
 /**
  * Class tl_c4g_visualization_chart_range

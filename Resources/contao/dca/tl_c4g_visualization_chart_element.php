@@ -105,6 +105,7 @@ $published = new CheckboxField('published', $dca);
 $published->default(true);
 
 $importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
+$importId->eval()->doNotCopy(true);
 
 /**
  * Class tl_c4g_visualization_chart_element
