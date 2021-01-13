@@ -41,7 +41,7 @@ class ChartController extends AbstractController
     {
         try {
             $this->get('contao.framework')->initialize();
-            if ($this->authorized() === true) {
+            if ($chartId && $this->authorized() === true) {
                 $chartModel = ChartModel::findByPk($chartId);
                 if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
                     $chart = new Chart();
