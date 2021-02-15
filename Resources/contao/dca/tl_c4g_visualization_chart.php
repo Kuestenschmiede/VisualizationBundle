@@ -275,25 +275,25 @@ class tl_c4g_visualization_chart extends \Backend
                     $input['defaultRange'] = '0';
                 }
 
-                if ($dc->activeRecord->xValueCharacter === '2') {
-
-                    $dateTime = new \DateTime();
-
-                    $array = explode('/', $input['fromX']);
-
-                    $month = $array[0];
-                    $day = $array[1];
-                    $year = $array[2];
-                    $dateTime->setDate($year, $month, $day);
-                    $input['fromX'] = floatval(strtotime('today', $dateTime->getTimestamp()));
-
-                    $array = explode('/', $input['toX']);
-                    $month = $array[0];
-                    $day = $array[1];
-                    $year = $array[2];
-                    $dateTime->setDate($year, $month, $day);
-                    $input['toX'] = floatval(strtotime('today', $dateTime->getTimestamp()));
-                }
+//                if ($dc->activeRecord->xValueCharacter === '2') {
+//
+//                    $dateTime = new \DateTime();
+//
+//                    $array = explode('/', $input['fromX']);
+//
+//                    $month = $array[0];
+//                    $day = $array[1];
+//                    $year = $array[2];
+//                    $dateTime->setDate($year, $month, $day);
+//                    $input['fromX'] = floatval(strtotime('today', $dateTime->getTimestamp()));
+//
+//                    $array = explode('/', $input['toX']);
+//                    $month = $array[0];
+//                    $day = $array[1];
+//                    $year = $array[2];
+//                    $dateTime->setDate($year, $month, $day);
+//                    $input['toX'] = floatval(strtotime('today', $dateTime->getTimestamp()));
+//                }
 
 
                 $stmt = $database->prepare(
@@ -318,6 +318,7 @@ class tl_c4g_visualization_chart extends \Backend
         $result = $stmt->execute($dc->activeRecord->id)->fetchAllAssoc();
         if ($dc->activeRecord->xValueCharacter === '2') {
             $dateTime = new DateTime();
+            $dateFormat = $GLOBALS['TL_CONFIG']['dateFormat'];
             foreach ($result as $key => $value) {
                 if ($value['fromX'] === 0.0) {
                     $value['fromX'] = time();
@@ -326,7 +327,9 @@ class tl_c4g_visualization_chart extends \Backend
                 $year = $dateTime->format('Y');
                 $month = $dateTime->format('m');
                 $day = $dateTime->format('d');
-                $result[$key]['fromX'] = "$month/$day/$year";
+
+
+                $result[$key]['fromX'] = date($dateFormat, $value['fromX']);//"$month/$day/$year";
 
                 if ($value['toX'] === 0.0) {
                     $value['toX'] = time();
@@ -335,7 +338,7 @@ class tl_c4g_visualization_chart extends \Backend
                 $year = $dateTime->format('Y');
                 $month = $dateTime->format('m');
                 $day = $dateTime->format('d');
-                $result[$key]['toX'] = "$month/$day/$year";
+                $result[$key]['toX'] = date($dateFormat, $value['toX']);//"$month/$day/$year";
             }
         }
         return $result;
