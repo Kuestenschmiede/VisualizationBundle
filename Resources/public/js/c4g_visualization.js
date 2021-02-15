@@ -14,49 +14,52 @@ class Vis {
         let elIndex = 0;
         while (elIndex < this.elements.length) {
             let element = this.elements.item(elIndex);
-            fetch('con4gis/fetchchart/' + element.dataset.chart)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (responseJson) {
+            if (element && element.dataset && element.dataset.chart) {
+                fetch('con4gis/fetchchart/' + element.dataset.chart)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (responseJson) {
 
-                    // console.log(responseJson.axis.x.tick.format);
+                        // console.log(responseJson.axis.x.tick.format);
 
-                    let chart = {
-                        bindto: '#' + element.id,
-                        base: responseJson,
-                        json: {},
-                        range: function(range) {
-                            this.json = scope.parseJson(this.bindto, this.base, this, range);
-                        },
-                        update: function() {
-                            this.chart = c3.generate(this.json);
-                        },
-                    };
-
-                    chart.json = scope.parseJson('#' + element.id, responseJson, chart);
-
-                    if (typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.format !== 'undefined') {
-                        chart.format = responseJson.axis.x.tick.format;
-                        chart.json.axis.x.tick.format = function (x) {
-                            let chrt = scope.getChartByBindId(element.id);
-                            return chrt.format[x];
+                        let chart = {
+                            bindto: '#' + element.id,
+                            base: responseJson,
+                            json: {},
+                            range: function(range) {
+                                this.json = scope.parseJson(this.bindto, this.base, this, range);
+                            },
+                            update: function() {
+                                this.chart = c3.generate(this.json);
+                            },
                         };
-                    }
 
-                    if (typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.rotate !== 'undefined') {
-                        chart.rotate = responseJson.axis.x.tick.rotate;
-                        chart.json.axis.x.tick.rotate = function (x) {
-                            let chrt = scope.getChartByBindId(element.id);
-                            return chrt.rotate[x];
-                        };
-                    }
+                        chart.json = scope.parseJson('#' + element.id, responseJson, chart);
 
-                    scope.charts.push(chart);
+                        if (typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.format !== 'undefined') {
+                            chart.format = responseJson.axis.x.tick.format;
+                            chart.json.axis.x.tick.format = function (x) {
+                                let chrt = scope.getChartByBindId(element.id);
+                                return chrt.format[x];
+                            };
+                        }
 
-                    chart.update();
+                        if (typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.rotate === '1') {
+                            chart.rotate = responseJson.axis.x.tick.rotate;
+                            chart.json.axis.x.tick.rotate = function (x) {
+                                let chrt = scope.getChartByBindId(element.id);
+                                return chrt.rotate[x];
+                            };
+                        }
 
-                });
+                        scope.charts.push(chart);
+
+                        chart.update();
+
+                    });
+            }
+
             elIndex += 1;
         }
     }
@@ -149,7 +152,7 @@ class Vis {
             };
         }
 
-        console.log(c3json);
+        //console.log(c3json);
         return c3json;
     }
 
