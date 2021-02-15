@@ -77,6 +77,7 @@ class ChartElement
             $dataPoints = $transformer->transform($dataPoints);
         }
 
+        $labelArr = $dataPoints;
         if ($this->mapTimeValues === true) {
             $datetime = new \DateTime();
             $map = [];
@@ -84,22 +85,25 @@ class ChartElement
             $i = 0;
             $oldFormat = '';
             $oldstamp = '';
-            foreach ($dataPoints as $dataPoint) {
-                $tstamp = $dataPoint['x'];
+
+            foreach ($dataPoints as $key=>$dataPoint) {
+                $dataPoints[$key]['x'] = intval($dataPoints[$key]['x']);
+                $tstamp = $dataPoints[$key]['x'];
                 if ($tstamp != $oldstamp) {
                     $i++;
                 }
 
                 $datetime->setTimestamp($tstamp);
                 $map[$tstamp] = $datetime->format($this->dateTimeFormat);
-                if ($oldFormat != $datetime->format($map[$tstamp])) {
+                if ($oldFormat != $map[$tstamp]) {
                     if (($i % $count == 0) || ($i == 1)) {
                         $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
                     }
                 }
-                $oldFormat = $datetime->format($map[$tstamp]);
+                $oldFormat = $map[$tstamp];
                 $oldstamp = $tstamp;
             }
+
             foreach ($map as $key => $value) {
                 $this->toolTip->setTitle($key, $value);
             }
