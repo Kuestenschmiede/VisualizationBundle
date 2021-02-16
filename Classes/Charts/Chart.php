@@ -7,7 +7,10 @@ class Chart
     const RANGE_DEFAULT = 'range_default';
     const RANGE_ALL = 'range_all';
 
-    protected $zoom = false;
+    protected $zoom   = false;
+    protected $points = true;
+    protected $legend = true;
+    protected $labels = false;
 
     protected $showLegend = false;
     protected $legendFontSize = 16;
@@ -40,9 +43,10 @@ class Chart
             ];
         }
 
-        if ($this->zoom === true) {
-            $array['zoom'] = ['enabled' => true];
-        }
+        $array['zoom']   = ['enabled' => boolval($this->zoom)];
+        $array['points'] = ['enabled' => boolval($this->points)];
+        $array['legend'] = ['enabled' => boolval($this->legend)];
+        $array['labels'] = ['enabled' => boolval($this->labels)];
 
         if ($this->coordinateSystem instanceof CoordinateSystem === true) {
             $array['axis'] = $this->coordinateSystem->createEncodableArray();
@@ -59,7 +63,7 @@ class Chart
     {
         $data = [];
         foreach ($this->elements as $element) {
-            $data[] = $element->createEncodableArray($this->showLegend);
+            $data[] = $element->createEncodableArray();
         }
 
         return $data;
@@ -119,9 +123,39 @@ class Chart
      * @param bool $zoom
      * @return Chart
      */
-    public function setZoom(bool $zoom = true): Chart
+    public function setZoom($zoom = true): Chart
     {
-        $this->zoom = $zoom;
+        $this->zoom = boolval($zoom);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $points
+     */
+    public function setPoints($points = true): Chart
+    {
+        $this->points =  boolval($points);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $legend
+     */
+    public function setLegend($legend = true): Chart
+    {
+        $this->legend = boolval($legend);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $labels
+     */
+    public function setLabels($labels = false): Chart
+    {
+        $this->labels = boolval($labels);
 
         return $this;
     }

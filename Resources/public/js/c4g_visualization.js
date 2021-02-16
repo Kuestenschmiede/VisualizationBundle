@@ -84,6 +84,15 @@ class Vis {
             },
             zoom: {
                 enabled: false
+            },
+            points: {
+                enabled: true
+            },
+            legend: {
+                enabled: true
+            },
+            labels: {
+                enabled: false
             }
         };
 
@@ -112,14 +121,16 @@ class Vis {
             let y = ['y' + index];
             let i = 0;
             while (i < json.data[index].dataPoints.length) {
-                if ((json.data[index].type === 'pie') || (range === 'range_all') || (json.data[index].dataPoints[i].x >= rangeLowerBound  && json.data[index].dataPoints[i].x <= rangeUpperBound)) {
+                if ((json.data[index].type === 'pie') || (json.data[index].type === 'donut') || (json.data[index].type === 'gauge') || (range === 'range_all') || (json.data[index].dataPoints[i].x >= rangeLowerBound  && json.data[index].dataPoints[i].x <= rangeUpperBound)) {
                     x.push(json.data[index].dataPoints[i].x);
                     y.push(json.data[index].dataPoints[i].y);
                 }
                 i += 1;
             }
             c3json.data.columns.push(x, y);
-            c3json.data.types['y' + index] = json.data[index].type;
+
+            var type = json.data[index].type !== 'gantt' ? json.data[index].type : 'line';
+            c3json.data.types['y' + index] = type;
             if (typeof json.data[index].name !== 'undefined') {
                 c3json.data.names['y' + index] = json.data[index].name;
             }
@@ -141,7 +152,39 @@ class Vis {
 
         if ((typeof json.zoom !== 'undefined') && (typeof json.zoom.enabled !== 'undefined')) {
             c3json.zoom.enabled = json.zoom.enabled;
+            c3json.zoom.type = 'drag';
         }
+
+        if ((typeof json.points !== 'undefined') && (typeof json.points.enabled !== 'undefined')) {
+            c3json.point = {
+                show: json.points.enabled
+            }
+        }
+
+        if ((typeof json.legend !== 'undefined') && (typeof json.legend.enabled !== 'undefined')) {
+            c3json.legend = {
+                hide: !json.legend.enabled
+            }
+        }
+
+        if ((typeof json.labels !== 'undefined') && (typeof json.labels.enabled !== 'undefined')) {
+            c3json.data.labels = json.labels.enabled;
+        }
+
+        // if ((typeof json.labels !== 'undefined') && (typeof json.labels.enabled !== 'undefined') &&
+        //     (typeof json.tooltip !== 'undefined') && (typeof json.tooltip.format !== 'undefined') && (typeof json.tooltip.format.title !== 'undefined')) {
+        //     if (json.labels.enabled) {
+        //         chart.tooltipformattitle = json.tooltip.format.title;
+        //         let scope = this;
+        //         //c3json.data.labels = true;
+        //         c3json.data.labels = {
+        //             format: function (v, id, i, j) {
+        //                 let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
+        //                 return chrt.tooltipformattitle[v];
+        //             }
+        //         }
+        //     }
+        // }
 
         if (typeof json.tooltip !== 'undefined' && typeof json.tooltip.format !== 'undefined' && typeof json.tooltip.format.title !== 'undefined') {
             chart.tooltipformattitle = json.tooltip.format.title;

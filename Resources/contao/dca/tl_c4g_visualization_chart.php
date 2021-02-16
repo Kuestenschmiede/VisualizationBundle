@@ -31,7 +31,7 @@ $palettes = [
     'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
     'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
-    'expert' => ';{expert_legend:hide},zoom',
+    'expert' => ';{expert_legend:hide},zoom,points,legend,labels',
     'publish' => ';{publish_legend},published'
 ];
 
@@ -156,6 +156,18 @@ $imageOpacity->default('80')->sql("int(10) unsigned NOT NULL default '80'")
 
 
 $zoom = new CheckboxField('zoom', $dca);
+
+$points = new CheckboxField('points', $dca);
+$points->default(true);
+$points->sql("char(1) NOT NULL default '1'");
+
+$legend = new CheckboxField('legend', $dca);
+$legend->default(true);
+$legend->sql("char(1) NOT NULL default '1'");
+
+$labels = new CheckboxField('labels', $dca);
+$labels->default(false);
+$labels->sql("char(1) NOT NULL default '0'");
 
 $published = new CheckboxField('published', $dca);
 $published->default(true);
