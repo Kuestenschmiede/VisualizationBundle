@@ -36,7 +36,7 @@ $dca->palette()->selector(['origin'])
         '{transform_legend},groupIdenticalX;'.
         '{publish_legend},published;')
     ->subPalette('origin', '1', 'inputWizard')
-    ->subPalette('origin', '2', 'table,tablex,tabley,whereWizard');
+    ->subPalette('origin', '2', 'table,tablex,tablex2,tabley,whereWizard');
 
 $id = new IdField('id', $dca);
 $tStamp = new NaturalField('tstamp', $dca);
@@ -79,6 +79,13 @@ $tableX->optionsCallback('tl_c4g_visualization_chart_element', 'loadColumnNames'
     ->eval()->maxlength(255)
         ->class('w50')
         ->doNotSaveEmpty();
+$tableX = new SelectField('tablex2', $dca);
+$tableX->optionsCallback('tl_c4g_visualization_chart_element', 'loadColumnNames')
+    ->sql("varchar(255) NOT NULL default ''")
+    ->default('')
+    ->eval()->maxlength(255)
+    ->class('w50')
+    ->doNotSaveEmpty();
 $tableY = new SelectField('tabley', $dca);
 $tableY->optionsCallback('tl_c4g_visualization_chart_element', 'loadColumnNames')
     ->sql("varchar(255) NOT NULL default ''")
@@ -141,8 +148,12 @@ class tl_c4g_visualization_chart_element extends \Backend
     {
         return [
             ChartElement::TYPE_LINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_line'],
+            ChartElement::TYPE_SPLINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_spline'],
             ChartElement::TYPE_PIE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_pie'],
-            ChartElement::TYPE_BAR => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_bar']
+            ChartElement::TYPE_BAR => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_bar'],
+            ChartElement::TYPE_DONUT => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_donut'],
+            ChartElement::TYPE_GAUGE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_gauge'],
+            ChartElement::TYPE_GANTT => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_gantt']
         ];
     }
 

@@ -5,13 +5,19 @@ namespace con4gis\VisualizationBundle\Classes\Charts;
 use con4gis\VisualizationBundle\Classes\Labels\Label;
 use con4gis\VisualizationBundle\Classes\Source\Source;
 use con4gis\VisualizationBundle\Classes\Transformers\Transformer;
+use Symfony\Component\HttpFoundation\Response;
 
 class ChartElement
 {
     const TYPE_BAR = 'bar';
     const TYPE_LINE = 'line';
+    const TYPE_SPLINE = 'spline';
     const TYPE_AREA = 'area';
     const TYPE_PIE = 'pie';
+    const TYPE_DONUT = 'donut';
+    const TYPE_GAUGE = 'gauge';
+    const TYPE_GANTT = 'gantt'; //unready
+
 
     const ORIGIN_INPUT = '1';
     const ORIGIN_TABLE = '2';
@@ -23,6 +29,8 @@ class ChartElement
 
     protected $x = 'x';
     protected $y = 'y';
+
+    protected $x2 = 'x2'; //for gantt charts
 
     protected $showInLegend = true;
     protected $name = '';
@@ -40,26 +48,9 @@ class ChartElement
         $this->source = $source;
     }
 
-    public function createEncodableArray($showLegend = false)
+    public function createEncodableArray()
     {
-        $array = [
-            'type' => $this->type,
-            'dataPoints' => $this->createEncodableDataPointsArray(),
-        ];
-
-//        if ($showLegend === true && $this->showInLegend === true) {
-//            $array['showInLegend'] = true;
-//        }
-
-        if ($this->name !== '') {
-            $array['name'] = $this->name;
-        }
-
-        if ($this->group >= 0) {
-            $array['group'] = $this->group;
-        }
-
-        return $array;
+        return $this->createEncodableDataPointsArray();
     }
 
     private function createEncodableDataPointsArray()
@@ -69,8 +60,21 @@ class ChartElement
         foreach ($this->source as $entry) {
             $dataPoints[] = [
                 'x' => $entry->get($this->x),
-                'y' => $entry->get($this->y),
+                'y' => $entry->get($this->y)
             ];
+
+            $tstamp = intval($entry->get($this->x));
+            $tstamp2 = intval($entry->get($this->x2));
+
+           if ($tstamp && $tstamp2 && ($tstamp2 > $tstamp)) {
+                for ($i=$tstamp+1; $i <= $tstamp2; $i+=3600) {
+                    $count++;
+                    $dataPoints[] = [
+                        'x' => $i,
+                        'y' => $entry->get($this->y)
+                    ];
+                }
+            }
         }
 
         foreach ($this->transformers as $transformer) {
@@ -89,17 +93,20 @@ class ChartElement
             foreach ($dataPoints as $key=>$dataPoint) {
                 $dataPoints[$key]['x'] = intval($dataPoints[$key]['x']);
                 $tstamp = $dataPoints[$key]['x'];
+
                 if ($tstamp != $oldstamp) {
                     $i++;
                 }
 
                 $datetime->setTimestamp($tstamp);
                 $map[$tstamp] = $datetime->format($this->dateTimeFormat);
+
                 if ($oldFormat != $map[$tstamp]) {
                     if (($i % $count == 0) || ($i == 1)) {
                         $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
                     }
                 }
+
                 $oldFormat = $map[$tstamp];
                 $oldstamp = $tstamp;
             }
@@ -113,7 +120,24 @@ class ChartElement
             $dataPoints = $label->label($dataPoints);
         }
 
-        return $dataPoints;
+
+        $result = [
+            'type' => $this->type,
+            'dataPoints' => $dataPoints
+        ];
+
+        $group = ($this->group >= 0) ? $this->group : false; //ToDo different groups for intervals
+        $name = ($this->name !== '') ? $this->name : false;
+
+        if ($group) {
+            $result['group'] = $group;
+        }
+
+        if ($name) {
+            $result['name'] = $name;
+        }
+
+        return $result;
     }
 
     /**
@@ -123,6 +147,16 @@ class ChartElement
     public function setX(string $x): ChartElement
     {
         $this->x = $x;
+
+        return $this;
+    }
+
+    /**
+     * @param string $x2
+     */
+    public function setX2(string $x2): ChartElement
+    {
+        $this->x2 = $x2;
 
         return $this;
     }

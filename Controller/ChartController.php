@@ -45,9 +45,10 @@ class ChartController extends AbstractController
                 $chartModel = ChartModel::findByPk($chartId);
                 if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
                     $chart = new Chart();
-                    if ($chartModel->zoom === '1') {
-                        $chart->setZoom();
-                    }
+                    $chart->setZoom($chartModel->zoom);
+                    $chart->setPoints($chartModel->points);
+                    $chart->setLegend($chartModel->legend);
+                    $chart->setLabels($chartModel->labels);
                     $coordinateSystem = new CoordinateSystem(new Axis, new Axis, new Axis);
                     $tooltip = new Tooltip();
                     $chart->setTooltip($tooltip);
@@ -99,13 +100,13 @@ class ChartController extends AbstractController
                                     $inputModels = ChartElementInputModel::findByElementId($elementModel->id);
                                     if ($inputModels !== null) {
                                         $source = new Source($inputModels);
-
                                     }
                                     break;
                                 case ChartElement::ORIGIN_TABLE:
                                     try {
                                         $table = $elementModel->table;
                                         $x = $elementModel->tablex;
+                                        $x2 = $elementModel->tablex2;
                                         $database = Database::getInstance();
                                         if ($rangeModels instanceof Collection && $chartModel->loadOutOfRangeData !== '1') {
                                             $fromX = 0;
@@ -164,6 +165,10 @@ class ChartController extends AbstractController
                             }
                             if ($elementModel->origin === ChartElement::ORIGIN_TABLE) {
                                 $element->setX($elementModel->tablex)->setY($elementModel->tabley);
+
+                                if ($elementModel->type === ChartElement::TYPE_GANTT) {
+                                    $element->setX2($elementModel->tablex2);
+                                }
                             }
                             if ($chartModel->xValueCharacter === '2') {
                                 $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $tooltip, $chartModel->xLabelCount, intval($chartModel->xRotate));
