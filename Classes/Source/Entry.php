@@ -6,8 +6,10 @@ class Entry
 {
     protected $values;
 
-    public function __construct(array $array)
+    public function __construct(array $array, $min=0)
     {
+        $array['min'] = $min;
+
         $this->values = $array;
     }
 

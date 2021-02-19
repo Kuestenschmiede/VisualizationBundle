@@ -16,29 +16,29 @@ class Source implements \Iterator
      * @param $data
      * @throws InvalidSourceTypeException
      */
-    public function __construct($data)
+    public function __construct($data, $min=0)
     {
-        $this->addData($data);
+        $this->addData($data, $min);
     }
 
-    public function addData($data)
+    public function addData($data,$min=0)
     {
         if ($data instanceof Collection) {
             foreach ($data as $model) {
-                $this->entries[] = new Entry($model->row());
+                $this->entries[] = new Entry($model->row(),$min);
             }
         } elseif ($data instanceof Model) {
-            $this->entries[] = new Entry($data->row());
+            $this->entries[] = new Entry($data->row(),$min);
         } elseif (is_array($data)) {
             $depth = $this->getArrayDepth($data);
             switch ($depth) {
                 case 1:
-                    $this->entries[] = new Entry($data);
+                    $this->entries[] = new Entry($data,$min);
 
                     break;
                 case 2:
                     foreach ($data as $arr) {
-                        $this->entries[] = new Entry($arr);
+                        $this->entries[] = new Entry($arr,$min);
                     }
 
                     break;

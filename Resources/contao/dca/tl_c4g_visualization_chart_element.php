@@ -33,7 +33,7 @@ $dca->list()->addRegularOperations($dca);
 $dca->palette()->selector(['origin'])
     ->default('{general_legend},backendtitle,frontendtitle,color;'.
         '{type_origin_legend},type,origin;'.
-        '{transform_legend},groupIdenticalX;'.
+        '{transform_legend},groupIdenticalX,minCountIdenticalX;'.
         '{publish_legend},published;')
     ->subPalette('origin', '1', 'inputWizard')
     ->subPalette('origin', '2', 'table,tablex,tablex2,tabley,whereWizard');
@@ -79,13 +79,14 @@ $tableX->optionsCallback('tl_c4g_visualization_chart_element', 'loadColumnNames'
     ->eval()->maxlength(255)
         ->class('w50')
         ->doNotSaveEmpty();
-$tableX = new SelectField('tablex2', $dca);
-$tableX->optionsCallback('tl_c4g_visualization_chart_element', 'loadColumnNames')
+$tableX2 = new SelectField('tablex2', $dca);
+$tableX2->optionsCallback('tl_c4g_visualization_chart_element', 'loadColumnNames')
     ->sql("varchar(255) NOT NULL default ''")
     ->default('')
     ->eval()->maxlength(255)
     ->class('w50')
-    ->doNotSaveEmpty();
+    ->doNotSaveEmpty()
+    ->includeBlankOption(true);
 $tableY = new SelectField('tabley', $dca);
 $tableY->optionsCallback('tl_c4g_visualization_chart_element', 'loadColumnNames')
     ->sql("varchar(255) NOT NULL default ''")
@@ -107,6 +108,9 @@ $whereComparison->optionsCallback('tl_c4g_visualization_chart_element', 'loadCom
 $whereValue = new TextField('whereValue', $dca, $whereWizard);
 $whereValue->eval()->regEx('alnum');
 $groupIdenticalX = new CheckboxField('groupIdenticalX', $dca);
+$minCountIdenticalX = new DigitField('minCountIdenticalX', $dca);
+$minCountIdenticalX->default('1');
+$minCountIdenticalX->sql("int(10) NOT NULL default '1'");
 
 $published = new CheckboxField('published', $dca);
 $published->default(true);

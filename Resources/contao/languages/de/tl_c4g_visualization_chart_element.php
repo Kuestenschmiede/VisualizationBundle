@@ -40,6 +40,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'whereComparison'   => ['Vergleich', 'Der Vergleich, der durchgeführt wird.'],
     'whereValue'        => ['Wert', 'Der Wert, mit dem verglichen wird.'],
     'groupIdenticalX'   => ['Identische X-Werte gruppieren', 'Liegen mehrere Y-Werte für den gleichen X-Wert vor, werden die Werte addiert und die Summe statt der individuellen Werte angezeigt.'],
+    'minCountIdenticalX' => ['Min. Anzahl für Gruppierung', 'Identische Werte werden erst ab der angegebenen Anzahl dargestellt.'],
     'general_legend'    => 'Allgemeine Einstellungen',
     'type_origin_legend'     => 'Typ & Datenherkunft',
     'transform_legend'    => 'Datentransformation',

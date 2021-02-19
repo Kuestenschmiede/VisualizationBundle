@@ -32,7 +32,7 @@ class ChartElement
 
     protected $x2 = 'x2'; //for gantt charts
 
-    protected $showInLegend = true;
+    //protected $showInLegend = true;
     protected $name = '';
     protected $group = -1;
     protected $color = '';
@@ -58,20 +58,30 @@ class ChartElement
         $dataPoints = [];
 
         foreach ($this->source as $entry) {
+            $yValue = intval($entry->get($this->y));
+            $xValue = intval($entry->get($this->x));
+
             $dataPoints[] = [
-                'x' => $entry->get($this->x),
-                'y' => $entry->get($this->y)
+                'x' => $xValue,
+                'y' => $yValue,
+                'min' => $entry->get('min')
             ];
 
-            $tstamp = intval($entry->get($this->x));
-            $tstamp2 = intval($entry->get($this->x2));
+            $xstart = $xValue;
+            $xend = intval($entry->get($this->x2));
 
-           if ($tstamp && $tstamp2 && ($tstamp2 > $tstamp)) {
-                for ($i=$tstamp+1; $i <= $tstamp2; $i+=3600) {
-                    $count++;
+           if ($xstart && $xend && ($xend > $xstart)) {
+
+               //ToDo configuration param
+               $factor = 3600;
+               if (($xend-$xstart) > 57600) {
+                   $factor = 28800;
+               }
+                for ($i=$xstart+1; $i <= $xend; $i+=$factor) {
                     $dataPoints[] = [
                         'x' => $i,
-                        'y' => $entry->get($this->y)
+                        'y' => $yValue,
+                        'min' => $entry->get('min')
                     ];
                 }
             }

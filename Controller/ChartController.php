@@ -22,6 +22,7 @@ use con4gis\VisualizationBundle\Classes\Exceptions\EmptyChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartSourceException;
 use con4gis\VisualizationBundle\Classes\Source\Source;
+use con4gis\VisualizationBundle\Classes\Transformers\AddIdenticalYTransformer;
 use con4gis\VisualizationBundle\Classes\Transformers\GroupIdenticalXTransformer;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementConditionModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementInputModel;
@@ -99,7 +100,7 @@ class ChartController extends AbstractController
                                 case ChartElement::ORIGIN_INPUT:
                                     $inputModels = ChartElementInputModel::findByElementId($elementModel->id);
                                     if ($inputModels !== null) {
-                                        $source = new Source($inputModels);
+                                        $source = new Source($inputModels, $elementModel->minCountIdenticalX);
                                     }
                                     break;
                                 case ChartElement::ORIGIN_TABLE:
@@ -131,7 +132,7 @@ class ChartController extends AbstractController
                                             if (!$arrResult || count($arrResult) <= 0) {
                                                 continue 2;
                                             }
-                                            $source = new Source($arrResult);
+                                            $source = new Source($arrResult, $elementModel->minCountIdenticalX);
                                         } else {
                                             $query = "SELECT * FROM " . $table;
                                             $additionalWhereString = $this->createAdditionalWhereString($elementModel);
@@ -144,7 +145,7 @@ class ChartController extends AbstractController
                                             if (!$arrResult || count($arrResult) <= 0) {
                                                 continue 2;
                                             }
-                                            $source = new Source($arrResult);
+                                            $source = new Source($arrResult, $elementModel->minCountIdenticalX);
                                         }
                                     } catch (\Throwable $throwable) {
                                         $this->log($throwable);
@@ -176,6 +177,7 @@ class ChartController extends AbstractController
                             if ($elementModel->groupIdenticalX === '1') {
                                 $element->addTransformer(new GroupIdenticalXTransformer());
                             }
+
                             $chart->addElement($element);
                         }
                     }
