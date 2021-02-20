@@ -11,6 +11,7 @@ class Chart
     protected $points = true;
     protected $legend = true;
     protected $labels = false;
+    protected $oneLabelPerElement = false;
 
     protected $showLegend = false;
     protected $legendFontSize = 16;
@@ -47,6 +48,7 @@ class Chart
         $array['points'] = ['enabled' => boolval($this->points)];
         $array['legend'] = ['enabled' => boolval($this->legend)];
         $array['labels'] = ['enabled' => boolval($this->labels)];
+        $array['oneLabelPerElement'] = ['enabled' => boolval($this->oneLabelPerElement)];
 
         if ($this->coordinateSystem instanceof CoordinateSystem === true) {
             $array['axis'] = $this->coordinateSystem->createEncodableArray();
@@ -156,6 +158,16 @@ class Chart
     public function setLabels($labels = false): Chart
     {
         $this->labels = boolval($labels);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $oneLabelPerElement
+     */
+    public function setOneLabelPerElement($oneLabelPerElement = false): Chart
+    {
+        $this->oneLabelPerElement = boolval($oneLabelPerElement);
 
         return $this;
     }

@@ -28,6 +28,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'points'            => ['Punkte darstellen', 'In einigen Diagrammen werden die X-Koordinaten als Punkte dargestellt. Diese Punkte lassen sich hier abschalten.'],
     'legend'            => ['Legende darstellen', 'Im Normalfall wird unterhalb der Grafik die Legende dargestellt. Diese kann hier deaktiviert werden.'],
     'labels'            => ['Label darstellen', 'Im Normalfall werden an den Grafikelementen selbst keine Label dargestellt. Das kann hiermit geändert werden.'],
+    'oneLabelPerElement' => ['Elementnamen als Label darstellen', 'Bei Aktivierung wird nur ein Label pro Element dargestellt'],
     'swapAxes'          => ['Achsen vertauschen', 'Falls gesetzt, tauschen die X- und Y-Achsen die Positionen.'],
     'xType'             => ['X-Achsentyp', 'Definiert die Beschriftung der X-Werte.'],
     'xValueCharacter'   => ['Charakter der X-Werte', 'Gibt den Charakter der X-Werte an. Diese Auswahl beeinflusst das Formular und das Laden der Daten.'],

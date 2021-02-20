@@ -27,6 +27,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'points'            => ['Display points', 'In some diagrams the X coordinates are displayed as points. These points can be switched off here.'],
     'legend'            => ['Show legend', 'Normally the legend is shown below the graphic. This can be disabled here.'],
     'labels'            => ['Display label', 'Normally no labels are displayed on the graphic elements themselves. This can be changed with this.'],
+    'oneLabelPerElement' => ['Display element names as labels', 'When activated, only one label per element is displayed'],
     'swapAxes'          => ['Swap axes', 'If checked, the x and y axes swap places.'],
     'xValueCharacter'   => ['X value character', 'Defines the character of the values on the x axis. This influences the form and the way the data is loaded.'],
     'xTimeFormat'       => ['Time format', 'Format string for the timestamp.'],

@@ -93,6 +93,9 @@ class Vis {
             },
             labels: {
                 enabled: false
+            },
+            oneLabelPerElement: {
+                enabled: false
             }
         };
 
@@ -169,22 +172,22 @@ class Vis {
 
         if ((typeof json.labels !== 'undefined') && (typeof json.labels.enabled !== 'undefined')) {
             c3json.data.labels = json.labels.enabled;
-        }
 
-        // if ((typeof json.labels !== 'undefined') && (typeof json.labels.enabled !== 'undefined') &&
-        //     (typeof json.tooltip !== 'undefined') && (typeof json.tooltip.format !== 'undefined') && (typeof json.tooltip.format.title !== 'undefined')) {
-        //     if (json.labels.enabled) {
-        //         chart.tooltipformattitle = json.tooltip.format.title;
-        //         let scope = this;
-        //         //c3json.data.labels = true;
-        //         c3json.data.labels = {
-        //             format: function (v, id, i, j) {
-        //                 let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
-        //                 return chrt.tooltipformattitle[v];
-        //             }
-        //         }
-        //     }
-        // }
+            if (((typeof json.oneLabelPerElement !== 'undefined') && (typeof json.oneLabelPerElement.enabled !== 'undefined') && json.oneLabelPerElement.enabled)) {
+                chart.labelTitle = json.tooltip.format.title;
+                let scope = this;
+                c3json.data.labels = {
+                    format: function (v, id, i, j) {
+                        let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
+                        if ( (id) && (i == 1) ) {
+                            return chrt.json.data.names[id];
+                        } else {
+                            return '';
+                        }
+                    }
+                }
+            }
+        }
 
         if (typeof json.tooltip !== 'undefined' && typeof json.tooltip.format !== 'undefined' && typeof json.tooltip.format.title !== 'undefined') {
             chart.tooltipformattitle = json.tooltip.format.title;

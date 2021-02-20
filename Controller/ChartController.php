@@ -50,6 +50,7 @@ class ChartController extends AbstractController
                     $chart->setPoints($chartModel->points);
                     $chart->setLegend($chartModel->legend);
                     $chart->setLabels($chartModel->labels);
+                    $chart->setOneLabelPerElement($chartModel->oneLabelPerElement);
                     $coordinateSystem = new CoordinateSystem(new Axis, new Axis, new Axis);
                     $tooltip = new Tooltip();
                     $chart->setTooltip($tooltip);
