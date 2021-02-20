@@ -31,7 +31,7 @@ $dca->list()->label()->fields(['id', 'backendtitle', 'frontendtitle', 'chartTitl
     ->labelCallback('tl_c4g_visualization_chart_element', 'getLabel');
 $dca->list()->addRegularOperations($dca);
 $dca->palette()->selector(['origin'])
-    ->default('{general_legend},backendtitle,frontendtitle,color;'.
+    ->default('{general_legend},backendtitle,frontendtitle,color,redirectSite;'.
         '{type_origin_legend},type,origin;'.
         '{transform_legend},groupIdenticalX,minCountIdenticalX;'.
         '{publish_legend},published;')
@@ -117,6 +117,16 @@ $published->default(true);
 
 $importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
 $importId->eval()->doNotCopy(true);
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['redirectSite'] = [
+    'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['redirectSite'],
+    'exclude'                 => true,
+    'inputType'               => 'pageTree',
+    'foreignKey'              => 'tl_page.title',
+    'eval'                    => array('mandatory'=>false, 'fieldType'=>'radio', 'tl_class'=>'long clr'),
+    'sql'                     => "int(10) unsigned NOT NULL default '0'",
+    'relation'                => array('type'=>'hasOne', 'load'=>'eager')
+];
 
 /**
  * Class tl_c4g_visualization_chart_element

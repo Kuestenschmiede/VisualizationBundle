@@ -6,9 +6,10 @@ class Entry
 {
     protected $values;
 
-    public function __construct(array $array, $min=0)
+    public function __construct(array $array, $min=0, $redirectSite='')
     {
         $array['min'] = $min;
+        $array['redirectSite'] = $redirectSite;
 
         $this->values = $array;
     }

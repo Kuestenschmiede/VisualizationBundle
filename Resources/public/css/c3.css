@@ -62,6 +62,17 @@
   stroke-width: 2px;
 }
 
+.c4g-gantt .c3-line {
+  stroke-width: 25px;
+  /*opacity: 0.2;*/
+}
+
+.c4g-gantt .c3-text {
+  transform: translate(2px, 9px);
+  fill: #FFF !important;
+  font-size: 10px;
+}
+
 /*-- Point --*/
 .c3-circle._expanded_ {
   stroke-width: 1px;

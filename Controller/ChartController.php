@@ -49,6 +49,7 @@ class ChartController extends AbstractController
                     $chart->setZoom($chartModel->zoom);
                     $chart->setPoints($chartModel->points);
                     $chart->setLegend($chartModel->legend);
+                    $chart->setTooltips($chartModel->tooltips);
                     $chart->setLabels($chartModel->labels);
                     $chart->setOneLabelPerElement($chartModel->oneLabelPerElement);
                     $coordinateSystem = new CoordinateSystem(new Axis, new Axis, new Axis);
@@ -101,7 +102,7 @@ class ChartController extends AbstractController
                                 case ChartElement::ORIGIN_INPUT:
                                     $inputModels = ChartElementInputModel::findByElementId($elementModel->id);
                                     if ($inputModels !== null) {
-                                        $source = new Source($inputModels, $elementModel->minCountIdenticalX);
+                                        $source = new Source($inputModels, $elementModel->minCountIdenticalX, $elementModel->redirectSite);
                                     }
                                     break;
                                 case ChartElement::ORIGIN_TABLE:
@@ -133,7 +134,7 @@ class ChartController extends AbstractController
                                             if (!$arrResult || count($arrResult) <= 0) {
                                                 continue 2;
                                             }
-                                            $source = new Source($arrResult, $elementModel->minCountIdenticalX);
+                                            $source = new Source($arrResult, $elementModel->minCountIdenticalX, $elementModel->redirectSite);
                                         } else {
                                             $query = "SELECT * FROM " . $table;
                                             $additionalWhereString = $this->createAdditionalWhereString($elementModel);
@@ -146,7 +147,7 @@ class ChartController extends AbstractController
                                             if (!$arrResult || count($arrResult) <= 0) {
                                                 continue 2;
                                             }
-                                            $source = new Source($arrResult, $elementModel->minCountIdenticalX);
+                                            $source = new Source($arrResult, $elementModel->minCountIdenticalX, $elementModel->redirectSite);
                                         }
                                     } catch (\Throwable $throwable) {
                                         $this->log($throwable);
@@ -177,6 +178,11 @@ class ChartController extends AbstractController
                             }
                             if ($elementModel->groupIdenticalX === '1') {
                                 $element->addTransformer(new GroupIdenticalXTransformer());
+                            }
+
+                            if ($elementModel->redirectSite && (($jumpTo = \PageModel::findByPk($elementModel->redirectSite)) !== null)) {
+                                $url = $jumpTo->getFrontendUrl();
+                                $element->setRedirectSite($url);
                             }
 
                             $chart->addElement($element);

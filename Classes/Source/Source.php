@@ -16,29 +16,33 @@ class Source implements \Iterator
      * @param $data
      * @throws InvalidSourceTypeException
      */
-    public function __construct($data, $min=0)
+    public function __construct($data, $min=0, $redirectSite='')
     {
-        $this->addData($data, $min);
+        if ($redirectSite && (($jumpTo = \PageModel::findByPk($redirectSite)) !== null)) {
+            $redirectSite = $jumpTo->getFrontendUrl();
+        }
+
+        $this->addData($data, $min, $redirectSite);
     }
 
-    public function addData($data,$min=0)
+    public function addData($data,$min=0, $redirectSite='')
     {
         if ($data instanceof Collection) {
             foreach ($data as $model) {
-                $this->entries[] = new Entry($model->row(),$min);
+                $this->entries[] = new Entry($model->row(),$min,$redirectSite);
             }
         } elseif ($data instanceof Model) {
-            $this->entries[] = new Entry($data->row(),$min);
+            $this->entries[] = new Entry($data->row(),$min,$redirectSite);
         } elseif (is_array($data)) {
             $depth = $this->getArrayDepth($data);
             switch ($depth) {
                 case 1:
-                    $this->entries[] = new Entry($data,$min);
+                    $this->entries[] = new Entry($data,$min,$redirectSite);
 
                     break;
                 case 2:
                     foreach ($data as $arr) {
-                        $this->entries[] = new Entry($arr,$min);
+                        $this->entries[] = new Entry($arr,$min,$redirectSite);
                     }
 
                     break;

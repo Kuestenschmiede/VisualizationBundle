@@ -37,7 +37,7 @@
             echo "</div>";
         }
         ?>
-        <div class="c4g_chart" id="c4g_chart_<?php echo $this->instance ?>"
+        <div class="c4g_chart <?php echo $this->Template->cssClass ?>" id="c4g_chart_<?php echo $this->instance ?>"
             data-chart="<?php echo $this->chartID ?>">
         </div>
 

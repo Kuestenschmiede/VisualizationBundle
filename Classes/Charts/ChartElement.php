@@ -18,7 +18,6 @@ class ChartElement
     const TYPE_GAUGE = 'gauge';
     const TYPE_GANTT = 'gantt'; //unready
 
-
     const ORIGIN_INPUT = '1';
     const ORIGIN_TABLE = '2';
 
@@ -42,6 +41,8 @@ class ChartElement
     protected $coordinateSystem = null;
     protected $toolTip = null;
 
+    protected $redirectSite = '';
+
     public function __construct(string $type, Source $source)
     {
         $this->type = $type;
@@ -64,7 +65,8 @@ class ChartElement
             $dataPoints[] = [
                 'x' => $xValue,
                 'y' => $yValue,
-                'min' => $entry->get('min')
+                'min' => $entry->get('min'),
+                'redirect' => $entry->get('redirectSite')
             ];
 
             $xstart = $xValue;
@@ -81,7 +83,8 @@ class ChartElement
                     $dataPoints[] = [
                         'x' => $i,
                         'y' => $yValue,
-                        'min' => $entry->get('min')
+                        'min' => $entry->get('min'),
+                        'redirect' => $entry->get('redirectSite')
                     ];
                 }
             }
@@ -266,5 +269,15 @@ class ChartElement
         $this->toolTip = $tooltip;
         $this->xLabelCount = $xLabelCount;
         $this->xRotate = $xRotate;
+    }
+
+    /**
+     * @param string $redirectSite
+     */
+    public function setRedirectSite(string $redirectSite): ChartElement
+    {
+        $this->redirectSite = $redirectSite;
+
+        return $this;
     }
 }

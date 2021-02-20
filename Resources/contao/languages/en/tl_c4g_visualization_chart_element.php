@@ -40,6 +40,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'whereValue'        => ['Value', 'The value checked against.'],
     'groupIdenticalX'   => ['Group identical x values', 'If multiple y values exist for the same x value, the values are added and the sum is shown instead of the individual values.'],
     'minCountIdenticalX' => ['Min. count for grouping', 'Identical values are only displayed from the specified count.'],
+    'redirectSite' => ['redirect page', 'When clicking on the element, should be redirected to the selected page.'],
     'general_legend'    => 'Generic Options',
     'type_origin_legend'     => 'Type & Origin',
     'transform_legend'    => 'Data transformation',

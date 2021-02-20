@@ -10,6 +10,7 @@ class Chart
     protected $zoom   = false;
     protected $points = true;
     protected $legend = true;
+    protected $tooltips = true;
     protected $labels = false;
     protected $oneLabelPerElement = false;
 
@@ -47,6 +48,7 @@ class Chart
         $array['zoom']   = ['enabled' => boolval($this->zoom)];
         $array['points'] = ['enabled' => boolval($this->points)];
         $array['legend'] = ['enabled' => boolval($this->legend)];
+        $array['tooltips'] = ['enabled' => boolval($this->tooltips)];
         $array['labels'] = ['enabled' => boolval($this->labels)];
         $array['oneLabelPerElement'] = ['enabled' => boolval($this->oneLabelPerElement)];
 
@@ -148,6 +150,16 @@ class Chart
     public function setLegend($legend = true): Chart
     {
         $this->legend = boolval($legend);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $tooltips
+     */
+    public function setTooltips($tooltips = false): Chart
+    {
+        $this->tooltips = boolval($tooltips);
 
         return $this;
     }

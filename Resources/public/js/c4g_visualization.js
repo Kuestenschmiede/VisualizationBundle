@@ -74,7 +74,8 @@ class Vis {
                 types: {},
                 colors: {},
                 names: {},
-                groups: []
+                groups: [],
+                redirects: {},
             },
             axis: {},
             tooltip: {
@@ -89,6 +90,9 @@ class Vis {
                 enabled: true
             },
             legend: {
+                enabled: true
+            },
+            tooltips: {
                 enabled: true
             },
             labels: {
@@ -143,6 +147,19 @@ class Vis {
                 }
                 c3json.data.groups[json.data[index].group].push('y' + index);
             }
+
+            if (typeof json.data[index].group !== 'undefined') {
+                while (typeof c3json.data.groups[json.data[index].group] === 'undefined') {
+                    c3json.data.groups.push([]);
+                }
+                c3json.data.groups[json.data[index].group].push('y' + index);
+            }
+
+            //ToDo
+            if (typeof json.data[index].dataPoints[0].redirect !== 'undefined') {
+                c3json.data.redirects['y' + index] = json.data[index].dataPoints[0].redirect;
+            }
+
             index += 1;
         }
 
@@ -174,7 +191,6 @@ class Vis {
             c3json.data.labels = json.labels.enabled;
 
             if (((typeof json.oneLabelPerElement !== 'undefined') && (typeof json.oneLabelPerElement.enabled !== 'undefined') && json.oneLabelPerElement.enabled)) {
-                chart.labelTitle = json.tooltip.format.title;
                 let scope = this;
                 c3json.data.labels = {
                     format: function (v, id, i, j) {
@@ -189,13 +205,25 @@ class Vis {
             }
         }
 
-        if (typeof json.tooltip !== 'undefined' && typeof json.tooltip.format !== 'undefined' && typeof json.tooltip.format.title !== 'undefined') {
-            chart.tooltipformattitle = json.tooltip.format.title;
+        if ((typeof json.tooltips !== 'undefined') && (typeof json.tooltips.enabled !== 'undefined') && json.tooltips.enabled &&
+            (typeof json.tooltip !== 'undefined' && typeof json.tooltip.format !== 'undefined' && typeof json.tooltip.format.title !== 'undefined')) {
+                chart.tooltipformattitle = json.tooltip.format.title;
             let scope = this;
             c3json.tooltip.format.title = function (x) {
                 let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
                 return chrt.tooltipformattitle[x];
             };
+        } else {
+            c3json.tooltip.show = false;
+        }
+
+        let scope = this;
+        c3json.data.onclick = function (d) {
+            let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
+            let redirect = chrt.json.data.redirects[d.id];
+            if (redirect && redirect != 0) {
+                window.location = chrt.json.data.redirects[d.id]
+            }
         }
 
         //console.log(c3json);

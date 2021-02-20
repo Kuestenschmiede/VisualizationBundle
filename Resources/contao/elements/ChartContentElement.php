@@ -53,6 +53,8 @@ class ChartContentElement extends ContentElement
                 $this->Template->imageMarginLeft = $chartModel->imageMarginLeft;
                 $this->Template->imageOpacity = 1 - ($chartModel->imageOpacity / 100);
 
+                $this->Template->cssClass = $chartModel->cssClass;
+
                 $buttons = [];
                 $rangeModels = ChartRangeModel::findByChartId($chartId);
 

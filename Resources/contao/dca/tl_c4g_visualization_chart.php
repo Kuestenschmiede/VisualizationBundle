@@ -31,7 +31,7 @@ $palettes = [
     'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
     'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
-    'expert' => ';{expert_legend:hide},zoom,points,legend,labels,oneLabelPerElement',
+    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass',
     'publish' => ';{publish_legend},published'
 ];
 
@@ -165,6 +165,10 @@ $legend = new CheckboxField('legend', $dca);
 $legend->default(true);
 $legend->sql("char(1) NOT NULL default '1'");
 
+$tooltips = new CheckboxField('tooltips', $dca);
+$tooltips->default(true);
+$tooltips->sql("char(1) NOT NULL default '1'");
+
 $labels = new CheckboxField('labels', $dca);
 $labels->default(false);
 $labels->sql("char(1) NOT NULL default '0'");
@@ -178,6 +182,8 @@ $published->default(true);
 
 $importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
 $importId->eval()->doNotCopy(true);
+
+$cssClass = new TextField('cssClass', $dca);
 
 /**
  * Class tl_c4g_visualization_chart
