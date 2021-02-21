@@ -68,7 +68,7 @@
 }
 
 .c4g-gantt .c3-text {
-  transform: translate(2px, 9px);
+  transform: translate(10em, 9px);
   fill: #FFF !important;
   font-size: 10px;
 }

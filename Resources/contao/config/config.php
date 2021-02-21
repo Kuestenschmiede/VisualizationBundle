@@ -38,6 +38,7 @@ $GLOBALS['TL_MODELS']['tl_c4g_visualization_chart_element_condition'] = \con4gis
 $GLOBALS['TL_MODELS']['tl_c4g_visualization_chart_element_input'] = \con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel::class;
 $GLOBALS['TL_MODELS']['tl_c4g_visualization_chart_element'] = \con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel::class;
 $GLOBALS['TL_MODELS']['tl_c4g_visualization_chart_element_relation'] = \con4gis\VisualizationBundle\Resources\contao\models\ChartElementRelationModel::class;
+$GLOBALS['TL_MODELS']['tl_c4g_visualization_chart_element_period'] = \con4gis\VisualizationBundle\Resources\contao\models\ChartElementPeriodModel::class;
 $GLOBALS['TL_MODELS']['tl_c4g_visualization_chart'] = \con4gis\VisualizationBundle\Resources\contao\models\ChartModel::class;
 $GLOBALS['TL_MODELS']['tl_c4g_visualization_chart_range'] = \con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel::class;
 

@@ -16,10 +16,11 @@ class ChartElement
     const TYPE_PIE = 'pie';
     const TYPE_DONUT = 'donut';
     const TYPE_GAUGE = 'gauge';
-    const TYPE_GANTT = 'gantt'; //unready
+    const TYPE_GANTT = 'gantt';
 
     const ORIGIN_INPUT = '1';
     const ORIGIN_TABLE = '2';
+    const ORIGIN_PERIOD = '3';
 
     protected $type;
     protected $source;
@@ -59,8 +60,8 @@ class ChartElement
         $dataPoints = [];
 
         foreach ($this->source as $entry) {
-            $yValue = intval($entry->get($this->y));
-            $xValue = intval($entry->get($this->x));
+            $yValue = intval($this->y) ? $this->y : intval($entry->get($this->y));
+            $xValue = intval($this->x) ? $this->x : intval($entry->get($this->x));
 
             $dataPoints[] = [
                 'x' => $xValue,
@@ -70,23 +71,39 @@ class ChartElement
             ];
 
             $xstart = $xValue;
-            $xend = intval($entry->get($this->x2));
+            $xend =  intval($this->x2) ? $this->x2 : intval($entry->get($this->x2));
 
            if ($xstart && $xend && ($xend > $xstart)) {
 
-               //ToDo configuration param
-               $factor = 3600;
-               if (($xend-$xstart) > 57600) {
-                   $factor = 28800;
-               }
-                for ($i=$xstart+1; $i <= $xend; $i+=$factor) {
-                    $dataPoints[] = [
-                        'x' => $i,
-                        'y' => $yValue,
-                        'min' => $entry->get('min'),
-                        'redirect' => $entry->get('redirectSite')
-                    ];
-                }
+               $dataPoints[] = [
+                   'x' => $xend,
+                   'y' => $yValue,
+                   'min' => $entry->get('min'),
+                   'redirect' => $entry->get('redirectSite')
+               ];
+
+//               //ToDo configuration param
+//               //$factor = ($xend-$xstart) / 2;
+//               if (($xend-$xstart) > 57600) {
+//                   $factor = 28800;
+//               }
+//               if (($xend-$xstart) > 172800) {
+//                   $factor = 86400;
+//               }
+//               if (($xend-$xstart) > 1209600) {
+//                   $factor = 604800;
+//               }
+//               if (($xend-$xstart) > 5184000) {
+//                   $factor = 2592000;
+//               }
+//               for ($i=$xstart; $i <= $xend; $i+=$factor) {
+//                    $dataPoints[] = [
+//                        'x' => $i,
+//                        'y' => $yValue,
+//                        'min' => $entry->get('min'),
+//                        'redirect' => $entry->get('redirectSite')
+//                    ];
+//                }
             }
         }
 

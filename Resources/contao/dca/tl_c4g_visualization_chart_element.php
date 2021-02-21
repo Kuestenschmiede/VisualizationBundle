@@ -14,6 +14,7 @@
 use con4gis\CoreBundle\Classes\DCA\DCA;
 use con4gis\CoreBundle\Classes\DCA\Fields\CheckboxField;
 use con4gis\CoreBundle\Classes\DCA\Fields\ColorPickerField;
+use con4gis\CoreBundle\Classes\DCA\Fields\DatePickerField;
 use con4gis\CoreBundle\Classes\DCA\Fields\DigitField;
 use con4gis\CoreBundle\Classes\DCA\Fields\IdField;
 use con4gis\CoreBundle\Classes\DCA\Fields\LabelField;
@@ -36,7 +37,8 @@ $dca->palette()->selector(['origin'])
         '{transform_legend},groupIdenticalX,minCountIdenticalX;'.
         '{publish_legend},published;')
     ->subPalette('origin', '1', 'inputWizard')
-    ->subPalette('origin', '2', 'table,tablex,tablex2,tabley,whereWizard');
+    ->subPalette('origin', '2', 'table,tablex,tablex2,tabley,whereWizard')
+    ->subPalette('origin', '3', 'periodWizard');
 
 $id = new IdField('id', $dca);
 $tStamp = new NaturalField('tstamp', $dca);
@@ -112,6 +114,14 @@ $minCountIdenticalX = new DigitField('minCountIdenticalX', $dca);
 $minCountIdenticalX->default('1');
 $minCountIdenticalX->sql("int(10) NOT NULL default '1'");
 
+$periodWizard = new MultiColumnField('periodWizard', $dca);
+$periodWizard->saveCallback('tl_c4g_visualization_chart_element', 'savePeriod')
+    ->loadCallback('tl_c4g_visualization_chart_element', 'loadPeriod');
+$fromX = new DatePickerField('fromX', $dca, $periodWizard);
+$toX = new DatePickerField('toX', $dca, $periodWizard);
+$yinput = new TextField('yinput', $dca, $periodWizard);
+
+
 $published = new CheckboxField('published', $dca);
 $published->default(true);
 
@@ -154,7 +164,8 @@ class tl_c4g_visualization_chart_element extends \Backend
     {
         return [
             '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_input'],
-            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_load_from_table']
+            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_load_from_table'],
+            '3' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_period'],
         ];
     }
 
@@ -290,6 +301,69 @@ class tl_c4g_visualization_chart_element extends \Backend
             '6' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_lesser']
         ];
     }
-    
 
+    /**
+     * @param $value
+     * @param DataContainer $dc
+     * @return null
+     */
+    public function savePeriod($value, DataContainer $dc)  {
+        $inputs = unserialize($value);
+        if (is_array($inputs) === true) {
+            $database = \Contao\Database::getInstance();
+            $database->prepare(
+                "DELETE FROM tl_c4g_visualization_chart_element_period WHERE elementId = ?")->execute($dc->activeRecord->id);
+            foreach($inputs as $input) {
+                if (empty($input) === true || $input['yinput'] === '' || $input['fromX'] === '' || $input['toX'] === '') {
+                    continue;
+                }
+
+                $stmt = $database->prepare(
+                    "INSERT INTO tl_c4g_visualization_chart_element_period (elementId, fromX, toX, yinput) ".
+                    "VALUES (?, ?, ?, ?)");
+                $stmt->execute($dc->activeRecord->id, $input['fromX'], $input['toX'], $input['yinput']);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param $value
+     * @param DataContainer $dc
+     * @return array
+     * @throws Exception
+     */
+    public function loadPeriod($value, DataContainer $dc) : array {
+        $database = \Contao\Database::getInstance();
+        $stmt = $database->prepare(
+            "SELECT fromX, toX, yinput FROM tl_c4g_visualization_chart_element_period WHERE elementId = ?");
+        $result = $stmt->execute($dc->activeRecord->id)->fetchAllAssoc();
+
+        //if ($dc->activeRecord->xValueCharacter === '2') {
+            $dateTime = new DateTime();
+            $dateFormat = $GLOBALS['TL_CONFIG']['dateFormat'];
+            foreach ($result as $key => $value) {
+                if ($value['fromX'] === 0.0) {
+                    $value['fromX'] = time();
+                }
+                $dateTime->setTimestamp(intval($value['fromX']));
+                $year = $dateTime->format('Y');
+                $month = $dateTime->format('m');
+                $day = $dateTime->format('d');
+
+
+                $result[$key]['fromX'] = date($dateFormat, $value['fromX']);//"$month/$day/$year";
+
+                if ($value['toX'] === 0.0) {
+                    $value['toX'] = time();
+                }
+                $dateTime->setTimestamp(intval($value['toX']));
+                $year = $dateTime->format('Y');
+                $month = $dateTime->format('m');
+                $day = $dateTime->format('d');
+                $result[$key]['toX'] = date($dateFormat, $value['toX']);//"$month/$day/$year";
+            }
+        //}
+        return $result;
+    }
 }

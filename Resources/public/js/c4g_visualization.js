@@ -195,7 +195,7 @@ class Vis {
                 c3json.data.labels = {
                     format: function (v, id, i, j) {
                         let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
-                        if ( (id) && (i == 1) ) {
+                        if ( (id) && (i == 0) ) {
                             return chrt.json.data.names[id];
                         } else {
                             return '';

@@ -27,6 +27,7 @@ use con4gis\VisualizationBundle\Classes\Transformers\GroupIdenticalXTransformer;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementConditionModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementInputModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel;
+use con4gis\VisualizationBundle\Resources\contao\models\ChartElementPeriodModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
 use Contao\Database;
@@ -154,6 +155,17 @@ class ChartController extends AbstractController
                                         continue 2;
                                     }
                                     break;
+                                case ChartElement::ORIGIN_PERIOD:
+                                    $periodModels = ChartElementPeriodModel::findByElementId($elementModel->id);
+                                    if ($periodModels !== null) {
+                                        foreach ($periodModels as $period) {
+                                            $period->x = $period->fromX;
+                                            $period->x2 = $period->toX;
+                                            $period->y = $period->yinput;
+                                        }
+                                        $source = new Source($periodModels, $elementModel->minCountIdenticalX, $elementModel->redirectSite);
+                                    }
+                                    break;
                                 default:
                                     throw new UnknownChartSourceException();
                                     break;
@@ -172,6 +184,31 @@ class ChartController extends AbstractController
                                 if ($elementModel->type === ChartElement::TYPE_GANTT) {
                                     $element->setX2($elementModel->tablex2);
                                 }
+                            }
+                            if ($elementModel->origin === ChartElement::ORIGIN_PERIOD) {
+                                $periods = ChartElementPeriodModel::findByElementId($elementModel->id);
+                                $x = 0;
+                                $x2 = 0;
+                                $y = 0;
+                                foreach ($periods as $period) {
+                                    if ($x == 0) {
+                                        $x = $period->fromX;
+                                    } else if ($period->fromX < $x) {
+                                        $x = $period->fromX;
+                                    }
+
+                                    if ($x2 == 0) {
+                                        $x2 = $period->toX;
+                                    } else if ($period->toX > $x2) {
+                                        $x2 = $period->toX;
+                                    }
+
+                                    $y = $period->yinput; //ToDo
+                                }
+
+                                $element->setX($x);
+                                $element->setX2($x2);
+                                $element->setY($y);
                             }
                             if ($chartModel->xValueCharacter === '2') {
                                 $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $tooltip, $chartModel->xLabelCount, intval($chartModel->xRotate));

@@ -12,7 +12,7 @@
  */
 
 
-$GLOBALS['TL_DCA']['tl_content']['palettes']['c4g_visualization'] = '{type_legend},name,type,headline;{chart_legend},chartID';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['c4g_visualization'] = '{type_legend},name,type,headline,invisible;{chart_legend},chartID';
 
 $GLOBALS['TL_DCA']['tl_content']['fields']
     ['chartID'] =
