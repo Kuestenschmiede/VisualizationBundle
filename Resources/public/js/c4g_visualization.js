@@ -136,7 +136,12 @@ class Vis {
             }
             c3json.data.columns.push(x, y);
 
+            if (json.data[index].type == 'areaspline') {
+                json.data[index].type = 'area-spline';
+            }
+
             var type = json.data[index].type !== 'gantt' ? json.data[index].type : 'line';
+            c3json.rotated
             c3json.data.types['y' + index] = type;
             if (typeof json.data[index].name !== 'undefined') {
                 c3json.data.names['y' + index] = json.data[index].name;
@@ -165,9 +170,6 @@ class Vis {
 
         if (typeof json.axis !== 'undefined') {
             c3json.axis = json.axis;
-            // c3json.axis.format = function(x) {
-            //     return json.axis.format[x];
-            // };
         }
 
         if ((typeof json.zoom !== 'undefined') && (typeof json.zoom.enabled !== 'undefined')) {
@@ -218,7 +220,7 @@ class Vis {
         }
 
         let scope = this;
-        c3json.data.onclick = function (d) {
+        c3json.data.onclick = function (d, element) {
             let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
             let redirect = chrt.json.data.redirects[d.id];
             if (redirect && redirect != 0) {

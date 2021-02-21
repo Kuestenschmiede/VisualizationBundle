@@ -173,7 +173,9 @@ class tl_c4g_visualization_chart_element extends \Backend
     {
         return [
             ChartElement::TYPE_LINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_line'],
+            ChartElement::TYPE_AREA_LINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_area_line'],
             ChartElement::TYPE_SPLINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_spline'],
+            ChartElement::TYPE_AREA_SPLINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_area_spline'],
             ChartElement::TYPE_PIE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_pie'],
             ChartElement::TYPE_BAR => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_bar'],
             ChartElement::TYPE_DONUT => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_donut'],

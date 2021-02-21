@@ -71,6 +71,7 @@
   transform: translate(10em, 9px);
   fill: #FFF !important;
   font-size: 10px;
+  text-anchor: middle;
 }
 
 /*-- Point --*/

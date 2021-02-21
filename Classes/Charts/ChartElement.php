@@ -11,7 +11,9 @@ class ChartElement
 {
     const TYPE_BAR = 'bar';
     const TYPE_LINE = 'line';
+    const TYPE_AREA_LINE = 'area';
     const TYPE_SPLINE = 'spline';
+    const TYPE_AREA_SPLINE = 'areaspline';
     const TYPE_AREA = 'area';
     const TYPE_PIE = 'pie';
     const TYPE_DONUT = 'donut';
