@@ -1,6 +1,7 @@
 'use strict';
 
 import c3 from 'c3';
+import * as d3 from 'd3';
 
 class Vis {
 
@@ -9,9 +10,28 @@ class Vis {
         this.charts = [];
     }
 
+
     generateCharts() {
         const scope = this;
         let elIndex = 0;
+
+        // var deLocaleDef = {
+        //     "dateTime": "%A, der %e. %B %Y, %X",
+        //     "date": "%d.%m.%Y",
+        //     "time": "%H:%M:%S",
+        //     "periods": ["vormittags", "nachmittags"],
+        //     "days": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+        //     "shortDays": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+        //     "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+        //     "shortMonths": ["Jan", "Feb", "Mrz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+        //     "decimal": ",",
+        //     "thousands": "'",
+        //     "grouping": [3],
+        //     "currency": ["", "\u00a0EUR"]
+        // };
+        //
+        // var deLocale = d3.locale(deLocaleDef);
+
         while (elIndex < this.elements.length) {
             let element = this.elements.item(elIndex);
             if (element && element.dataset && element.dataset.chart) {
