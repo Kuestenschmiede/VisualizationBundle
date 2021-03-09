@@ -72,7 +72,6 @@ class Vis {
                                 return chrt.rotate[x];
                             };
                         }
-
                         scope.charts.push(chart);
 
                         chart.update();
@@ -161,7 +160,7 @@ class Vis {
             }
 
             var type = json.data[index].type !== 'gantt' ? json.data[index].type : 'line';
-            c3json.rotated
+
             c3json.data.types['y' + index] = type;
             if (typeof json.data[index].name !== 'undefined') {
                 c3json.data.names['y' + index] = json.data[index].name;

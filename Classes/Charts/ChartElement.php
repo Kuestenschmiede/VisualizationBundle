@@ -1,11 +1,20 @@
 <?php
-
+/**
+ * This file is part of con4gis,
+ * the gis-kit for Contao CMS.
+ *
+ * @package    con4gis
+ * @version    7
+ * @author     con4gis contributors (see "authors.txt")
+ * @license    LGPL-3.0-or-later
+ * @copyright  Küstenschmiede GmbH Software & Design
+ * @link       https://www.con4gis.org
+ */
 namespace con4gis\VisualizationBundle\Classes\Charts;
 
 use con4gis\VisualizationBundle\Classes\Labels\Label;
 use con4gis\VisualizationBundle\Classes\Source\Source;
 use con4gis\VisualizationBundle\Classes\Transformers\Transformer;
-use Symfony\Component\HttpFoundation\Response;
 
 class ChartElement
 {
@@ -69,19 +78,18 @@ class ChartElement
                 'x' => $xValue,
                 'y' => $yValue,
                 'min' => $entry->get('min'),
-                'redirect' => $entry->get('redirectSite')
+                'redirect' => $entry->get('redirectSite'),
             ];
 
             $xstart = $xValue;
-            $xend =  intval($this->x2) ? $this->x2 : intval($entry->get($this->x2));
+            $xend = intval($this->x2) ? $this->x2 : intval($entry->get($this->x2));
 
-           if ($xstart && $xend && ($xend > $xstart)) {
-
-               $dataPoints[] = [
+            if ($xstart && $xend && ($xend > $xstart)) {
+                $dataPoints[] = [
                    'x' => $xend,
                    'y' => $yValue,
                    'min' => $entry->get('min'),
-                   'redirect' => $entry->get('redirectSite')
+                   'redirect' => $entry->get('redirectSite'),
                ];
 
 //               //ToDo configuration param
@@ -122,7 +130,7 @@ class ChartElement
             $oldFormat = '';
             $oldstamp = '';
 
-            foreach ($dataPoints as $key=>$dataPoint) {
+            foreach ($dataPoints as $key => $dataPoint) {
                 $dataPoints[$key]['x'] = intval($dataPoints[$key]['x']);
                 $tstamp = $dataPoints[$key]['x'];
 
@@ -152,10 +160,9 @@ class ChartElement
             $dataPoints = $label->label($dataPoints);
         }
 
-
         $result = [
             'type' => $this->type,
-            'dataPoints' => $dataPoints
+            'dataPoints' => $dataPoints,
         ];
 
         $group = ($this->group >= 0) ? $this->group : false; //ToDo different groups for intervals

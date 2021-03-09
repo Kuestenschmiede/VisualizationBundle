@@ -1,5 +1,15 @@
 <?php
-
+/**
+ * This file is part of con4gis,
+ * the gis-kit for Contao CMS.
+ *
+ * @package    con4gis
+ * @version    7
+ * @author     con4gis contributors (see "authors.txt")
+ * @license    LGPL-3.0-or-later
+ * @copyright  Küstenschmiede GmbH Software & Design
+ * @link       https://www.con4gis.org
+ */
 namespace con4gis\VisualizationBundle\Classes\Charts;
 
 class Chart
@@ -7,7 +17,7 @@ class Chart
     const RANGE_DEFAULT = 'range_default';
     const RANGE_ALL = 'range_all';
 
-    protected $zoom   = false;
+    protected $zoom = false;
     protected $points = true;
     protected $legend = true;
     protected $tooltips = true;
@@ -45,7 +55,7 @@ class Chart
             ];
         }
 
-        $array['zoom']   = ['enabled' => boolval($this->zoom)];
+        $array['zoom'] = ['enabled' => boolval($this->zoom)];
         $array['points'] = ['enabled' => boolval($this->points)];
         $array['legend'] = ['enabled' => boolval($this->legend)];
         $array['tooltips'] = ['enabled' => boolval($this->tooltips)];
@@ -139,7 +149,7 @@ class Chart
      */
     public function setPoints($points = true): Chart
     {
-        $this->points =  boolval($points);
+        $this->points = boolval($points);
 
         return $this;
     }

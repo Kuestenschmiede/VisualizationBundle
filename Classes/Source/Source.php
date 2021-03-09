@@ -1,5 +1,15 @@
 <?php
-
+/**
+ * This file is part of con4gis,
+ * the gis-kit for Contao CMS.
+ *
+ * @package    con4gis
+ * @version    7
+ * @author     con4gis contributors (see "authors.txt")
+ * @license    LGPL-3.0-or-later
+ * @copyright  Küstenschmiede GmbH Software & Design
+ * @link       https://www.con4gis.org
+ */
 namespace con4gis\VisualizationBundle\Classes\Source;
 
 use con4gis\VisualizationBundle\Classes\Exceptions\InvalidSourceTypeException;
@@ -16,33 +26,33 @@ class Source implements \Iterator
      * @param $data
      * @throws InvalidSourceTypeException
      */
-    public function __construct($data, $min=0, $redirectSite='')
+    public function __construct($data, $min = 0, $redirectSite = '')
     {
-        if ($redirectSite && (($jumpTo = \PageModel::findByPk($redirectSite)) !== null)) {
+        if ($redirectSite && (($jumpTo = \Contao\PageModel::findByPk($redirectSite)) !== null)) {
             $redirectSite = $jumpTo->getFrontendUrl();
         }
 
         $this->addData($data, $min, $redirectSite);
     }
 
-    public function addData($data,$min=0, $redirectSite='')
+    public function addData($data, $min = 0, $redirectSite = '')
     {
         if ($data instanceof Collection) {
             foreach ($data as $model) {
-                $this->entries[] = new Entry($model->row(),$min,$redirectSite);
+                $this->entries[] = new Entry($model->row(), $min, $redirectSite);
             }
         } elseif ($data instanceof Model) {
-            $this->entries[] = new Entry($data->row(),$min,$redirectSite);
+            $this->entries[] = new Entry($data->row(), $min, $redirectSite);
         } elseif (is_array($data)) {
             $depth = $this->getArrayDepth($data);
             switch ($depth) {
                 case 1:
-                    $this->entries[] = new Entry($data,$min,$redirectSite);
+                    $this->entries[] = new Entry($data, $min, $redirectSite);
 
                     break;
                 case 2:
                     foreach ($data as $arr) {
-                        $this->entries[] = new Entry($arr,$min,$redirectSite);
+                        $this->entries[] = new Entry($arr, $min, $redirectSite);
                     }
 
                     break;

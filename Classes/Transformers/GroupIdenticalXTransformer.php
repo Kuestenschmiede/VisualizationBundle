@@ -1,5 +1,15 @@
 <?php
-
+/**
+ * This file is part of con4gis,
+ * the gis-kit for Contao CMS.
+ *
+ * @package    con4gis
+ * @version    7
+ * @author     con4gis contributors (see "authors.txt")
+ * @license    LGPL-3.0-or-later
+ * @copyright  Küstenschmiede GmbH Software & Design
+ * @link       https://www.con4gis.org
+ */
 namespace con4gis\VisualizationBundle\Classes\Transformers;
 
 class GroupIdenticalXTransformer implements Transformer
@@ -21,7 +31,7 @@ class GroupIdenticalXTransformer implements Transformer
             }
         }
 
-        foreach ($xValues as $key=>$value) {
+        foreach ($xValues as $key => $value) {
             if ($yValues[$key] && ($yValues[$key] >= $minValues[$key])) {
                 $grouped[] = [
                     'x' => $xValues[$key],
