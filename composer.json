@@ -19,7 +19,8 @@
   ],
   "require": {
     "contao/core-bundle": "^4.4",
-    "con4gis/core": "^4.1"
+    "con4gis/core": "^4.1",
+    "menatwork/contao-multicolumnwizard-bundle": "^3.4"
   },
   "conflict": {
     "contao/core": "*",
