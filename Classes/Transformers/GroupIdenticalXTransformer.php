@@ -24,7 +24,7 @@ class GroupIdenticalXTransformer implements Transformer
             $arrayKey = array_search($dataPoint['x'], $xValues);
             if ($arrayKey === false) {
                 $xValues[] = $dataPoint['x'];
-                $yValues[] = intval($dataPoint['y']);
+                $yValues[] = floatval($dataPoint['y']);
                 $minValues[] = $dataPoint['min'];
             } else {
                 $yValues[$arrayKey] = intval($yValues[$arrayKey]) + intval($dataPoint['y']);

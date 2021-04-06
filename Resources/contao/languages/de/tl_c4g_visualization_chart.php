@@ -66,6 +66,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'buttonAllPosition' => ['Position des Buttons für alle Werte', 'Definiert, ob der Button für alle Wertebereiche als erster oder letzter Button eingefügt wird.'],
     'buttonPosition'    => ['Position der Buttons', 'Definiert die Position der Buttons relativ zur Grafik.'],
     'loadOutOfRangeData'=> ['Daten laden, die außerhalb definierter Wertebereiche liegen', 'Bei großen Datenbeständen oder wenn nur die definierten Wertebereiche gezeigt werden sollen, ist es ggf. sinnvoll, das Laden der Daten zu beschränken.'],
+    'decimalPoints'     => ['Nachkommastellen', 'Hier kann Anzahl der Nachkommastellen bei Dezimalzahlen verändert werden. Standard: 0'],
     'general_legend'    => 'Allgemeine Einstellungen',
     'element_legend'    => 'Elemente',
     'color_legend'      => 'Farben',

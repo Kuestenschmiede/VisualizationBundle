@@ -26,7 +26,7 @@ use con4gis\CoreBundle\Classes\DCA\Fields\TextField;
 $palettes = [
     'general' => '{general_legend},backendtitle,xValueCharacter,',
     'elements' => 'elementWizard',
-    'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData',
+    'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
     'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData',
     'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
     'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
@@ -97,6 +97,10 @@ $buttonAllPosition = new SelectField('buttonAllPosition', $dca);
 $buttonAllPosition->optionsCallback('tl_c4g_visualization_chart', 'loadButtonAllPositionOptions')
     ->default('2')->sql("char(1) NOT NULL default '2'")->eval()->class('w50');
 $loadOutOfRangeData = new CheckboxField('loadOutOfRangeData', $dca);
+
+$decimalPoints = new NaturalField('decimalPoints', $dca);
+$decimalPoints->default('0')->sql("int(10) unsigned NOT NULL default '0'")
+    ->eval()->maxlength(10)->class('clr');
 
 $swapAxes = new CheckboxField('swapAxes', $dca);
 $xShow = new CheckboxField('xshow', $dca);

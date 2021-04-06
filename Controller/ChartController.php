@@ -63,7 +63,7 @@ class ChartController extends AbstractController
                     if ($chartModel->xshow === '1') {
                         $coordinateSystem->x()->setShow(true);
                         if (is_string($chartModel->xLabelText) === true) {
-                            $coordinateSystem->x()->setLabel($chartModel->xLabelText, intval($chartModel->xLabelPosition));
+                            $coordinateSystem->x()->setLabel($chartModel->xLabelText, round($chartModel->xLabelPosition, $chartModel->decimalPoints));
                         }
                     }
 
@@ -73,7 +73,7 @@ class ChartController extends AbstractController
                             $coordinateSystem->y()->setInverted(true);
                         }
                         if (is_string($chartModel->yLabelText) === true) {
-                            $coordinateSystem->y()->setLabel($chartModel->yLabelText, intval($chartModel->yLabelPosition));
+                            $coordinateSystem->y()->setLabel($chartModel->yLabelText, round($chartModel->yLabelPosition, $chartModel->decimalPoints));
                         }
                     }
 
@@ -83,7 +83,7 @@ class ChartController extends AbstractController
                             $coordinateSystem->y2()->setInverted(true);
                         }
                         if (is_string($chartModel->y2LabelText) === true) {
-                            $coordinateSystem->y2()->setLabel($chartModel->y2LabelText, intval($chartModel->y2LabelPosition));
+                            $coordinateSystem->y2()->setLabel($chartModel->y2LabelText, round($chartModel->y2LabelPosition, $chartModel->decimalPoints));
                         }
                     }
 
@@ -172,6 +172,7 @@ class ChartController extends AbstractController
                             }
 
                             $element = new ChartElement($elementModel->type, $source);
+                            $element->setDecimalPoints($chartModel->decimalPoints);
                             if ($elementModel->color) {
                                 $element->setColor($elementModel->color);
                             }

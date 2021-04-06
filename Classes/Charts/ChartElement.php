@@ -55,6 +55,8 @@ class ChartElement
 
     protected $redirectSite = '';
 
+    protected $decimalPoints = 2;
+
     public function __construct(string $type, Source $source)
     {
         $this->type = $type;
@@ -71,8 +73,8 @@ class ChartElement
         $dataPoints = [];
 
         foreach ($this->source as $entry) {
-            $yValue = intval($this->y) ? $this->y : intval($entry->get($this->y));
-            $xValue = intval($this->x) ? $this->x : intval($entry->get($this->x));
+            $yValue = round($this->y,$this->decimalPoints) ? $this->y : round($entry->get($this->y),$this->decimalPoints);
+            $xValue = round($this->x,$this->decimalPoints) ? $this->x : round($entry->get($this->x),$this->decimalPoints);
 
             $dataPoints[] = [
                 'x' => $xValue,
@@ -82,7 +84,7 @@ class ChartElement
             ];
 
             $xstart = $xValue;
-            $xend = intval($this->x2) ? $this->x2 : intval($entry->get($this->x2));
+            $xend = round($this->x2,$this->decimalPoints) ? $this->x2 : round($entry->get($this->x2),$this->decimalPoints);
 
             if ($xstart && $xend && ($xend > $xstart)) {
                 $dataPoints[] = [
@@ -305,5 +307,21 @@ class ChartElement
         $this->redirectSite = $redirectSite;
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDecimalPoints(): int
+    {
+        return $this->decimalPoints;
+    }
+
+    /**
+     * @param int $decimalPoints
+     */
+    public function setDecimalPoints(int $decimalPoints): void
+    {
+        $this->decimalPoints = $decimalPoints;
     }
 }

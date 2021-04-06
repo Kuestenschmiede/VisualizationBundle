@@ -63,6 +63,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'buttonAllPosition' => ['"All"-Button position', 'Defines whether the button for all values is rendered as the first or last button.'],
     'buttonPosition'    => ['Button position', 'Defines the position of the buttons relatively to the chart.'],
     'loadOutOfRangeData'=> ['Load data out of range', 'When working with large data pool or if only the defined ranges should be shown, it may be sensible to limit loading the data.'],
+    'decimalPoints'     => ['Decimal places', 'Here you can change the number of decimal places for decimal numbers. Default: 0'],
     'general_legend'    => 'Generic options',
     'element_legend'    => 'Elements',
     'color_legend'      => 'Colors',
