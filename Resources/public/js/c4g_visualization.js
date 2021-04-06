@@ -235,7 +235,7 @@ class Vis {
                 return chrt.tooltipformattitle[x];
             };
         } else {
-            c3json.tooltip.show = false;
+            c3json.tooltip.show = (json.tooltips.enabled && json.tooltips.enabled !== 'undefined');
         }
 
         let scope = this;
