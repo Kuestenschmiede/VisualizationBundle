@@ -1,14 +1,12 @@
 <?php
-/**
- * This file is part of con4gis,
- * the gis-kit for Contao CMS.
- *
- * @package    con4gis
- * @version    7
- * @author     con4gis contributors (see "authors.txt")
- * @license    LGPL-3.0-or-later
- * @copyright  Küstenschmiede GmbH Software & Design
- * @link       https://www.con4gis.org
+/*
+ * This file is part of con4gis, the gis-kit for Contao CMS.
+ * @package con4gis
+ * @version 8
+ * @author con4gis contributors (see "authors.txt")
+ * @license LGPL-3.0-or-later
+ * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @link https://www.con4gis.org
  */
 namespace con4gis\VisualizationBundle\Classes\Charts;
 
@@ -73,8 +71,8 @@ class ChartElement
         $dataPoints = [];
 
         foreach ($this->source as $entry) {
-            $yValue = round($this->y,$this->decimalPoints) ? $this->y : round($entry->get($this->y),$this->decimalPoints);
-            $xValue = round($this->x,$this->decimalPoints) ? $this->x : round($entry->get($this->x),$this->decimalPoints);
+            $yValue = round($this->y, $this->decimalPoints) ? $this->y : round($entry->get($this->y), $this->decimalPoints);
+            $xValue = round($this->x, $this->decimalPoints) ? $this->x : round($entry->get($this->x), $this->decimalPoints);
 
             $dataPoints[] = [
                 'x' => $xValue,
@@ -84,7 +82,7 @@ class ChartElement
             ];
 
             $xstart = $xValue;
-            $xend = round($this->x2,$this->decimalPoints) ? $this->x2 : round($entry->get($this->x2),$this->decimalPoints);
+            $xend = round($this->x2, $this->decimalPoints) ? $this->x2 : round($entry->get($this->x2), $this->decimalPoints);
 
             if ($xstart && $xend && ($xend > $xstart)) {
                 $dataPoints[] = [
