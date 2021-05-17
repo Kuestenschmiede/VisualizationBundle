@@ -16,14 +16,14 @@ $GLOBALS['BE_MOD']['con4gis'] = array_merge($GLOBALS['BE_MOD']['con4gis'], [
         (
             'brick' => 'visualization',
             'tables' => array('tl_c4g_visualization_chart_element'),
-            'stylesheet' => 'bundles/con4gisvisualization/css/backend_chart_element.css',
+            'stylesheet' => 'bundles/con4gisvisualization/dist/css/backend_chart_element.min.css',
             'icon' => 'bundles/con4gisvisualization/images/be-icons/charts.svg'
         ),
         'c4g_visualization_chart' => array
         (
             'brick' => 'visualization',
             'tables' => array('tl_c4g_visualization_chart'),
-            'stylesheet' => 'bundles/con4gisvisualization/css/backend_chart.css',
+            'stylesheet' => 'bundles/con4gisvisualization/dist/css/backend_chart.min.css',
             'icon' => 'bundles/con4gisvisualization/images/be-icons/grafic.svg'
         ),
     ]

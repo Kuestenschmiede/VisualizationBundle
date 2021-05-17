@@ -32,8 +32,8 @@ class ChartContentElement extends ContentElement
             $this->Template->wildcard   = "### $chartModel->backendtitle ###";
         } else if (!$this->getModel()->invisible) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/build/c4g_visualization.js|static|async', ResourceLoader::JAVASCRIPT);
-            ResourceLoader::loadCssResource('bundles/con4gisvisualization/css/c3.css');
-            ResourceLoader::loadCssResource('bundles/con4gisvisualization/css/c4g_visualization.css');
+            ResourceLoader::loadCssResource('bundles/con4gisvisualization/dist/css/c3.min.css');
+            ResourceLoader::loadCssResource('bundles/con4gisvisualization/dist/css/c4g_visualization.min.css');
             $elementModel = $this->getModel();
             $chartId = $elementModel->chartID;
             $chartModel = ChartModel::findByPk($chartId);

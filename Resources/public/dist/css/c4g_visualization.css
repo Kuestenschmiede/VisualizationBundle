@@ -1,0 +1,13 @@
+@charset "UTF-8";
+.c4g_chart_container h1,
+.c4g_chart_container h2,
+.c4g_chart_container h3,
+.c4g_chart_container h4,
+.c4g_chart_container h5,
+.c4g_chart_container h6 {
+  text-align: center
+}
+.c4g_chart_range_button {
+  margin-left: 2px;
+  margin-right: 2px
+}
