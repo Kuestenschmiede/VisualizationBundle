@@ -10,6 +10,7 @@
  */
 namespace con4gis\VisualizationBundle\Controller;
 
+use con4gis\CoreBundle\Controller\BaseController;
 use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\VisualizationBundle\Classes\Charts\Axis;
 use con4gis\VisualizationBundle\Classes\Charts\Chart;
@@ -28,19 +29,35 @@ use con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementPeriodModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\Model\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ChartController extends AbstractController
 {
-    public function fetchAction(Request $request, $chartId)
+    private $framework = null;
+
+    public function __construct(ContaoFramework $framework)
+    {
+        $this->framework = $framework;
+    }
+
+    /**
+     * @param Request $request
+     * @param $chartId
+     * @return JsonResponse|Response
+     * @Route("/con4gis/fetchChart/{chartId}", methods={"GET"})
+     */
+    public function getFetchChartAction(Request $request, $chartId)
     {
         try {
-            $this->get('contao.framework')->initialize();
+            $this->framework->initialize(true);
             if ($chartId && $this->authorized() === true) {
                 $chartModel = ChartModel::findByPk($chartId);
                 if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {

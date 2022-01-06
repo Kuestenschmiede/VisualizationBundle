@@ -1,8 +1,0 @@
-fetchChart:
-    path: /con4gis/fetchchart/{chartId}
-    defaults:
-        _scope: frontend
-        _controller: "con4gisVisualizationBundle:Chart:fetch"
-        methods: [GET]
-    requirements:
-      chartId: '\d+'

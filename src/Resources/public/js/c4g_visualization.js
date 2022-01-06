@@ -45,7 +45,7 @@ class Vis {
         while (elIndex < this.elements.length) {
             let element = this.elements.item(elIndex);
             if (element && element.dataset && element.dataset.chart) {
-                fetch('con4gis/fetchchart/' + element.dataset.chart)
+                fetch('con4gis/fetchChart/' + element.dataset.chart)
                     .then(function (response) {
                         return response.json();
                     })

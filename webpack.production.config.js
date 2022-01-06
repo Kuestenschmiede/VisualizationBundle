@@ -10,14 +10,14 @@
 
 var path = require('path');
 var config = {
-  entry: './Resources/public/js/c4g_visualization.js',
+  entry: './src/Resources/public/js/c4g_visualization.js',
   mode: "production",
   output: {
     filename: 'c4g_visualization.js',
-    path: path.resolve('./Resources/public/build/')
+    path: path.resolve('./src/Resources/public/build/')
   },
   resolve: {
-    modules: ['node_modules', 'Resources/public/js'],
+    modules: ['node_modules', 'src/Resources/public/js'],
     extensions: ['.js']
   },
   module: {
@@ -30,7 +30,7 @@ var config = {
         }],
         include: [
           path.resolve('.'),
-          path.resolve('./Resources/public/js'),
+          path.resolve('./src/Resources/public/js'),
         ],
       }
     ]

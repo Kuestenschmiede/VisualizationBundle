@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  con4gis\VisualizationBundle\Controller\ChartController:
+    arguments:
+      - "@contao.framework"
+    public: true
+
