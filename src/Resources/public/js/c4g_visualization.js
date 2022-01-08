@@ -45,12 +45,10 @@ class Vis {
         while (elIndex < this.elements.length) {
             let element = this.elements.item(elIndex);
             if (element && element.dataset && element.dataset.chart) {
-                fetch('con4gis/fetchChart/' + element.dataset.chart)
-                    .then(function (response) {
-                        return response.json();
-                    })
-                    .then(function (responseJson) {
-
+                let url = '/visualization-api/fetchChart/' + element.dataset.chart;
+                fetch(url)
+                    .then(response => response.json())
+                    .then((responseJson) => {
                         // console.log(responseJson.axis.x.tick.format);
 
                         let chart = {

@@ -52,13 +52,14 @@ class ChartController extends AbstractController
      * @param Request $request
      * @param $chartId
      * @return JsonResponse|Response
-     * @Route("/con4gis/fetchChart/{chartId}", methods={"GET"})
+     * @Route("/visualization-api/fetchChart/{chartId}", methods={"GET"})
      */
     public function getFetchChartAction(Request $request, $chartId)
     {
         try {
             $this->framework->initialize(true);
-            if ($chartId && $this->authorized() === true) {
+            if ($chartId/* && $this->authorized() === true*/) {
+                $chartId = intval($chartId);
                 $chartModel = ChartModel::findByPk($chartId);
                 if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
                     $chart = new Chart();
@@ -78,7 +79,7 @@ class ChartController extends AbstractController
                     if ($chartModel->xshow === '1') {
                         $coordinateSystem->x()->setShow(true);
                         if (is_string($chartModel->xLabelText) === true) {
-                            $coordinateSystem->x()->setLabel($chartModel->xLabelText, round($chartModel->xLabelPosition, $chartModel->decimalPoints));
+                            $coordinateSystem->x()->setLabel($chartModel->xLabelText, round(floatval($chartModel->xLabelPosition), intval($chartModel->decimalPoints)));
                         }
                     }
 
@@ -88,7 +89,7 @@ class ChartController extends AbstractController
                             $coordinateSystem->y()->setInverted(true);
                         }
                         if (is_string($chartModel->yLabelText) === true) {
-                            $coordinateSystem->y()->setLabel($chartModel->yLabelText, round($chartModel->yLabelPosition, $chartModel->decimalPoints));
+                            $coordinateSystem->y()->setLabel($chartModel->yLabelText, round(floatval($chartModel->yLabelPosition), intval($chartModel->decimalPoints)));
                         }
                     }
 
@@ -98,7 +99,7 @@ class ChartController extends AbstractController
                             $coordinateSystem->y2()->setInverted(true);
                         }
                         if (is_string($chartModel->y2LabelText) === true) {
-                            $coordinateSystem->y2()->setLabel($chartModel->y2LabelText, round($chartModel->y2LabelPosition, $chartModel->decimalPoints));
+                            $coordinateSystem->y2()->setLabel($chartModel->y2LabelText, round(floatval($chartModel->y2LabelPosition), intval($chartModel->decimalPoints)));
                         }
                     }
 
