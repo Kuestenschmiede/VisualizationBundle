@@ -65,23 +65,25 @@ class ChartContentElement extends ContentElement
                 }
 
                 $defaultDefined = false;
-                foreach ($rangeModels as $model) {
-                    if (($model->defaultRange === '1') && ($defaultDefined === false)) {
-                        $defaultDefined = true;
-                        $buttons[] = [
-                            'range' => Chart::RANGE_DEFAULT,
-                            'target' => 'c4g_chart_' . static::$instances,
-                            'caption' => $model->name
-                        ];
-                    } else {
-                        $buttons[] = [
-                            'range' => $model->name,
-                            'target' => 'c4g_chart_' . static::$instances,
-                            'caption' => $model->name
-                        ];
+                if ($rangeModels) {
+                    foreach ($rangeModels as $model) {
+                        if (($model->defaultRange === '1') && ($defaultDefined === false)) {
+                            $defaultDefined = true;
+                            $buttons[] = [
+                                'range' => Chart::RANGE_DEFAULT,
+                                'target' => 'c4g_chart_' . static::$instances,
+                                'caption' => $model->name
+                            ];
+                        } else {
+                            $buttons[] = [
+                                'range' => $model->name,
+                                'target' => 'c4g_chart_' . static::$instances,
+                                'caption' => $model->name
+                            ];
+                        }
                     }
                 }
-
+                
                 if (($chartModel->buttonAllCaption !== '') && ($chartModel->buttonAllPosition === '2')) {
                     $buttons[] = [
                         'range' => Chart::RANGE_ALL,
