@@ -118,47 +118,6 @@ class ChartController extends AbstractController
         //Todo implement
         return true;
     }
-
-    private function createAdditionalWhereString($elementModel) {
-        $conditionModels = ChartElementConditionModel::findByElementId($elementModel->id);
-        if ($conditionModels instanceof Collection) {
-            $first = true;
-            $where = '';
-            foreach($conditionModels as $model) {
-                if ($first === true) {
-                    $first = false;
-                } else {
-                    $where .= ' AND ';
-                }
-                switch ($model->whereComparison) {
-                    case 1:
-                        $comparison = '=';
-                        break;
-                    case 2:
-                        $comparison = '>=';
-                        break;
-                    case 3:
-                        $comparison = '<=';
-                        break;
-                    case 4:
-                        $comparison = '!=';
-                        break;
-                    case 5:
-                        $comparison = '>';
-                        break;
-                    case 6:
-                        $comparison = '<';
-                        break;
-                    default:
-                        return '';
-                }
-                $where .= $model->whereColumn . ' ' . $comparison . ' ' . $model->whereValue;
-            }
-            return $where;
-        } else {
-            return '';
-        }
-    }
 }
 
 

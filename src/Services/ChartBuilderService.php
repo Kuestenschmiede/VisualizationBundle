@@ -12,6 +12,7 @@ use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartSourceException;
 use con4gis\VisualizationBundle\Classes\Source\Source;
 use con4gis\VisualizationBundle\Classes\Transformers\GroupIdenticalXTransformer;
+use con4gis\VisualizationBundle\Resources\contao\models\ChartElementConditionModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementInputModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementPeriodModel;
@@ -40,11 +41,12 @@ class ChartBuilderService
         $chartModel = ChartModel::findByPk($chartId);
         if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
             $chart = new Chart();
-            $chart = $this->addConfigToChart($chart, $chartModel);
+            $coordinateSystem = new CoordinateSystem(new Axis(), new Axis(), new Axis());
+            $chart = $this->addConfigToChart($chart, $chartModel, $coordinateSystem);
         
             $chart = $this->addRangesToChart($chart, $chartId);
         
-            $chart = $this->addElementsToChart($chart, $chartId, $chartModel);
+            $chart = $this->addElementsToChart($chart, $chartId, $chartModel, $coordinateSystem);
         } else {
             throw new UnknownChartException();
         }
@@ -52,7 +54,7 @@ class ChartBuilderService
         return $chart;
     }
     
-    private function addConfigToChart(Chart $chart, ChartModel $chartModel)
+    private function addConfigToChart(Chart $chart, ChartModel $chartModel, CoordinateSystem $coordinateSystem)
     {
         $chart->setZoom($chartModel->zoom);
         $chart->setPoints($chartModel->points);
@@ -60,7 +62,7 @@ class ChartBuilderService
         $chart->setTooltips($chartModel->tooltips);
         $chart->setLabels($chartModel->labels);
         $chart->setOneLabelPerElement($chartModel->oneLabelPerElement);
-        $coordinateSystem = new CoordinateSystem(new Axis(), new Axis(), new Axis());
+        
         $tooltip = new Tooltip();
         $chart->setTooltip($tooltip);
         if ($chartModel->swapAxes === '1') {
@@ -109,7 +111,7 @@ class ChartBuilderService
         return $chart;
     }
     
-    private function addElementsToChart(Chart $chart, $chartId, ChartModel $chartModel)
+    private function addElementsToChart(Chart $chart, $chartId, ChartModel $chartModel, CoordinateSystem $coordinateSystem)
     {
         $elementModels = ChartElementModel::findByChartId($chartId);
         if ($elementModels === null) {
@@ -235,7 +237,7 @@ class ChartBuilderService
                     $element->setY($y);
                 }
                 if ($chartModel->xValueCharacter === '2') {
-                    $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $tooltip, $chartModel->xLabelCount, intval($chartModel->xRotate));
+                    $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $chart->getTooltip(), $chartModel->xLabelCount, intval($chartModel->xRotate));
                 }
                 if ($elementModel->groupIdenticalX === '1') {
                     $element->addTransformer(new GroupIdenticalXTransformer());
@@ -251,5 +253,46 @@ class ChartBuilderService
         }
         
         return $chart;
+    }
+    
+    private function createAdditionalWhereString($elementModel) {
+        $conditionModels = ChartElementConditionModel::findByElementId($elementModel->id);
+        if ($conditionModels instanceof Collection) {
+            $first = true;
+            $where = '';
+            foreach($conditionModels as $model) {
+                if ($first === true) {
+                    $first = false;
+                } else {
+                    $where .= ' AND ';
+                }
+                switch ($model->whereComparison) {
+                    case 1:
+                        $comparison = '=';
+                        break;
+                    case 2:
+                        $comparison = '>=';
+                        break;
+                    case 3:
+                        $comparison = '<=';
+                        break;
+                    case 4:
+                        $comparison = '!=';
+                        break;
+                    case 5:
+                        $comparison = '>';
+                        break;
+                    case 6:
+                        $comparison = '<';
+                        break;
+                    default:
+                        return '';
+                }
+                $where .= $model->whereColumn . ' ' . $comparison . ' ' . $model->whereValue;
+            }
+            return $where;
+        } else {
+            return '';
+        }
     }
 }

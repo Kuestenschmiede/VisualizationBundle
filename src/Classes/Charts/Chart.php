@@ -224,4 +224,20 @@ class Chart
 
         return $this;
     }
+    
+    /**
+     * @return null
+     */
+    public function getCoordinateSystem()
+    {
+        return $this->coordinateSystem;
+    }
+    
+    /**
+     * @return null
+     */
+    public function getTooltip()
+    {
+        return $this->tooltip;
+    }
 }
