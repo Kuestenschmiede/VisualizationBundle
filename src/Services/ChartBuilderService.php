@@ -20,6 +20,7 @@ use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
 use Contao\Database;
 use Contao\Model\Collection;
+use Psr\Log\LoggerInterface;
 
 class ChartBuilderService
 {
@@ -29,11 +30,18 @@ class ChartBuilderService
     private $database;
     
     /**
-     * @param Database $database
+     * @var LoggerInterface
      */
-    public function __construct(Database $database)
+    private $logger;
+    
+    /**
+     * @param Database $database
+     * @param LoggerInterface $logger
+     */
+    public function __construct(Database $database, LoggerInterface $logger)
     {
         $this->database = $database;
+        $this->logger = $logger;
     }
     
     public function createChartFromId($chartId)
@@ -127,10 +135,6 @@ class ChartBuilderService
                         if ($elementInputs !== null) {
                             $source = new Source($elementInputs, $elementModel->minCountIdenticalX, $elementModel->redirectSite);
                         }
-//                        $inputModels = ChartElementInputModel::findByElementId($elementModel->id);
-//                        if ($inputModels !== null) {
-//                            $source = new Source($inputModels, $elementModel->minCountIdenticalX, $elementModel->redirectSite);
-//                        }
                         break;
                     case ChartElement::ORIGIN_TABLE:
                         try {
@@ -294,5 +298,9 @@ class ChartBuilderService
         } else {
             return '';
         }
+    }
+    
+    private function log(\Throwable $throwable) {
+        $this->logger->error($throwable->getMessage() . "\n" . $throwable->getTraceAsString());
     }
 }
