@@ -202,6 +202,7 @@ class ChartBuilderService
             
                 $element = new ChartElement($elementModel->type, $source);
                 $element->setDecimalPoints($chartModel->decimalPoints);
+                $element->setShowEmptyYValues($chartModel->showEmptyYValues);
                 if ($elementModel->color) {
                     $element->setColor($elementModel->color);
                 }

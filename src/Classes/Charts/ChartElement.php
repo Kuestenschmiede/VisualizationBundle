@@ -54,6 +54,7 @@ class ChartElement
     protected $redirectSite = '';
 
     protected $decimalPoints = 2;
+    protected $showEmptyYValues = true;
 
     public function __construct(string $type, Source $source)
     {
@@ -73,7 +74,11 @@ class ChartElement
         foreach ($this->source as $entry) {
             $yValue = round(floatval($this->y), intval($this->decimalPoints)) ? $this->y : round(floatval($entry->get($this->y)), intval($this->decimalPoints));
             $xValue = round(floatval($this->x), intval($this->decimalPoints)) ? $this->x : round(floatval($entry->get($this->x)), intval($this->decimalPoints));
-
+    
+            if (!$this->showEmptyYValues && $yValue === 0.0) {
+                continue;
+            }
+            
             $dataPoints[] = [
                 'x' => $xValue,
                 'y' => $yValue,
@@ -321,5 +326,21 @@ class ChartElement
     public function setDecimalPoints(int $decimalPoints): void
     {
         $this->decimalPoints = $decimalPoints;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isShowEmptyYValues(): bool
+    {
+        return $this->showEmptyYValues;
+    }
+    
+    /**
+     * @param bool $showEmptyYValues
+     */
+    public function setShowEmptyYValues(bool $showEmptyYValues): void
+    {
+        $this->showEmptyYValues = $showEmptyYValues;
     }
 }
