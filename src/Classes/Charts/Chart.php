@@ -51,11 +51,13 @@ class Chart
                 'fontsize' => $this->legendFontSize,
                 'interactive' => $this->legendInteractive,
             ];
+        } else {
+            $array['legend'] = ['enabled' => boolval($this->legend)];
         }
 
         $array['zoom'] = ['enabled' => boolval($this->zoom)];
         $array['points'] = ['enabled' => boolval($this->points)];
-        $array['legend'] = ['enabled' => boolval($this->legend)];
+        
         $array['tooltips'] = ['enabled' => boolval($this->tooltips)];
         $array['labels'] = ['enabled' => boolval($this->labels)];
         $array['oneLabelPerElement'] = ['enabled' => boolval($this->oneLabelPerElement)];

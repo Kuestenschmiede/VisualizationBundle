@@ -171,7 +171,7 @@ class ChartBuilderService
                                 if ($additionalWhereString !== '') {
                                     $query .= " WHERE " . $additionalWhereString;
                                 }
-                                $stmt = $database->prepare($query);
+                                $stmt = $this->database->prepare($query);
                                 $result = $stmt->execute();
                                 $arrResult = $result->fetchAllAssoc();
                                 if (!$arrResult || count($arrResult) <= 0) {
