@@ -161,24 +161,24 @@ class tl_c4g_visualization_chart_element extends \Backend
     public function loadOriginOptions(DataContainer $dc)
     {
         return [
-            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_input'],
-            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_load_from_table'],
-            '3' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_period'],
+            '1' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_input'],
+            '2' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_load_from_table'],
+            '3' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_period'],
         ];
     }
 
     public function loadTypeOptions(DataContainer $dc)
     {
         return [
-            ChartElement::TYPE_LINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_line'],
-            ChartElement::TYPE_AREA_LINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_area_line'],
-            ChartElement::TYPE_SPLINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_spline'],
-            ChartElement::TYPE_AREA_SPLINE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_area_spline'],
-            ChartElement::TYPE_PIE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_pie'],
-            ChartElement::TYPE_BAR => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_bar'],
-            ChartElement::TYPE_DONUT => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_donut'],
-            ChartElement::TYPE_GAUGE => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_gauge'],
-            ChartElement::TYPE_GANTT => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_gantt']
+            ChartElement::TYPE_LINE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_line'],
+            ChartElement::TYPE_AREA_LINE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_area_line'],
+            ChartElement::TYPE_SPLINE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_spline'],
+            ChartElement::TYPE_AREA_SPLINE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_area_spline'],
+            ChartElement::TYPE_PIE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_pie'],
+            ChartElement::TYPE_BAR => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_bar'],
+            ChartElement::TYPE_DONUT => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_donut'],
+            ChartElement::TYPE_GAUGE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_gauge'],
+            ChartElement::TYPE_GANTT => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_gantt']
         ];
     }
 
@@ -293,12 +293,12 @@ class tl_c4g_visualization_chart_element extends \Backend
 
     public function loadComparisonOptions($dc) {
         return [
-            '1' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_equal'],
-            '2' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_greater_or_equal'],
-            '3' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_lesser_or_equal'],
-            '4' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_not_equal'],
-            '5' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_greater'],
-            '6' => $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_lesser']
+            '1' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_equal'],
+            '2' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_greater_or_equal'],
+            '3' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_lesser_or_equal'],
+            '4' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_not_equal'],
+            '5' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_greater'],
+            '6' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_lesser']
         ];
     }
 
