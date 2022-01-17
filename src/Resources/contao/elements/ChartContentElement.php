@@ -16,6 +16,7 @@ use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
 use Contao\ContentElement;
 use Contao\FilesModel;
+use Contao\StringUtil;
 
 class ChartContentElement extends ContentElement
 {
@@ -40,7 +41,7 @@ class ChartContentElement extends ContentElement
             $this->Template->published = $chartModel->published;
             if ($chartModel->published === '1') {
                 $fileModel = FilesModel::findByUuid($chartModel->image);
-                $headline = unserialize($elementModel->headline);
+                $headline = StringUtil::deserialize($elementModel->headline, true);
                 $this->Template->chartID = $chartId;
                 $this->Template->headline = $headline;
                 $this->Template->path = $fileModel->path;
@@ -52,6 +53,16 @@ class ChartContentElement extends ContentElement
                 $this->Template->imageOpacity = 1 - ($chartModel->imageOpacity / 100);
 
                 $this->Template->cssClass = $chartModel->cssClass;
+                
+                $cssID = StringUtil::deserialize($elementModel->cssID, true);
+                if ($cssID) {
+                    if ($cssID[0] !== "") {
+                        $this->Template->outerID = $cssID[0];
+                    }
+                    if ($cssID[1] !== "") {
+                        $this->Template->outerClass = $cssID[1];
+                    }
+                }
 
                 $buttons = [];
                 $rangeModels = ChartRangeModel::findByChartId($chartId);

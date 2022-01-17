@@ -1,5 +1,5 @@
 <?php if ($this->published === '1') { ?>
-    <div class="c4g_chart_container">
+    <div class="c4g_chart_container <?= $this->outerClass ?>" id="<?= $this->outerID ?>">
         <?php if ($this->headline !== [] && $this->headline['value'] !== "") {
             echo "<".$this->headline['unit'].">".$this->headline['value']."</".$this->headline['unit'].">";
         }
