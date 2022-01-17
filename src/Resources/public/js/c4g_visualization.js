@@ -54,8 +54,15 @@ class Vis {
                 responseJson.axis.y.tick = {};
               }
               responseJson.axis.y.tick.format = (d) => {
-                return d + responseJson.axis.y.tickFormat;
+                let roundedVal = parseFloat(d).toFixed(3);
+                return roundedVal + responseJson.axis.y.tickFormat;
               };
+            }
+            if (responseJson.axis.y.labelCount) {
+              let labelCount = parseInt(responseJson.axis.y.labelCount, 10);
+              if (labelCount > 0) {
+                responseJson.axis.y.tick.count = labelCount;
+              }
             }
 
             // TODO wenn möglich muss auch noch "jedes X. Label anzeigen" rein
@@ -210,7 +217,6 @@ class Vis {
 
     if (typeof json.axis !== 'undefined') {
       c3json.axis = json.axis;
-      console.log(c3json.axis.y);
     }
 
     if ((typeof json.zoom !== 'undefined') && (typeof json.zoom.enabled !== 'undefined')) {

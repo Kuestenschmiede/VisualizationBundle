@@ -57,7 +57,7 @@ class ChartBuilderService
     
             // TODO
             if ($chartModel->yLabelCount) {
-//                $coordinateSystem->y()->setYLabelCount(intval($chartModel->yLabelCount));
+                $coordinateSystem->y()->setLabelCount(intval($chartModel->yLabelCount));
             }
             // TODO
             
