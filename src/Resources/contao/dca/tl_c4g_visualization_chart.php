@@ -26,8 +26,8 @@ $palettes = [
     'elements' => 'elementWizard',
     'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints,showEmptyYValues',
     'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints,showEmptyYValues',
-    'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
-    'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
+    'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
+    'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
     'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass',
     'publish' => ';{publish_legend},published'
@@ -102,6 +102,29 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['showEmptyYValues'] =
     'eval' => ['tl_class' => "clr"],
     'sql' => "char(1) NOT NULL DEFAULT '1'"
 ];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yRotate'] =  [
+    'inputType' => "text",
+    'default' => '0',
+    'eval' => ['tl_class' => "clr", 'maxlength' => 10],
+    'sql' => "int(10) signed NOT NULL default '0'"
+];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yFormat'] =  [
+    'inputType' => "text",
+    'default' => '',
+    'eval' => ['tl_class' => "clr", 'maxlength' => 20],
+    'sql' => "varchar(20) NOT NULL DEFAULT ''"
+];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yLabelCount'] =  [
+    'inputType' => "text",
+    'default' => '1',
+    'eval' => ['tl_class' => "clr", 'maxlength' => 10],
+    'sql' => "int(10) signed NOT NULL default '1'"
+];
+
+
 
 $decimalPoints = new NaturalField('decimalPoints', $dca);
 $decimalPoints->default('0')->sql("int(10) unsigned NOT NULL default '0'")

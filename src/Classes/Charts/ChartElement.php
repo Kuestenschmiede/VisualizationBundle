@@ -35,9 +35,11 @@ class ChartElement
     protected $source;
     protected $transformers = [];
     protected $labels = [];
-
+    
     protected $x = 'x';
     protected $y = 'y';
+    protected $yLabelCount = 1;
+//    protected $yRotate = ;
 
     protected $x2 = 'x2'; //for gantt charts
 
@@ -48,7 +50,12 @@ class ChartElement
 
     protected $mapTimeValues = false;
     protected $dateTimeFormat = '';
+    
+    /**
+     * @var CoordinateSystem
+     */
     protected $coordinateSystem = null;
+    
     protected $toolTip = null;
 
     protected $redirectSite = '';
@@ -160,6 +167,18 @@ class ChartElement
                 $this->toolTip->setTitle($key, $value);
             }
         }
+        
+        if ($this->coordinateSystem->y()->getTickFormat() !== "") {
+            $format = $this->coordinateSystem->y()->getTickFormat();
+            foreach ($dataPoints as $dataPoint) {
+                $count = $this->yLabelCount;
+                if (($i % $count == 0) || ($i == 1)) {
+                    $this->coordinateSystem->y()->setTickValue($dataPoint['y'], $format);
+                }
+            }
+        }
+        
+        // TODO
 
         foreach ($this->labels as $label) {
             $dataPoints = $label->label($dataPoints);
@@ -342,5 +361,21 @@ class ChartElement
     public function setShowEmptyYValues(bool $showEmptyYValues): void
     {
         $this->showEmptyYValues = $showEmptyYValues;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getYLabelCount(): int
+    {
+        return $this->yLabelCount;
+    }
+    
+    /**
+     * @param int $yLabelCount
+     */
+    public function setYLabelCount(int $yLabelCount): void
+    {
+        $this->yLabelCount = $yLabelCount;
     }
 }

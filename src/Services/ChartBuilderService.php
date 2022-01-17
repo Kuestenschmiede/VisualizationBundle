@@ -92,7 +92,12 @@ class ChartBuilderService
             if (is_string($chartModel->yLabelText) === true) {
                 $coordinateSystem->y()->setLabel($chartModel->yLabelText, round(floatval($chartModel->yLabelPosition), intval($chartModel->decimalPoints)));
             }
+            if ($chartModel->yRotate) {
+                $coordinateSystem->y()->setRotate(intval($chartModel->yRotate));
+            }
         }
+        
+        
     
         if ($chartModel->y2show === '1') {
             $coordinateSystem->y2()->setShow(true);
@@ -239,8 +244,22 @@ class ChartBuilderService
                 
                     $element->setX($x);
                     $element->setX2($x2);
-                    $element->setY($y);
+                    if ($chartModel->yFormat) {
+                        // TODO add transformer for formatting y1 labels
+                        $y1->setTickFormat($chartModel->yFormat);
+                        
+                        $element->setY($y);
+                    }
+                    
+                    if ($chartModel->yLabelCount) {
+                        $element->setYLabelCount(intval($chartModel->yLabelCount));
+                    }
+                    
                 }
+    
+                
+                
+                
                 if ($chartModel->xValueCharacter === '2') {
                     $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $chart->getTooltip(), $chartModel->xLabelCount, intval($chartModel->xRotate));
                 }

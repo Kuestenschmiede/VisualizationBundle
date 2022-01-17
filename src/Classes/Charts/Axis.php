@@ -40,6 +40,7 @@ class Axis
     protected $ticks = [];
     protected $tickFormattedValue = [];
     protected $tickRotate = [];
+    protected $tickFormat = "";
 
     public function createEncodableArray()
     {
@@ -131,6 +132,7 @@ class Axis
             $array['tick']['format'] = $this->tickFormattedValue;
             $array['tick']['rotate'] = $this->rotate;
         }
+        $array['tickFormat'] = $this->tickFormat;
 
         return $array;
     }
@@ -210,5 +212,21 @@ class Axis
             $this->tickFormattedValue[$value] = $formattedValue;
             $this->rotate = $rotate;
         }
+    }
+    
+    /**
+     * @param string $tickFormat
+     */
+    public function setTickFormat(string $tickFormat): void
+    {
+        $this->tickFormat = $tickFormat;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getTickFormat(): string
+    {
+        return $this->tickFormat;
     }
 }

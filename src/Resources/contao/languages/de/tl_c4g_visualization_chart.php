@@ -41,6 +41,10 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'yLabelText'        => ['Bezeichnung der Y-Achse', 'Definiert die Bezeichnung der Y-Achse.'],
     'yLabelPosition'    => ['Position der Bezeichnung', 'Definiert die Position der Bezeichnung relativ zur Achse.'],
     'yshow'             => ['Y-Achse anzeigen', 'Zeigt die Y-Achse an oder nicht.'],
+    'yFormat'           => ['Format', 'Formatierungsstring für den Y-Wert.'],
+    'yLabelCount'       => ['Jedes X. Label anzeigen', 'Das wievielte Label soll neben der Y-Achse angezeigt werden. Standard: 1'],
+    'yRotate'           => ['Y-Achsenrotation', 'Rotiert die Beschriftung der Y-Werte. Das Vorzeichen gibt die Rotationsrichtung an.'],
+    
     'yInverted'         => ['Y-Achse invertieren', 'Falls gesetzt, beginnt die Y-Achse am oberen Rand statt am unteren.'],
     'y2show'            => ['Zweite Y-Achse anzeigen', 'Zeigt eine zweite Y-Achse an oder nicht.'],
     'y2LabelText'       => ['Bezeichnung der zweiten Y-Achse', 'Definiert die Bezeichnung der zweiten Y-Achse.'],
