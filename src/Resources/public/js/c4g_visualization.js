@@ -49,7 +49,16 @@ class Vis {
         fetch(url)
           .then(response => response.json())
           .then((responseJson) => {
-            // console.log(responseJson.axis.x.tick.format);
+            if (responseJson.axis.y.tickFormat) {
+              if (!responseJson.axis.y.tick) {
+                responseJson.axis.y.tick = {};
+              }
+              responseJson.axis.y.tick.format = (d) => {
+                return d + responseJson.axis.y.tickFormat;
+              };
+            }
+
+            // TODO wenn möglich muss auch noch "jedes X. Label anzeigen" rein
 
             let chart = {
               bindto: '#' + element.id,
@@ -65,6 +74,7 @@ class Vis {
 
             chart.json = scope.parseJson('#' + element.id, responseJson, chart);
 
+            // set format for x axis
             if (typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.format !== 'undefined') {
               chart.format = responseJson.axis.x.tick.format;
               chart.json.axis.x.tick.format = function (x) {
@@ -80,6 +90,9 @@ class Vis {
                 return chrt.rotate[x];
               };
             }
+
+            console.log(responseJson);
+
             scope.charts.push(chart);
 
             chart.update();
@@ -197,6 +210,7 @@ class Vis {
 
     if (typeof json.axis !== 'undefined') {
       c3json.axis = json.axis;
+      console.log(c3json.axis.y);
     }
 
     if ((typeof json.zoom !== 'undefined') && (typeof json.zoom.enabled !== 'undefined')) {

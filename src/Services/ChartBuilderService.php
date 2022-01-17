@@ -50,6 +50,17 @@ class ChartBuilderService
         if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
             $chart = new Chart();
             $coordinateSystem = new CoordinateSystem(new Axis(), new Axis(), new Axis());
+    
+            if ($chartModel->yFormat) {
+                $coordinateSystem->y()->setTickFormat($chartModel->yFormat);
+            }
+    
+            // TODO
+            if ($chartModel->yLabelCount) {
+//                $coordinateSystem->y()->setYLabelCount(intval($chartModel->yLabelCount));
+            }
+            // TODO
+            
             $chart = $this->addConfigToChart($chart, $chartModel, $coordinateSystem);
         
             $chart = $this->addRangesToChart($chart, $chartId);
@@ -244,21 +255,7 @@ class ChartBuilderService
                 
                     $element->setX($x);
                     $element->setX2($x2);
-                    if ($chartModel->yFormat) {
-                        // TODO add transformer for formatting y1 labels
-                        $y1->setTickFormat($chartModel->yFormat);
-                        
-                        $element->setY($y);
-                    }
-                    
-                    if ($chartModel->yLabelCount) {
-                        $element->setYLabelCount(intval($chartModel->yLabelCount));
-                    }
-                    
                 }
-    
-                
-                
                 
                 if ($chartModel->xValueCharacter === '2') {
                     $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $chart->getTooltip(), $chartModel->xLabelCount, intval($chartModel->xRotate));

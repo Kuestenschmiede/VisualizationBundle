@@ -167,18 +167,6 @@ class ChartElement
                 $this->toolTip->setTitle($key, $value);
             }
         }
-        
-        if ($this->coordinateSystem->y()->getTickFormat() !== "") {
-            $format = $this->coordinateSystem->y()->getTickFormat();
-            foreach ($dataPoints as $dataPoint) {
-                $count = $this->yLabelCount;
-                if (($i % $count == 0) || ($i == 1)) {
-                    $this->coordinateSystem->y()->setTickValue($dataPoint['y'], $format);
-                }
-            }
-        }
-        
-        // TODO
 
         foreach ($this->labels as $label) {
             $dataPoints = $label->label($dataPoints);
