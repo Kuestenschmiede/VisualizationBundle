@@ -65,8 +65,6 @@ class Vis {
               }
             }
 
-            // TODO wenn möglich muss auch noch "jedes X. Label anzeigen" rein
-
             let chart = {
               bindto: '#' + element.id,
               base: responseJson,

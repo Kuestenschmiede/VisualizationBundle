@@ -55,11 +55,9 @@ class ChartBuilderService
                 $coordinateSystem->y()->setTickFormat($chartModel->yFormat);
             }
     
-            // TODO
             if ($chartModel->yLabelCount) {
                 $coordinateSystem->y()->setLabelCount(intval($chartModel->yLabelCount));
             }
-            // TODO
             
             $chart = $this->addConfigToChart($chart, $chartModel, $coordinateSystem);
         
