@@ -1,16 +1,16 @@
 <?php if ($this->published === '1') { ?>
     <div class="c4g_chart_container">
-        <?php if ($this->headline !== []) {
+        <?php if ($this->headline !== [] && $this->headline['value'] !== "") {
             echo "<".$this->headline['unit'].">".$this->headline['value']."</".$this->headline['unit'].">";
         }
         ?>
         <?php if ($this->path !== '') {
             echo "<img src=\"".$this->path."\"
-                     style=\"max-height: ".$this->Template->imageMaxHeight.
-                     "px;max-width: ".$this->Template->imageMaxWidth.
-                       "px;position: absolute;z-index: -1;margin-top: ". $this->Template->imageMarginTop
-                       ."px;margin-left: ".$this->Template->imageMarginLeft
-                       ."px;opacity: ".$this->Template->imageOpacity.";\">";
+                     style=\"max-height: ".$this->imageMaxHeight.
+                     "px;max-width: ".$this->imageMaxWidth.
+                       "px;position: absolute;z-index: -1;margin-top: ". $this->imageMarginTop
+                       ."px;margin-left: ".$this->imageMarginLeft
+                       ."px;opacity: ".$this->imageOpacity.";\">";
         }?>
         <?php if ($this->buttons !== [] && sizeof($this->buttons) > 1 && intval($this->buttonPosition) < 4) {
             switch ($this->buttonPosition) {
@@ -37,7 +37,7 @@
             echo "</div>";
         }
         ?>
-        <div class="c4g_chart <?php echo $this->Template->cssClass ?>" id="c4g_chart_<?php echo $this->instance ?>"
+        <div class="c4g_chart <?php echo $this->cssClass ?>" id="c4g_chart_<?php echo $this->instance ?>"
             data-chart="<?php echo $this->chartID ?>">
         </div>
 
