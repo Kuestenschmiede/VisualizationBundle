@@ -39,6 +39,7 @@ class ChartElement
     protected $x = 'x';
     protected $y = 'y';
     protected $yLabelCount = 1;
+    protected $yAxisSelection = "y1";
 //    protected $yRotate = ;
 
     protected $x2 = 'x2'; //for gantt charts
@@ -85,7 +86,7 @@ class ChartElement
             if (!$this->showEmptyYValues && $yValue === 0.0) {
                 continue;
             }
-            
+    
             $dataPoints[] = [
                 'x' => $xValue,
                 'y' => $yValue,
@@ -98,11 +99,11 @@ class ChartElement
 
             if ($xstart && $xend && ($xend > $xstart)) {
                 $dataPoints[] = [
-                   'x' => $xend,
-                   'y' => $yValue,
-                   'min' => $entry->get('min'),
-                   'redirect' => $entry->get('redirectSite'),
-               ];
+                    'x' => $xend,
+                    'y' => $yValue,
+                    'min' => $entry->get('min'),
+                    'redirect' => $entry->get('redirectSite'),
+                ];
 
 //               //ToDo configuration param
 //               //$factor = ($xend-$xstart) / 2;
@@ -176,6 +177,12 @@ class ChartElement
             'type' => $this->type,
             'dataPoints' => $dataPoints,
         ];
+    
+        if ($this->yAxisSelection === "y1") {
+            $result['target'] = "y";
+        } else if ($this->yAxisSelection === "y2") {
+            $result['target'] = "y2";
+        }
 
         $group = ($this->group >= 0) ? $this->group : false; //ToDo different groups for intervals
         $name = ($this->name !== '') ? $this->name : false;
@@ -365,5 +372,21 @@ class ChartElement
     public function setYLabelCount(int $yLabelCount): void
     {
         $this->yLabelCount = $yLabelCount;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getYAxisSelection(): string
+    {
+        return $this->yAxisSelection;
+    }
+    
+    /**
+     * @param string $yAxisSelection
+     */
+    public function setYAxisSelection(string $yAxisSelection): void
+    {
+        $this->yAxisSelection = $yAxisSelection;
     }
 }

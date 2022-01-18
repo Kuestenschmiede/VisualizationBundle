@@ -24,12 +24,12 @@ use con4gis\CoreBundle\Classes\DCA\Fields\TextField;
 $palettes = [
     'general' => '{general_legend},backendtitle,xValueCharacter,',
     'elements' => 'elementWizard',
-    'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints,showEmptyYValues',
-    'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints,showEmptyYValues',
-    'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
-    'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount', //,y2show,y2Inverted,y2LabelText,y2LabelPosition
+    'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
+    'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
+    'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
+    'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
-    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass',
+    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass,showEmptyYValues',
     'publish' => ';{publish_legend},published'
 ];
 
@@ -119,9 +119,23 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yFormat'] =  [
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yLabelCount'] =  [
     'inputType' => "text",
-    'default' => '1',
+    'default' => '0',
     'eval' => ['tl_class' => "clr", 'maxlength' => 10],
-    'sql' => "int(10) signed NOT NULL default '1'"
+    'sql' => "int(10) signed NOT NULL default '0'"
+];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['y2Format'] =  [
+    'inputType' => "text",
+    'default' => '',
+    'eval' => ['tl_class' => "clr", 'maxlength' => 20],
+    'sql' => "varchar(20) NOT NULL DEFAULT ''"
+];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['y2LabelCount'] =  [
+    'inputType' => "text",
+    'default' => '0',
+    'eval' => ['tl_class' => "clr", 'maxlength' => 10],
+    'sql' => "int(10) signed NOT NULL default '0'"
 ];
 
 

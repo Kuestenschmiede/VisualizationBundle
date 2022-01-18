@@ -50,14 +50,6 @@ class ChartBuilderService
         if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
             $chart = new Chart();
             $coordinateSystem = new CoordinateSystem(new Axis(), new Axis(), new Axis());
-    
-            if ($chartModel->yFormat) {
-                $coordinateSystem->y()->setTickFormat($chartModel->yFormat);
-            }
-    
-            if ($chartModel->yLabelCount) {
-                $coordinateSystem->y()->setLabelCount(intval($chartModel->yLabelCount));
-            }
             
             $chart = $this->addConfigToChart($chart, $chartModel, $coordinateSystem);
         
@@ -101,8 +93,12 @@ class ChartBuilderService
             if (is_string($chartModel->yLabelText) === true) {
                 $coordinateSystem->y()->setLabel($chartModel->yLabelText, round(floatval($chartModel->yLabelPosition), intval($chartModel->decimalPoints)));
             }
-            if ($chartModel->yRotate) {
-                $coordinateSystem->y()->setRotate(intval($chartModel->yRotate));
+            if ($chartModel->yFormat) {
+                $coordinateSystem->y()->setTickFormat($chartModel->yFormat);
+            }
+    
+            if ($chartModel->yLabelCount) {
+                $coordinateSystem->y()->setLabelCount(intval($chartModel->yLabelCount));
             }
         }
         
@@ -115,6 +111,13 @@ class ChartBuilderService
             }
             if (is_string($chartModel->y2LabelText) === true) {
                 $coordinateSystem->y2()->setLabel($chartModel->y2LabelText, round(floatval($chartModel->y2LabelPosition), intval($chartModel->decimalPoints)));
+            }
+            if ($chartModel->y2Format) {
+                $coordinateSystem->y2()->setTickFormat($chartModel->y2Format);
+            }
+    
+            if ($chartModel->y2LabelCount) {
+                $coordinateSystem->y2()->setLabelCount(intval($chartModel->y2LabelCount));
             }
         }
         
@@ -217,6 +220,7 @@ class ChartBuilderService
                 $element = new ChartElement($elementModel->type, $source);
                 $element->setDecimalPoints($chartModel->decimalPoints);
                 $element->setShowEmptyYValues($chartModel->showEmptyYValues);
+                $element->setYAxisSelection($elementModel->yAxisSelection);
                 if ($elementModel->color) {
                     $element->setColor($elementModel->color);
                 }

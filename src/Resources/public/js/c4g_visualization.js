@@ -49,21 +49,7 @@ class Vis {
         fetch(url)
           .then(response => response.json())
           .then((responseJson) => {
-            if (responseJson.axis.y.tickFormat) {
-              if (!responseJson.axis.y.tick) {
-                responseJson.axis.y.tick = {};
-              }
-              responseJson.axis.y.tick.format = (d) => {
-                let roundedVal = parseFloat(d).toFixed(3);
-                return roundedVal + responseJson.axis.y.tickFormat;
-              };
-            }
-            if (responseJson.axis.y.labelCount) {
-              let labelCount = parseInt(responseJson.axis.y.labelCount, 10);
-              if (labelCount > 0) {
-                responseJson.axis.y.tick.count = labelCount;
-              }
-            }
+            responseJson = this.setTickConfigForYAxis(responseJson);
 
             let chart = {
               bindto: '#' + element.id,
@@ -96,8 +82,6 @@ class Vis {
               };
             }
 
-            console.log(responseJson);
-
             scope.charts.push(chart);
 
             chart.update();
@@ -107,6 +91,42 @@ class Vis {
 
       elIndex += 1;
     }
+  }
+
+  setTickConfigForYAxis(json) {
+    if (json.axis.y.tickFormat) {
+      if (!json.axis.y.tick) {
+        json.axis.y.tick = {};
+      }
+      json.axis.y.tick.format = (d) => {
+        let roundedVal = parseFloat(d).toFixed(3); // ToDo set parameter from config
+        return roundedVal + json.axis.y.tickFormat;
+      };
+    }
+    if (json.axis.y.labelCount) {
+      let labelCount = parseInt(json.axis.y.labelCount, 10);
+      if (labelCount > 0) {
+        json.axis.y.tick.count = labelCount;
+      }
+    }
+
+    if (json.axis.y2.tickFormat) {
+      if (!json.axis.y2.tick) {
+        json.axis.y2.tick = {};
+      }
+      json.axis.y2.tick.format = (d) => {
+        let roundedVal = parseFloat(d).toFixed(3); // ToDo set parameter from config
+        return roundedVal + json.axis.y2.tickFormat;
+      };
+    }
+    if (json.axis.y2.labelCount) {
+      let labelCount = parseInt(json.axis.y2.labelCount, 10);
+      if (labelCount > 0) {
+        json.axis.y2.tick.count = labelCount;
+      }
+    }
+
+    return json;
   }
 
   parseJson(bindto, json, chart, range = 'range_default') {
@@ -168,15 +188,36 @@ class Vis {
 
     index = 0;
     while (index < json.data.length) {
-      c3json.data.xs['y' + index] = 'x' + index;
-      let x = ['x' + index];
-      let y = ['y' + index];
+      let x = [];
+      let y = [];
       let i = 0;
+
+      if (typeof json.data[index].name !== 'undefined') {
+        x.push('x' + index);
+        y.push(json.data[index].name);
+        c3json.data.xs[json.data[index].name] = 'x' + index;
+      } else {
+        x.push('x' + index);
+        y.push('y' + index);
+        c3json.data.xs['y' + index] = 'x' + index;
+      }
+
+      if (!c3json.data.axes) {
+        c3json.data.axes = {};
+      }
+      if (!c3json.data.axes[json.data[index].name]) {
+        c3json.data.axes[json.data[index].name] = json.data[index].target;
+      }
+
       while (i < json.data[index].dataPoints.length) {
-        if ((json.data[index].type === 'pie') || (json.data[index].type === 'donut') || (json.data[index].type === 'gauge') || (range === 'range_all') || (json.data[index].dataPoints[i].x >= rangeLowerBound  && json.data[index].dataPoints[i].x <= rangeUpperBound)) {
+        let chartTypeCondition = (json.data[index].type === 'pie') || (json.data[index].type === 'donut') || (json.data[index].type === 'gauge');
+        let rangeCondition = (range === 'range_all') || (json.data[index].dataPoints[i].x >= rangeLowerBound  && json.data[index].dataPoints[i].x <= rangeUpperBound);
+
+        if (chartTypeCondition || rangeCondition) {
           x.push(json.data[index].dataPoints[i].x);
           y.push(json.data[index].dataPoints[i].y);
         }
+
         i += 1;
       }
       c3json.data.columns.push(x, y);
@@ -263,6 +304,18 @@ class Vis {
     } else {
       c3json.tooltip.show = (json.tooltips.enabled && json.tooltips.enabled !== 'undefined');
     }
+
+    c3json.tooltip.format.value = (value, ratio, id, index) => {
+      if (id === "y0") {
+        return value + " " + c3json.axis.y.tickFormat;
+      } else if (id === "y1" && c3json.axis.y2.show) {
+        return value + " " + c3json.axis.y2.tickFormat;
+      } else if (c3json.data.axes[id]) {
+        return value + " " + c3json.axis[c3json.data.axes[id]].tickFormat;
+      }
+
+      return value;
+    };
 
     let scope = this;
     c3json.data.onclick = function (d, element) {

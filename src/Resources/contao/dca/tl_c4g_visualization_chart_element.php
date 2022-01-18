@@ -32,7 +32,7 @@ $dca->list()->addRegularOperations($dca);
 $dca->palette()->selector(['origin'])
     ->default('{general_legend},backendtitle,frontendtitle,color,redirectSite;'.
         '{type_origin_legend},type,origin;'.
-        '{transform_legend},groupIdenticalX,minCountIdenticalX;'.
+        '{transform_legend},groupIdenticalX,minCountIdenticalX,yAxisSelection;'.
         '{publish_legend},published;')
     ->subPalette('origin', '1', 'inputWizard')
     ->subPalette('origin', '2', 'table,tablex,tablex2,tabley,whereWizard')
@@ -134,6 +134,14 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['redirectSite
     'eval'                    => array('mandatory'=>false, 'fieldType'=>'radio', 'tl_class'=>'long clr'),
     'sql'                     => "int(10) unsigned NOT NULL default '0'",
     'relation'                => array('type'=>'hasOne', 'load'=>'eager')
+];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['yAxisSelection'] = [
+    'inputType' => "select",
+    'default' => 'y1',
+    'options' => ['y1', 'y2'],
+    'eval' => ['tl_class' => "clr"],
+    'sql' => "varchar(20) NOT NULL DEFAULT 'y1'"
 ];
 
 /**

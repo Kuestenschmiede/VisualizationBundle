@@ -30,6 +30,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'oneLabelPerElement' => ['Elementnamen als Label darstellen', 'Bei Aktivierung wird nur ein Label pro Element dargestellt'],
     'cssClass'          => ['CSS Klasse', 'Zusätzliche CSS Klasse für individuelles Styling. Benutze die Klasse c4g-gantt als Gantt Beispiel.'],
     'swapAxes'          => ['Achsen vertauschen', 'Falls gesetzt, tauschen die X- und Y-Achsen die Positionen.'],
+    'showEmptyYValues'  => ['Nullwerte auf der Y-Achse darstellen', 'Falls gesetzt, werden Nullwerte auf der Y-Achse dargestellt (Standard: 1).'],
     'xType'             => ['X-Achsentyp', 'Definiert die Beschriftung der X-Werte.'],
     'xValueCharacter'   => ['Charakter der X-Werte', 'Gibt den Charakter der X-Werte an. Diese Auswahl beeinflusst das Formular und das Laden der Daten.'],
     'xTimeFormat'       => ['Zeitformat', 'Formatierungsstring für den Zeitstempel.'],
@@ -42,7 +43,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'yLabelPosition'    => ['Position der Bezeichnung', 'Definiert die Position der Bezeichnung relativ zur Achse.'],
     'yshow'             => ['Y-Achse anzeigen', 'Zeigt die Y-Achse an oder nicht.'],
     'yFormat'           => ['Format', 'Formatierungsstring für den Y-Wert.'],
-    'yLabelCount'       => ['Wieviele Label sollen an der Y-Achse dargestellt werden?', 'Hier können Sie angeben, wieviele Labels an der Y-Achse dargestellt werden sollen (0 für alle).'],
+    'yLabelCount'       => ['Anzahl Label an der Y-Achse', 'Hier können Sie angeben, wieviele Labels an der Y-Achse dargestellt werden sollen (0 für alle).'],
     'yRotate'           => ['Y-Achsenrotation', 'Rotiert die Beschriftung der Y-Werte. Das Vorzeichen gibt die Rotationsrichtung an.'],
     
     'yInverted'         => ['Y-Achse invertieren', 'Falls gesetzt, beginnt die Y-Achse am oberen Rand statt am unteren.'],
@@ -50,6 +51,9 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'y2LabelText'       => ['Bezeichnung der zweiten Y-Achse', 'Definiert die Bezeichnung der zweiten Y-Achse.'],
     'y2LabelPosition'   => ['Position der Bezeichnung', 'Definiert die Position der Bezeichnung relativ zur Achse.'],
     'y2Inverted'        => ['Zweite Y-Achse invertieren', 'Falls gesetzt, beginnt die zweite Y-Achse am oberen Rand statt am unteren.'],
+    'y2Format'           => ['Format', 'Formatierungsstring für den Wert der zweiten Y-Achse.'],
+    'y2LabelCount'       => ['Anzahl Label an der zweiten Y-Achse', 'Hier können Sie angeben, wieviele Labels an der zweiten Y-Achse dargestellt werden sollen (0 für alle).'],
+    
     'elementWizard'     => ['Elemente', 'Die Grafikelemente, die in dieser Grafik angezeigt werden.'],
     'elementId'         => ['Element'],
     'image'             => ['Bilddatei', 'Die Bilddatei, auf dem das Wasserzeichen basiert.'],
