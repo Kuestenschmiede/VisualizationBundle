@@ -221,6 +221,7 @@ class ChartBuilderService
                 $element->setDecimalPoints($chartModel->decimalPoints);
                 $element->setShowEmptyYValues($chartModel->showEmptyYValues);
                 $element->setYAxisSelection($elementModel->yAxisSelection);
+                $element->setTooltipExtension($elementModel->tooltipExtension ?: "");
                 if ($elementModel->color) {
                     $element->setColor($elementModel->color);
                 }

@@ -13,6 +13,7 @@ namespace con4gis\VisualizationBundle\Classes\Charts;
 use con4gis\VisualizationBundle\Classes\Labels\Label;
 use con4gis\VisualizationBundle\Classes\Source\Source;
 use con4gis\VisualizationBundle\Classes\Transformers\Transformer;
+use Contao\Controller;
 
 class ChartElement
 {
@@ -63,6 +64,8 @@ class ChartElement
 
     protected $decimalPoints = 2;
     protected $showEmptyYValues = true;
+    
+    protected $tooltipExtension = "";
 
     public function __construct(string $type, Source $source)
     {
@@ -194,6 +197,19 @@ class ChartElement
         if ($name) {
             $result['name'] = $name;
         }
+        
+        if ($this->tooltipExtension) {
+            $result['tooltipExtension'] = Controller::replaceInsertTags($this->tooltipExtension);
+        }
+        
+        if ($this->mapTimeValues) {
+            $result['xType'] = "datetime";
+            $result['dateTimeFormat'] = $dateTimeFormat;
+        } else {
+            $result['xType'] = "nominal";
+        }
+        
+        
 
         return $result;
     }
@@ -388,5 +404,21 @@ class ChartElement
     public function setYAxisSelection(string $yAxisSelection): void
     {
         $this->yAxisSelection = $yAxisSelection;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getTooltipExtension(): string
+    {
+        return $this->tooltipExtension;
+    }
+    
+    /**
+     * @param string $tooltipExtension
+     */
+    public function setTooltipExtension(string $tooltipExtension): void
+    {
+        $this->tooltipExtension = $tooltipExtension;
     }
 }

@@ -23,3 +23,13 @@
     margin-right: 2px;
 }
 
+.c4g-tooltip-element {
+    display: flex;
+    flex-direction: column;
+}
+
+.c4g-tooltip-element-color {
+    display: block;
+    width: 9px;
+    height: 9px;
+}

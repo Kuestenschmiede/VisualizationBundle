@@ -187,6 +187,7 @@ class Vis {
     }
 
     index = 0;
+    let hasCustomTooltip = false;
     while (index < json.data.length) {
       let x = [];
       let y = [];
@@ -249,6 +250,10 @@ class Vis {
       //ToDo
       if (typeof json.data[index].dataPoints[0].redirect !== 'undefined') {
         c3json.data.redirects['y' + index] = json.data[index].dataPoints[0].redirect;
+      }
+
+      if (json.data[index].tooltipExtension) {
+        hasCustomTooltip = true;
       }
 
       index += 1;
@@ -316,6 +321,39 @@ class Vis {
 
       return value;
     };
+
+    // check for custom tooltip
+    if (hasCustomTooltip) {
+      c3json.tooltip.contents = function (data, defaultTitleFormat, defaultValueFormat, color) {
+        let valueDiv = "<div class='c3-tooltip'>";
+
+        if (json.data[0].xType === "datetime") {
+          // js works with microseconds
+          let value = new Date(data[0].x * 1000);
+          value = value.toLocaleDateString("de");
+          valueDiv += "<div class='c3-tooltip-name'>" + value + "</div>";
+        } else {
+          valueDiv += "<div class='c3-tooltip-name'>" + data[0].x + "</div>";
+        }
+
+        valueDiv += "<div class='c3-tooltip-container'>";
+
+        for (let i = 0; i < data.length; i++ ) {
+          let axisName = c3json.data.axes[data[i].name];
+
+          valueDiv += "<div class='c4g-tooltip-element'>";
+          valueDiv += "<span class='c4g-tooltip-element-color' style='background-color: " + color(axisName) + ";'></span>";
+          valueDiv += "<div class='c4g-tooltip-element-value'>" + data[i].name + ": " + defaultValueFormat(data[i].value, 1.0, axisName) + "</div>";
+          valueDiv += "<div class='c4g-tooltip-element-extension'>" + json.data[i].tooltipExtension + "</div>";
+          valueDiv += "</div>";
+        }
+
+        valueDiv += "</div>"; // close c3-tooltip-container
+        valueDiv += "</div>"; // close c3-tooltip
+
+        return valueDiv;
+      }
+    }
 
     let scope = this;
     c3json.data.onclick = function (d, element) {

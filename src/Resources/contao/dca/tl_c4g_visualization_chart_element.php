@@ -33,6 +33,7 @@ $dca->palette()->selector(['origin'])
     ->default('{general_legend},backendtitle,frontendtitle,color,redirectSite;'.
         '{type_origin_legend},type,origin;'.
         '{transform_legend},groupIdenticalX,minCountIdenticalX,yAxisSelection;'.
+        '{expert_legend},tooltipExtension;'.
         '{publish_legend},published;')
     ->subPalette('origin', '1', 'inputWizard')
     ->subPalette('origin', '2', 'table,tablex,tablex2,tabley,whereWizard')
@@ -142,6 +143,13 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['yAxisSelecti
     'options' => ['y1', 'y2'],
     'eval' => ['tl_class' => "clr"],
     'sql' => "varchar(20) NOT NULL DEFAULT 'y1'"
+];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['tooltipExtension'] = [
+    'inputType' => "textarea",
+    'default' => '',
+    'eval' => ['tl_class' => "clr", 'rte' => 'tinyMCE', 'allowHtml' => true],
+    'sql' => 'text NULL'
 ];
 
 /**
