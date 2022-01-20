@@ -338,9 +338,9 @@ class Vis {
           // js works with microseconds
           let value = new Date(data[0].x * 1000);
           value = value.toLocaleDateString("de");
-          valueDiv += "<div class='c3-tooltip-name'>" + value + "</div>";
+          valueDiv += "<div class='c4g-tooltip-name'>" + value + "</div>";
         } else {
-          valueDiv += "<div class='c3-tooltip-name'>" + data[0].x + "</div>";
+          valueDiv += "<div class='c4g-tooltip-name'>" + data[0].x + "</div>";
         }
 
         valueDiv += "<div class='c3-tooltip-container'>";
@@ -349,7 +349,7 @@ class Vis {
           let axisName = c3json.data.axes[data[i].name];
 
           valueDiv += "<div class='c4g-tooltip-element'>";
-          valueDiv += "<span class='c4g-tooltip-element-color' style='background-color: " + color(axisName) + ";'></span>";
+          valueDiv += "<div class='c4g-tooltip-element-color' style='background-color: " + color(axisName) + ";'></div>";
           valueDiv += "<div class='c4g-tooltip-element-value'>" + data[i].name + ": " + defaultValueFormat(data[i].value, 1.0, axisName) + "</div>";
           valueDiv += "<div class='c4g-tooltip-element-extension'>" + json.data[i].tooltipExtension + "</div>";
           valueDiv += "</div>";

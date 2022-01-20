@@ -23,13 +23,35 @@
     margin-right: 2px;
 }
 
+.c4g-tooltip-name {
+    background-color: #aaa;
+    font-size: 1em;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 2px 5px;
+    color: #fff;
+    box-shadow: 7px 7px 12px -9px #777;
+}
+
 .c4g-tooltip-element {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    font-size: 0.8em;
+    justify-content: space-between;
+    align-items: center;
+
+    > div {
+        padding: 2px 5px;
+    }
+}
+
+.c4g-tooltip-element-extension > p {
+    display: inline;
 }
 
 .c4g-tooltip-element-color {
     display: block;
-    width: 9px;
-    height: 9px;
+    width: 0.4em;
+    height: 0.4em;
+    padding: 2px 5px;
 }
