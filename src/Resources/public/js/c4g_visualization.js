@@ -346,10 +346,11 @@ class Vis {
         valueDiv += "<div class='c3-tooltip-container'>";
 
         for (let i = 0; i < data.length; i++ ) {
+
           let axisName = c3json.data.axes[data[i].name];
 
           valueDiv += "<div class='c4g-tooltip-element'>";
-          valueDiv += "<div class='c4g-tooltip-element-color' style='background-color: " + color(axisName) + ";'></div>";
+          valueDiv += "<div class='c4g-tooltip-element-color' style='background-color: " + color(data[i].name) + ";'></div>";
           valueDiv += "<div class='c4g-tooltip-element-value'>" + data[i].name + ": " + defaultValueFormat(data[i].value, 1.0, axisName) + "</div>";
           valueDiv += "<div class='c4g-tooltip-element-extension'>" + json.data[i].tooltipExtension + "</div>";
           valueDiv += "</div>";

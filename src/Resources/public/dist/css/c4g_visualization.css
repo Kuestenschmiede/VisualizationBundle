@@ -27,15 +27,16 @@
   justify-content: space-between;
   align-items: center
 }
-.c4g-tooltip-element > div {
+.c4g-tooltip-element-color {
+  display: block;
+  width: 6px;
+  height: 6px;
+  padding: 5px 5px
+}
+.c4g-tooltip-element-extension,
+.c4g-tooltip-element-value {
   padding: 2px 5px
 }
 .c4g-tooltip-element-extension > p {
   display: inline
-}
-.c4g-tooltip-element-color {
-  display: block;
-  width: .4em;
-  height: .4em;
-  padding: 2px 5px
 }
