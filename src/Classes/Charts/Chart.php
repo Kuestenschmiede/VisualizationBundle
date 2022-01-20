@@ -33,6 +33,10 @@ class Chart
 
     protected $coordinateSystem = null;
     protected $tooltip = null;
+    
+    protected $showSubchart = false;
+    protected $subchartHeight = 20;
+    protected $subchartShowXAxis = false;
 
     /**
      * @return array
@@ -68,6 +72,20 @@ class Chart
 
         if ($this->tooltip instanceof Tooltip === true) {
             $array['tooltip'] = $this->tooltip->createEncodableArray();
+        }
+        
+        if($this->showSubchart) {
+            $array['subchart'] = [
+                'show' => true,
+                'size' => [
+                    'height' => $this->subchartHeight
+                ],
+                'axis' => [
+                    'x' => [
+                        'show' => $this->subchartShowXAxis
+                    ]
+                ]
+            ];
         }
 
         return $array;
@@ -241,5 +259,53 @@ class Chart
     public function getTooltip()
     {
         return $this->tooltip;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isShowSubchart(): bool
+    {
+        return $this->showSubchart;
+    }
+    
+    /**
+     * @param bool $showSubchart
+     */
+    public function setShowSubchart(bool $showSubchart): void
+    {
+        $this->showSubchart = $showSubchart;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getSubchartHeight(): int
+    {
+        return $this->subchartHeight;
+    }
+    
+    /**
+     * @param int $subchartHeight
+     */
+    public function setSubchartHeight(int $subchartHeight): void
+    {
+        $this->subchartHeight = $subchartHeight;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isSubchartShowXAxis(): bool
+    {
+        return $this->subchartShowXAxis;
+    }
+    
+    /**
+     * @param bool $subchartShowXAxis
+     */
+    public function setSubchartShowXAxis(bool $subchartShowXAxis): void
+    {
+        $this->subchartShowXAxis = $subchartShowXAxis;
     }
 }

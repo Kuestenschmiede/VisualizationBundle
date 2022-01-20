@@ -71,6 +71,9 @@ class ChartBuilderService
         $chart->setTooltips($chartModel->tooltips);
         $chart->setLabels($chartModel->labels);
         $chart->setOneLabelPerElement($chartModel->oneLabelPerElement);
+        $chart->setShowSubchart($chartModel->showSubchart);
+        $chart->setSubchartHeight($chartModel->subchartHeight);
+        $chart->setSubchartShowXAxis($chartModel->subchartShowXAxis);
         
         $tooltip = new Tooltip();
         $chart->setTooltip($tooltip);
@@ -101,8 +104,6 @@ class ChartBuilderService
                 $coordinateSystem->y()->setLabelCount(intval($chartModel->yLabelCount));
             }
         }
-        
-        
     
         if ($chartModel->y2show === '1') {
             $coordinateSystem->y2()->setShow(true);

@@ -22,6 +22,7 @@ use con4gis\CoreBundle\Classes\DCA\Fields\SQLField;
 use con4gis\CoreBundle\Classes\DCA\Fields\TextField;
 
 $palettes = [
+    '__selector__' => ['showSubchart'],
     'general' => '{general_legend},backendtitle,xValueCharacter,',
     'elements' => 'elementWizard',
     'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
@@ -29,7 +30,7 @@ $palettes = [
     'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
     'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
-    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass,showEmptyYValues',
+    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart',
     'publish' => ';{publish_legend},published'
 ];
 
@@ -38,11 +39,19 @@ $palettes = [
  */
 $dca = new DCA('tl_c4g_visualization_chart');
 
+if (!$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['subpalettes']) {
+    $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['subpalettes'] = [];
+}
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['subpalettes'] = [
+    'showSubchart' => "subchartHeight,subchartShowXAxis",
+];
+
 $dca->list()->sorting()->headerFields(['id', 'backendtitle']);
 $dca->list()->label()->fields(['id', 'backendtitle']);
 $dca->list()->addRegularOperations($dca);
 
-$dca->palette()->selector(['xValueCharacter']);
+$dca->palette()->selector(['xValueCharacter','showSubchart']);
 $dca->palette()->default($palettes['general']);
 $dca->palette()->subPalette(
     'xValueCharacter',
@@ -138,6 +147,26 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['y2LabelCount'] =  [
     'sql' => "int(10) signed NOT NULL default '0'"
 ];
 
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['showSubchart'] =  [
+    'inputType' => "checkbox",
+    'default' => '',
+    'eval' => ['tl_class' => "clr", 'submitOnChange' => true],
+    'sql' => "char(1) NOT NULL default ''"
+];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['subchartHeight'] =  [
+    'inputType' => "text",
+    'default' => '20',
+    'eval' => ['tl_class' => "clr", 'maxlength' => 10],
+    'sql' => "int(10) signed NOT NULL default '20'"
+];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['subchartShowXAxis'] =  [
+    'inputType' => "checkbox",
+    'default' => '1',
+    'eval' => ['tl_class' => "clr"],
+    'sql' => "char(1) NOT NULL DEFAULT ''"
+];
 
 
 $decimalPoints = new NaturalField('decimalPoints', $dca);

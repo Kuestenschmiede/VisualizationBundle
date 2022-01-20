@@ -49,6 +49,9 @@ class Vis {
         fetch(url)
           .then(response => response.json())
           .then((responseJson) => {
+
+            console.log(responseJson);
+
             responseJson = this.setTickConfigForYAxis(responseJson);
 
             let chart = {
@@ -261,6 +264,10 @@ class Vis {
 
     if (typeof json.axis !== 'undefined') {
       c3json.axis = json.axis;
+    }
+
+    if (typeof json.subchart !== 'undefined') {
+      c3json.subchart = json.subchart;
     }
 
     if ((typeof json.zoom !== 'undefined') && (typeof json.zoom.enabled !== 'undefined')) {
