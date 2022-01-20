@@ -44,8 +44,10 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'minCountIdenticalX' => ['Min. Anzahl für Gruppierung', 'Identische Werte werden erst ab der angegebenen Anzahl dargestellt.'],
     'redirectSite'      => ['Weiterleitungsseite', 'Beim Klick auf das Element soll auf die ausgewählte Seite weitergeleitet werden.'],
     'yAxisSelection'      => ['Y-Achsen-Auswahl', 'Auf welcher Y-Achse sollen die Werte dieses Elements dargestellt werden?'],
+    'tooltipExtension'      => ['Eigener Tooltip-Inhalt', 'Zusätzlicher Inhalt für den Tooltip dieses Elements (unterstützt Insert-Tags).'],
     
     'general_legend'    => 'Allgemeine Einstellungen',
+    'expert_legend'    => 'Experten-Einstellungen',
     'type_origin_legend'     => 'Typ & Datenherkunft',
     'transform_legend'    => 'Datentransformation',
     'publish_legend'    => 'Veröffentlichung',
