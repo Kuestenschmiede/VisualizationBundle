@@ -49,9 +49,6 @@ class Vis {
         fetch(url)
           .then(response => response.json())
           .then((responseJson) => {
-
-            console.log(responseJson);
-
             responseJson = this.setTickConfigForYAxis(responseJson);
 
             let chart = {
@@ -59,6 +56,13 @@ class Vis {
               base: responseJson,
               json: {},
               range: function(range) {
+                document.querySelectorAll('.c4g_chart_range_button').forEach((element) => {
+                  if (element.getAttribute('data-range') === range) {
+                    element.classList.add("range-active");
+                  } else {
+                    element.classList.remove("range-active");
+                  }
+                });
                 this.json = scope.parseJson(this.bindto, this.base, this, range);
               },
               update: function() {

@@ -28,11 +28,21 @@
             }
             echo "<div class=\"c4g_chart_range_button_container\" style=\"$style\">";
             foreach ($this->buttons as $button) {
-                echo "<button class=\"c4g_chart_button c4g_chart_range_button\" ".
+                if ($button['range'] === "range_default") {
+                    echo "<button class=\"c4g_chart_button c4g_chart_range_button range-active\" ".
                     "data-range=\"".$button['range']."\" ".
                     "data-target=\"".$button['target']."\">".
-                     $button['caption'].
-                     "</button>";
+                    $button['caption'].
+                    "</button>";
+                } else {
+                    echo "<button class=\"c4g_chart_button c4g_chart_range_button\" ".
+                    "data-range=\"".$button['range']."\" ".
+                    "data-target=\"".$button['target']."\">".
+                    $button['caption'].
+                    "</button>";
+                }
+
+
             }
             echo "</div>";
         }
