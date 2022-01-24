@@ -111,6 +111,9 @@ class Vis {
       };
     }
     if (json.axis.y.labelCount) {
+      if (!json.axis.y.tick) {
+        json.axis.y.tick = {};
+      }
       let labelCount = parseInt(json.axis.y.labelCount, 10);
       if (labelCount > 0) {
         json.axis.y.tick.count = labelCount;
@@ -127,6 +130,9 @@ class Vis {
       };
     }
     if (json.axis.y2.labelCount) {
+      if (!json.axis.y2.tick) {
+        json.axis.y2.tick = {};
+      }
       let labelCount = parseInt(json.axis.y2.labelCount, 10);
       if (labelCount > 0) {
         json.axis.y2.tick.count = labelCount;
@@ -200,14 +206,20 @@ class Vis {
       let y = [];
       let i = 0;
 
-      if (typeof json.data[index].name !== 'undefined') {
-        x.push('x' + index);
-        y.push(json.data[index].name);
-        c3json.data.xs[json.data[index].name] = 'x' + index;
+      if (json.data[index].type === "line") {
+        if (typeof json.data[index].name !== 'undefined') {
+          x.push('x' + index);
+          y.push(json.data[index].name);
+          c3json.data.xs[json.data[index].name] = 'x' + index;
+        } else {
+          x.push('x' + index);
+          y.push('y' + index);
+          c3json.data.xs['y' + index] = 'x' + index;
+        }
       } else {
+        c3json.data.xs['y' + index] = 'x' + index;
         x.push('x' + index);
         y.push('y' + index);
-        c3json.data.xs['y' + index] = 'x' + index;
       }
 
       if (!c3json.data.axes) {
@@ -376,7 +388,7 @@ class Vis {
       }
     }
 
-    //console.log(c3json);
+    // console.log(c3json);
     return c3json;
   }
 
