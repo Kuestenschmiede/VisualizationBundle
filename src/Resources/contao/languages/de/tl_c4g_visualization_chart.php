@@ -56,6 +56,8 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'y2Inverted'        => ['Zweite Y-Achse invertieren', 'Falls gesetzt, beginnt die zweite Y-Achse am oberen Rand statt am unteren.'],
     'y2Format'           => ['Format', 'Formatierungsstring für den Wert der zweiten Y-Achse.'],
     'y2LabelCount'       => ['Anzahl Label an der zweiten Y-Achse', 'Hier können Sie angeben, wieviele Labels an der zweiten Y-Achse dargestellt werden sollen (0 für alle).'],
+    'gridX'       => ['Gitterlinien für X-Achse anzeigen', 'Zeigt Gitterlinien für die X-Achse an.'],
+    'gridY'       => ['Gitterlinien für Y-Achse anzeigen', 'Zeigt Gitterlinien für die Y-Achse an.'],
     
     'elementWizard'     => ['Elemente', 'Die Grafikelemente, die in dieser Grafik angezeigt werden.'],
     'elementId'         => ['Element'],

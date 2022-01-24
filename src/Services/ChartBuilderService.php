@@ -87,6 +87,13 @@ class ChartBuilderService
                 $coordinateSystem->x()->setLabel($chartModel->xLabelText, round(floatval($chartModel->xLabelPosition), intval($chartModel->decimalPoints)));
             }
         }
+        
+        if ($chartModel->gridX === '1') {
+            $chart->setGridX(true);
+        }
+        if ($chartModel->gridY === '1') {
+            $chart->setGridY(true);
+        }
     
         if ($chartModel->yshow === '1') {
             $coordinateSystem->y()->setShow(true);

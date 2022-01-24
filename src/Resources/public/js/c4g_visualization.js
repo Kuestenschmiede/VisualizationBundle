@@ -178,6 +178,14 @@ class Vis {
       },
       oneLabelPerElement: {
         enabled: false
+      },
+      grid: {
+        x: {
+          show: false
+        },
+        y: {
+          show: false
+        }
       }
     };
 
@@ -282,13 +290,22 @@ class Vis {
       c3json.axis = json.axis;
     }
 
+    if (typeof json.grid !== 'undefined') {
+      if (json.grid.x.show) {
+        c3json.grid.x.show = true;
+      }
+      if (json.grid.y.show) {
+        c3json.grid.y.show = true;
+      }
+    }
+
     if (typeof json.subchart !== 'undefined') {
       c3json.subchart = json.subchart;
     }
 
     if ((typeof json.zoom !== 'undefined') && (typeof json.zoom.enabled !== 'undefined')) {
       c3json.zoom.enabled = json.zoom.enabled;
-      c3json.zoom.type = 'drag';
+      c3json.zoom.type = 'scroll';
     }
 
     if ((typeof json.points !== 'undefined') && (typeof json.points.enabled !== 'undefined')) {

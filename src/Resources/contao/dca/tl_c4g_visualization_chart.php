@@ -30,7 +30,7 @@ $palettes = [
     'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
     'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
-    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart',
+    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart,gridX,gridY',
     'publish' => ';{publish_legend},published'
 ];
 
@@ -168,6 +168,19 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['subchartShowXAxis'] 
     'sql' => "char(1) NOT NULL DEFAULT ''"
 ];
 
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['gridX'] =  [
+    'inputType' => "checkbox",
+    'default' => '',
+    'eval' => ['tl_class' => "clr"],
+    'sql' => "char(1) NOT NULL default ''"
+];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['gridY'] =  [
+    'inputType' => "checkbox",
+    'default' => '',
+    'eval' => ['tl_class' => "clr"],
+    'sql' => "char(1) NOT NULL default ''"
+];
 
 $decimalPoints = new NaturalField('decimalPoints', $dca);
 $decimalPoints->default('0')->sql("int(10) unsigned NOT NULL default '0'")

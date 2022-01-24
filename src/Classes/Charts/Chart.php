@@ -37,6 +37,9 @@ class Chart
     protected $showSubchart = false;
     protected $subchartHeight = 20;
     protected $subchartShowXAxis = false;
+    
+    protected $gridX = false;
+    protected $gridY = false;
 
     /**
      * @return array
@@ -87,6 +90,11 @@ class Chart
                 ]
             ];
         }
+        
+        $array['grid'] = [
+            'x' => ['show' => $this->gridX],
+            'y' => ['show' => $this->gridY]
+        ];
 
         return $array;
     }
@@ -307,5 +315,37 @@ class Chart
     public function setSubchartShowXAxis(bool $subchartShowXAxis): void
     {
         $this->subchartShowXAxis = $subchartShowXAxis;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isGridX(): bool
+    {
+        return $this->gridX;
+    }
+    
+    /**
+     * @param bool $gridX
+     */
+    public function setGridX(bool $gridX): void
+    {
+        $this->gridX = $gridX;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isGridY(): bool
+    {
+        return $this->gridY;
+    }
+    
+    /**
+     * @param bool $gridY
+     */
+    public function setGridY(bool $gridY): void
+    {
+        $this->gridY = $gridY;
     }
 }
