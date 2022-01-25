@@ -67,7 +67,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'option_area_spline' => 'Kurve (Bereich)',
     'option_pie' => 'Kuchen / Torte',
     'option_donut' => 'Ring / Donut',
-    'option_gauge' => 'Manopeter',
+    'option_gauge' => 'Manometer',
     'option_bar' => 'Balken / Säulen',
     'option_gantt' => 'Gantt (Zeitlinie)'
 ];

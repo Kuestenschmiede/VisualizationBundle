@@ -152,6 +152,8 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['tooltipExten
     'sql' => 'text NULL'
 ];
 
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['list']['sorting']['fields'] = ['id', 'backendtitle'];
+
 /**
  * Class tl_c4g_visualization_chart_element
  */
@@ -166,9 +168,11 @@ class tl_c4g_visualization_chart_element extends \Backend
         $labels['frontendtitle'] = $row['frontendtitle'];
         $relations = \con4gis\VisualizationBundle\Resources\contao\models\ChartElementRelationModel::findByElementId($row['id']);
         $chartTitles = [];
-        foreach ($relations as $relation) {
-            $chart = \con4gis\VisualizationBundle\Resources\contao\models\ChartModel::findByPk($relation->chartId);
-            $chartTitles[] = $chart->backendtitle;
+        if ($relations !== null) {
+            foreach ($relations as $relation) {
+                $chart = \con4gis\VisualizationBundle\Resources\contao\models\ChartModel::findByPk($relation->chartId);
+                $chartTitles[] = $chart->backendtitle;
+            }
         }
         $labels['chartTitles'] = implode(', ', array_unique($chartTitles));
         return $labels;
