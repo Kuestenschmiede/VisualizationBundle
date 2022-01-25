@@ -50,6 +50,7 @@ class ChartBuilderService
         if ($chartModel instanceof ChartModel === true && $chartModel->published === '1') {
             $chart = new Chart();
             $coordinateSystem = new CoordinateSystem(new Axis(), new Axis(), new Axis());
+            
             $chart = $this->addConfigToChart($chart, $chartModel, $coordinateSystem);
         
             $chart = $this->addRangesToChart($chart, $chartId);
@@ -70,6 +71,9 @@ class ChartBuilderService
         $chart->setTooltips($chartModel->tooltips);
         $chart->setLabels($chartModel->labels);
         $chart->setOneLabelPerElement($chartModel->oneLabelPerElement);
+        $chart->setShowSubchart($chartModel->showSubchart);
+        $chart->setSubchartHeight($chartModel->subchartHeight);
+        $chart->setSubchartShowXAxis($chartModel->subchartShowXAxis);
         
         $tooltip = new Tooltip();
         $chart->setTooltip($tooltip);
@@ -83,6 +87,13 @@ class ChartBuilderService
                 $coordinateSystem->x()->setLabel($chartModel->xLabelText, round(floatval($chartModel->xLabelPosition), intval($chartModel->decimalPoints)));
             }
         }
+        
+        if ($chartModel->gridX === '1') {
+            $chart->setGridX(true);
+        }
+        if ($chartModel->gridY === '1') {
+            $chart->setGridY(true);
+        }
     
         if ($chartModel->yshow === '1') {
             $coordinateSystem->y()->setShow(true);
@@ -91,6 +102,13 @@ class ChartBuilderService
             }
             if (is_string($chartModel->yLabelText) === true) {
                 $coordinateSystem->y()->setLabel($chartModel->yLabelText, round(floatval($chartModel->yLabelPosition), intval($chartModel->decimalPoints)));
+            }
+            if ($chartModel->yFormat) {
+                $coordinateSystem->y()->setTickFormat($chartModel->yFormat);
+            }
+    
+            if ($chartModel->yLabelCount) {
+                $coordinateSystem->y()->setLabelCount(intval($chartModel->yLabelCount));
             }
         }
     
@@ -101,6 +119,13 @@ class ChartBuilderService
             }
             if (is_string($chartModel->y2LabelText) === true) {
                 $coordinateSystem->y2()->setLabel($chartModel->y2LabelText, round(floatval($chartModel->y2LabelPosition), intval($chartModel->decimalPoints)));
+            }
+            if ($chartModel->y2Format) {
+                $coordinateSystem->y2()->setTickFormat($chartModel->y2Format);
+            }
+    
+            if ($chartModel->y2LabelCount) {
+                $coordinateSystem->y2()->setLabelCount(intval($chartModel->y2LabelCount));
             }
         }
         
@@ -202,6 +227,9 @@ class ChartBuilderService
             
                 $element = new ChartElement($elementModel->type, $source);
                 $element->setDecimalPoints($chartModel->decimalPoints);
+                $element->setShowEmptyYValues($chartModel->showEmptyYValues);
+                $element->setYAxisSelection($elementModel->yAxisSelection);
+                $element->setTooltipExtension($elementModel->tooltipExtension ?: "");
                 if ($elementModel->color) {
                     $element->setColor($elementModel->color);
                 }
@@ -238,8 +266,8 @@ class ChartBuilderService
                 
                     $element->setX($x);
                     $element->setX2($x2);
-                    $element->setY($y);
                 }
+                
                 if ($chartModel->xValueCharacter === '2') {
                     $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $chart->getTooltip(), $chartModel->xLabelCount, intval($chartModel->xRotate));
                 }

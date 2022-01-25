@@ -25,11 +25,26 @@ This bundles provides two back end modules and one content element for Contao:
 
 ___Chart module___
 
-Create and manage you charts. Add elements, such as lines or bars, add ranges, choose which axes should be shown and how and add a watermark.
+Create and manage your charts. Add chart elements, such as lines or bars, add ranges, choose which axes should be shown and how they should be positioned. You can also add a watermark image to your chart.
+More options include adding tooltips, zooming and adding a custom CSS class.
 
 ___Chart Element module___
 
-Create and manage your chart elements, such as lines or bars. Pick the data to visualize and its color.
+Create and manage your chart elements.
+The available chart types are:
+- Line
+- Area
+- Bar
+- Pie
+- Gantt
+- Ring / Donut
+- Manometer
+
+There are two options to add data to a chart element: manual input or loading 
+data from a table. For manual input, an inputWizard assists you with the process.
+For loading from another table, you just have to choose which table you want to load
+and which columns you would like to use for data sources.
+You can also customize the colors of the chart element. 
 
 ___Chart content element___
 

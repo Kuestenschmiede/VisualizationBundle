@@ -8,6 +8,47 @@
   text-align: center
 }
 .c4g_chart_range_button {
-  margin-left: 2px;
-  margin-right: 2px
+  margin: 0 2px;
+  border-radius: .2rem;
+  padding: .25rem .5rem;
+  font-size: .675rem;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: 1px solid
+}
+.c4g_chart_range_button.range-active {
+  background-color: #0a0a0a;
+  color: #eee
+}
+.c4g-tooltip-name {
+  background-color: #aaa;
+  font-size: 1em;
+  font-weight: 700;
+  border: 1px solid #ccc;
+  padding: 2px 5px;
+  color: #fff;
+  box-shadow: 7px 7px 12px -9px #777
+}
+.c4g-tooltip-element {
+  display: flex;
+  flex-direction: row;
+  font-size: .8em;
+  justify-content: space-between;
+  align-items: center
+}
+.c4g-tooltip-element-color {
+  display: block;
+  width: 6px;
+  height: 6px;
+  padding: 5px 5px
+}
+.c4g-tooltip-element-extension,
+.c4g-tooltip-element-value {
+  padding: 2px 5px
+}
+.c4g-tooltip-element-extension > p {
+  display: inline
 }

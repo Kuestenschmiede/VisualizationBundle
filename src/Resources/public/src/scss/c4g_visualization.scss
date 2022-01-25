@@ -8,18 +8,59 @@
  * @link https://www.con4gis.org
  */
 
-.c4g_chart_container h1,
-.c4g_chart_container h2,
-.c4g_chart_container h3,
-.c4g_chart_container h4,
-.c4g_chart_container h5,
-.c4g_chart_container h6
-{
-    text-align: center;
+.c4g_chart_container {
+    h1, h2, h3, h4, h5, h6 {
+        text-align: center;
+    }
 }
 
 .c4g_chart_range_button {
-    margin-left: 2px;
-    margin-right: 2px;
+    margin: 0 2px;
+    border-radius: 0.2rem;
+    padding: 0.25rem 0.5rem;
+    font-size: .675rem;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid;
+
+    &.range-active {
+        background-color: #0a0a0a;
+        color: #eeeeee;
+    }
 }
 
+.c4g-tooltip-name {
+    background-color: #aaa;
+    font-size: 1em;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 2px 5px;
+    color: #fff;
+    box-shadow: 7px 7px 12px -9px #777;
+}
+
+.c4g-tooltip-element {
+    display: flex;
+    flex-direction: row;
+    font-size: 0.8em;
+    justify-content: space-between;
+    align-items: center;
+
+    &-color {
+        display: block;
+        width: 6px;
+        height: 6px;
+        padding: 5px 5px;
+    }
+
+    &-value, &-extension {
+        padding: 2px 5px;
+    }
+
+    &-extension > p {
+        display: inline;
+    }
+}

@@ -36,10 +36,12 @@ class Axis
     protected $rotate = 0;
     protected $labelText = '';
     protected $labelPosition = 0;
+    protected $labelCount = 0;
     protected $inverted = false;
     protected $ticks = [];
     protected $tickFormattedValue = [];
     protected $tickRotate = [];
+    protected $tickFormat = "";
 
     public function createEncodableArray()
     {
@@ -131,6 +133,8 @@ class Axis
             $array['tick']['format'] = $this->tickFormattedValue;
             $array['tick']['rotate'] = $this->rotate;
         }
+        $array['tickFormat'] = $this->tickFormat;
+        $array['labelCount'] = $this->labelCount;
 
         return $array;
     }
@@ -210,5 +214,37 @@ class Axis
             $this->tickFormattedValue[$value] = $formattedValue;
             $this->rotate = $rotate;
         }
+    }
+    
+    /**
+     * @param string $tickFormat
+     */
+    public function setTickFormat(string $tickFormat): void
+    {
+        $this->tickFormat = $tickFormat;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getTickFormat(): string
+    {
+        return $this->tickFormat;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getLabelCount(): int
+    {
+        return $this->labelCount;
+    }
+    
+    /**
+     * @param int $labelCount
+     */
+    public function setLabelCount(int $labelCount): void
+    {
+        $this->labelCount = $labelCount;
     }
 }

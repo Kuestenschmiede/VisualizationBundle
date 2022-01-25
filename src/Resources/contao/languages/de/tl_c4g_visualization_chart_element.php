@@ -43,10 +43,15 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'groupIdenticalX'   => ['Identische X-Werte gruppieren', 'Liegen mehrere Y-Werte für den gleichen X-Wert vor, werden die Werte addiert und die Summe statt der individuellen Werte angezeigt.'],
     'minCountIdenticalX' => ['Min. Anzahl für Gruppierung', 'Identische Werte werden erst ab der angegebenen Anzahl dargestellt.'],
     'redirectSite'      => ['Weiterleitungsseite', 'Beim Klick auf das Element soll auf die ausgewählte Seite weitergeleitet werden.'],
+    'yAxisSelection'      => ['Y-Achsen-Auswahl', 'Auf welcher Y-Achse sollen die Werte dieses Elements dargestellt werden?'],
+    'tooltipExtension'      => ['Eigener Tooltip-Inhalt', 'Zusätzlicher Inhalt für den Tooltip dieses Elements (unterstützt Insert-Tags).'],
+    
     'general_legend'    => 'Allgemeine Einstellungen',
+    'expert_legend'    => 'Experten-Einstellungen',
     'type_origin_legend'     => 'Typ & Datenherkunft',
     'transform_legend'    => 'Datentransformation',
     'publish_legend'    => 'Veröffentlichung',
+    
     'option_equal'      => 'gleich',
     'option_greater_or_equal' => 'größer oder gleich',
     'option_lesser_or_equal' => 'kleiner oder gleich',
@@ -62,7 +67,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'option_area_spline' => 'Kurve (Bereich)',
     'option_pie' => 'Kuchen / Torte',
     'option_donut' => 'Ring / Donut',
-    'option_gauge' => 'Manopeter',
+    'option_gauge' => 'Manometer',
     'option_bar' => 'Balken / Säulen',
     'option_gantt' => 'Gantt (Zeitlinie)'
 ];

@@ -13,6 +13,7 @@ namespace con4gis\VisualizationBundle\Classes\Charts;
 use con4gis\VisualizationBundle\Classes\Labels\Label;
 use con4gis\VisualizationBundle\Classes\Source\Source;
 use con4gis\VisualizationBundle\Classes\Transformers\Transformer;
+use Contao\Controller;
 
 class ChartElement
 {
@@ -35,9 +36,12 @@ class ChartElement
     protected $source;
     protected $transformers = [];
     protected $labels = [];
-
+    
     protected $x = 'x';
     protected $y = 'y';
+    protected $yLabelCount = 1;
+    protected $yAxisSelection = "y1";
+//    protected $yRotate = ;
 
     protected $x2 = 'x2'; //for gantt charts
 
@@ -48,12 +52,20 @@ class ChartElement
 
     protected $mapTimeValues = false;
     protected $dateTimeFormat = '';
+    
+    /**
+     * @var CoordinateSystem
+     */
     protected $coordinateSystem = null;
+    
     protected $toolTip = null;
 
     protected $redirectSite = '';
 
     protected $decimalPoints = 2;
+    protected $showEmptyYValues = true;
+    
+    protected $tooltipExtension = "";
 
     public function __construct(string $type, Source $source)
     {
@@ -73,7 +85,11 @@ class ChartElement
         foreach ($this->source as $entry) {
             $yValue = round(floatval($this->y), intval($this->decimalPoints)) ? $this->y : round(floatval($entry->get($this->y)), intval($this->decimalPoints));
             $xValue = round(floatval($this->x), intval($this->decimalPoints)) ? $this->x : round(floatval($entry->get($this->x)), intval($this->decimalPoints));
-
+    
+            if (!$this->showEmptyYValues && $yValue === 0.0) {
+                continue;
+            }
+    
             $dataPoints[] = [
                 'x' => $xValue,
                 'y' => $yValue,
@@ -86,11 +102,11 @@ class ChartElement
 
             if ($xstart && $xend && ($xend > $xstart)) {
                 $dataPoints[] = [
-                   'x' => $xend,
-                   'y' => $yValue,
-                   'min' => $entry->get('min'),
-                   'redirect' => $entry->get('redirectSite'),
-               ];
+                    'x' => $xend,
+                    'y' => $yValue,
+                    'min' => $entry->get('min'),
+                    'redirect' => $entry->get('redirectSite'),
+                ];
 
 //               //ToDo configuration param
 //               //$factor = ($xend-$xstart) / 2;
@@ -164,6 +180,12 @@ class ChartElement
             'type' => $this->type,
             'dataPoints' => $dataPoints,
         ];
+    
+        if ($this->yAxisSelection === "y1") {
+            $result['target'] = "y";
+        } else if ($this->yAxisSelection === "y2") {
+            $result['target'] = "y2";
+        }
 
         $group = ($this->group >= 0) ? $this->group : false; //ToDo different groups for intervals
         $name = ($this->name !== '') ? $this->name : false;
@@ -175,6 +197,19 @@ class ChartElement
         if ($name) {
             $result['name'] = $name;
         }
+        
+        if ($this->tooltipExtension) {
+            $result['tooltipExtension'] = Controller::replaceInsertTags($this->tooltipExtension);
+        }
+        
+        if ($this->mapTimeValues) {
+            $result['xType'] = "datetime";
+            $result['dateTimeFormat'] = $dateTimeFormat;
+        } else {
+            $result['xType'] = "nominal";
+        }
+        
+        
 
         return $result;
     }
@@ -321,5 +356,69 @@ class ChartElement
     public function setDecimalPoints(int $decimalPoints): void
     {
         $this->decimalPoints = $decimalPoints;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isShowEmptyYValues(): bool
+    {
+        return $this->showEmptyYValues;
+    }
+    
+    /**
+     * @param bool $showEmptyYValues
+     */
+    public function setShowEmptyYValues(bool $showEmptyYValues): void
+    {
+        $this->showEmptyYValues = $showEmptyYValues;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getYLabelCount(): int
+    {
+        return $this->yLabelCount;
+    }
+    
+    /**
+     * @param int $yLabelCount
+     */
+    public function setYLabelCount(int $yLabelCount): void
+    {
+        $this->yLabelCount = $yLabelCount;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getYAxisSelection(): string
+    {
+        return $this->yAxisSelection;
+    }
+    
+    /**
+     * @param string $yAxisSelection
+     */
+    public function setYAxisSelection(string $yAxisSelection): void
+    {
+        $this->yAxisSelection = $yAxisSelection;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getTooltipExtension(): string
+    {
+        return $this->tooltipExtension;
+    }
+    
+    /**
+     * @param string $tooltipExtension
+     */
+    public function setTooltipExtension(string $tooltipExtension): void
+    {
+        $this->tooltipExtension = $tooltipExtension;
     }
 }
