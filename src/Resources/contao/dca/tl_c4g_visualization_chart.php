@@ -275,9 +275,9 @@ $cssClass = new TextField('cssClass', $dca);
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['list']['sorting'] = [
     'mode'                    => 2,
-    'fields'                  => ['tstamp DESC', 'backendtitle'],
+    'fields'                  => ['backendtitle'],
     'panelLayout'             => 'filter;sort,search,limit',
-    'headerFields'            => ['tstamp', 'backendtitle'],
+    'headerFields'            => ['backendtitle'],
     'flag'                    => 1,
     'icon'                    => ''
 ];
