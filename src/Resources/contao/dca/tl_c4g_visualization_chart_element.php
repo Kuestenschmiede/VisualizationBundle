@@ -49,7 +49,7 @@ $chartTitles = new LabelField('chartTitles', $dca);
 $chartTitles->exclude(false);
 $color = new ColorPickerField('color', $dca);
 $type = new SelectField('type', $dca);
-$type->sql("varchar(10) NOT NULL default ''")
+$type->sql("varchar(10) NOT NULL default ''")->default("")
     ->optionsCallback('tl_c4g_visualization_chart_element', 'loadTypeOptions')
     ->eval()->submitOnChange();
 $origin = new SelectField('origin', $dca);
@@ -190,6 +190,7 @@ class tl_c4g_visualization_chart_element extends \Backend
     public function loadTypeOptions(DataContainer $dc)
     {
         return [
+            '' => '-',
             ChartElement::TYPE_LINE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_line'],
             ChartElement::TYPE_AREA_LINE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_area_line'],
             ChartElement::TYPE_SPLINE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_spline'],
