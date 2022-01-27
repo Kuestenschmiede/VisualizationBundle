@@ -195,7 +195,7 @@ class ChartElement
         }
 
         if ($name) {
-            $result['name'] = $name;
+            $result['name'] = html_entity_decode($name);
         }
         
         if ($this->tooltipExtension) {
