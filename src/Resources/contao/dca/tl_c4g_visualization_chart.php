@@ -273,6 +273,16 @@ $importId->eval()->doNotCopy(true);
 
 $cssClass = new TextField('cssClass', $dca);
 
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['list']['sorting'] = [
+    'mode'                    => 2,
+    'fields'                  => ['tstamp DESC', 'backendtitle'],
+    'panelLayout'             => 'filter;sort,search,limit',
+    'headerFields'            => ['tstamp', 'backendtitle'],
+    'flag'                    => 1,
+    'icon'                    => ''
+];
+
+
 /**
  * Class tl_c4g_visualization_chart
  */
