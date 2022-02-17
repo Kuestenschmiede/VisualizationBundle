@@ -56,11 +56,11 @@
         padding: 5px 5px;
     }
 
-    &-value, &-extension {
+    &-value, &-extension, &-extension-line {
         padding: 2px 5px;
     }
 
-    &-extension > p {
+    &-extension-line > p {
         display: inline;
     }
 }

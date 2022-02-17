@@ -46,9 +46,10 @@
   padding: 5px 5px
 }
 .c4g-tooltip-element-extension,
+.c4g-tooltip-element-extension-line,
 .c4g-tooltip-element-value {
   padding: 2px 5px
 }
-.c4g-tooltip-element-extension > p {
+.c4g-tooltip-element-extension-line > p {
   display: inline
 }

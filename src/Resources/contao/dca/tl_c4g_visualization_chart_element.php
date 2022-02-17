@@ -148,7 +148,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['yAxisSelecti
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['tooltipExtension'] = [
     'inputType' => "textarea",
     'default' => '',
-    'eval' => ['tl_class' => "clr", 'rte' => 'tinyMCE', 'allowHtml' => true],
+    'eval' => ['tl_class' => "clr", 'rte' => 'tinyMCE', 'allowHtml' => true, 'preserveTags' => true],
     'sql' => 'text NULL'
 ];
 

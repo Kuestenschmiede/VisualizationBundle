@@ -51,6 +51,7 @@ class Vis {
           .then((responseJson) => {
             responseJson = this.setTickConfigForYAxis(responseJson);
 
+
             let chart = {
               bindto: '#' + element.id,
               base: responseJson,
@@ -66,7 +67,9 @@ class Vis {
                 this.json = scope.parseJson(this.bindto, this.base, this, range);
               },
               update: function() {
+                // console.log(this.json);
                 this.chart = c3.generate(this.json);
+                // this.chart.pie.
               },
             };
 
@@ -364,36 +367,56 @@ class Vis {
 
     // check for custom tooltip
     if (hasCustomTooltip) {
-      c3json.tooltip.contents = function (data, defaultTitleFormat, defaultValueFormat, color) {
-        let valueDiv = "<div class='c3-tooltip'>";
+      if (json.data[0].type === 'line') {
+        c3json.tooltip.contents = function (data, defaultTitleFormat, defaultValueFormat, color) {
+          let valueDiv = "<div class='c3-tooltip'>";
 
-        if (json.data[0].xType === "datetime") {
-          // js works with microseconds
-          let value = new Date(data[0].x * 1000);
-          value = value.toLocaleDateString("de");
-          valueDiv += "<div class='c4g-tooltip-name'>" + value + "</div>";
-        } else {
-          valueDiv += "<div class='c4g-tooltip-name'>" + data[0].x + "</div>";
+          if (json.data[0].xType === "datetime") {
+            // js works with microseconds
+            let value = new Date(data[0].x * 1000);
+            value = value.toLocaleDateString("de");
+            valueDiv += "<div class='c4g-tooltip-name'>" + value + "</div>";
+          } else {
+            valueDiv += "<div class='c4g-tooltip-name'>" + data[0].x + "</div>";
+          }
+
+          valueDiv += "<div class='c3-tooltip-container'>";
+
+          for (let i = 0; i < data.length; i++ ) {
+
+            let axisName = c3json.data.axes[data[i].name];
+
+            valueDiv += "<div class='c4g-tooltip-element'>";
+            valueDiv += "<div class='c4g-tooltip-element-color' style='background-color: " + color(data[i].name) + ";'></div>";
+            valueDiv += "<div class='c4g-tooltip-element-value'>" + data[i].name + ": " + defaultValueFormat(data[i].value, 1.0, axisName) + "</div>";
+            valueDiv += "<div class='c4g-tooltip-element-extension-line'>" + json.data[i].tooltipExtension + "</div>";
+            valueDiv += "</div>";
+          }
+
+          valueDiv += "</div>"; // close c3-tooltip-container
+          valueDiv += "</div>"; // close c3-tooltip
+
+          return valueDiv;
         }
+      } else {
+        c3json.tooltip.contents = function (data, defaultTitleFormat, defaultValueFormat, color) {
+          let valueDiv = "<div class='c3-tooltip'>";
 
-        valueDiv += "<div class='c3-tooltip-container'>";
+          valueDiv += "<div class='c3-tooltip-container'>";
 
-        for (let i = 0; i < data.length; i++ ) {
+          for (let i = 0; i < data.length; i++ ) {
+            let index = data[i].index;
+            valueDiv += "<div class='c4g-tooltip-element-extension'>" + json.data[index].tooltipExtension + "</div>";
+            valueDiv += "</div>";
+          }
 
-          let axisName = c3json.data.axes[data[i].name];
+          valueDiv += "</div>"; // close c3-tooltip-container
+          valueDiv += "</div>"; // close c3-tooltip
 
-          valueDiv += "<div class='c4g-tooltip-element'>";
-          valueDiv += "<div class='c4g-tooltip-element-color' style='background-color: " + color(data[i].name) + ";'></div>";
-          valueDiv += "<div class='c4g-tooltip-element-value'>" + data[i].name + ": " + defaultValueFormat(data[i].value, 1.0, axisName) + "</div>";
-          valueDiv += "<div class='c4g-tooltip-element-extension'>" + json.data[i].tooltipExtension + "</div>";
-          valueDiv += "</div>";
+          return valueDiv;
         }
-
-        valueDiv += "</div>"; // close c3-tooltip-container
-        valueDiv += "</div>"; // close c3-tooltip
-
-        return valueDiv;
       }
+
     }
 
     let scope = this;
