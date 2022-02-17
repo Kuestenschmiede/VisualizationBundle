@@ -325,6 +325,12 @@ class Vis {
 
     if ((typeof json.labels !== 'undefined') && (typeof json.labels.enabled !== 'undefined')) {
       c3json.data.labels = json.labels.enabled;
+      if (json.data[0].type === "pie") {
+        if (!c3json.pie) {
+          c3json.pie =  {};
+        }
+        c3json.pie.label = {show: json.labels.enabled};
+      }
 
       if (((typeof json.oneLabelPerElement !== 'undefined') && (typeof json.oneLabelPerElement.enabled !== 'undefined') && json.oneLabelPerElement.enabled)) {
         let scope = this;
