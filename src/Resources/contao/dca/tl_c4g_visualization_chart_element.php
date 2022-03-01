@@ -31,7 +31,7 @@ $dca->list()->label()->fields(['id', 'backendtitle', 'frontendtitle', 'chartTitl
 $dca->list()->addRegularOperations($dca);
 $dca->palette()->selector(['origin'])
     ->default('{general_legend},backendtitle,frontendtitle,color,redirectSite;'.
-        '{type_origin_legend},type,origin;'.
+        '{type_origin_legend},type,xValueCharacter,origin;'.
         '{transform_legend},groupIdenticalX,minCountIdenticalX,yAxisSelection;'.
         '{expert_legend},tooltipExtension;'.
         '{publish_legend},published;')
@@ -61,7 +61,7 @@ $inputWizard = new MultiColumnField('inputWizard', $dca);
 $inputWizard->saveCallback('tl_c4g_visualization_chart_element', 'saveInput')
     ->loadCallback('tl_c4g_visualization_chart_element', 'loadInput')
     ->eval()->doNotSaveEmpty();
-$xInput = new DigitField('xinput', $dca, $inputWizard);
+$xInput = new TextField('xinput', $dca, $inputWizard);
 $xInput->eval()->maxlength(21);
 $yInput = new DigitField('yinput', $dca, $inputWizard);
 $yInput->eval()->maxlength(21);
@@ -154,6 +154,11 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['tooltipExten
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['list']['sorting']['fields'] = ['id', 'backendtitle'];
 
+$xValueCharacter = new SelectField('xValueCharacter', $dca);
+$xValueCharacter->optionsCallback('tl_c4g_visualization_chart_element', 'loadXValueCharacterOptions')
+    ->eval()->submitOnChange();
+
+
 /**
  * Class tl_c4g_visualization_chart_element
  */
@@ -213,7 +218,19 @@ class tl_c4g_visualization_chart_element extends \Backend
         $stmt = $database->prepare(
             "SELECT x as xinput, y as yinput FROM tl_c4g_visualization_chart_element_input WHERE elementId = ?");
         $result = $stmt->execute($dc->activeRecord->id);
-        return $result->fetchAllAssoc();
+    
+        $activeRecord = $dc->activeRecord;
+        
+        $arrResult = $result->fetchAllAssoc();
+        $format = \Contao\Config::get("dateFormat");
+        
+        if ($activeRecord->xValueCharacter === '2') {
+            foreach ($arrResult as $key => $item) {
+                $arrResult[$key]['xinput'] = date($format, $item['xinput']);
+            }
+        }
+        
+        return $arrResult;
     }
 
     /**
@@ -223,17 +240,32 @@ class tl_c4g_visualization_chart_element extends \Backend
      */
     public function saveInput($value, DataContainer $dc) {
         $inputs = unserialize($value);
+        
+        $activeRecord = $dc->activeRecord;
+        
         if (is_array($inputs) === true) {
             $database = \Contao\Database::getInstance();
             $database->prepare(
                 "DELETE FROM tl_c4g_visualization_chart_element_input WHERE elementId = ?")->execute($dc->activeRecord->id);
             foreach($inputs as $input) {
                 $x = floatval($input['xinput']);
-                $y = floatval($input['yinput']);
-                if ($y !== 0.0) {
+                if ($activeRecord->xValueCharacter !== "2") {
                     if ($x === 0.0) {
                         $x = 1.0;
                     }
+                } else {
+                    $date = new DateTimeImmutable();
+                    $format = \Contao\Config::get("dateFormat");
+                    $dateTime = DateTimeImmutable::createFromFormat($format, $input['xinput']);
+                    if ($dateTime) {
+                        $dateTime->setTime(0, 0, 0);
+                        $x = $dateTime->getTimestamp();
+                    }
+                }
+                
+                $y = floatval($input['yinput']);
+                
+                if ($y !== 0.0) {
                     $stmt = $database->prepare(
                         "INSERT INTO tl_c4g_visualization_chart_element_input (elementId, x, y) ".
                         "VALUES (?, ?, ?)");
@@ -386,5 +418,12 @@ class tl_c4g_visualization_chart_element extends \Backend
             }
         //}
         return $result;
+    }
+    
+    public function loadXValueCharacterOptions(DataContainer $dc) {
+        return [
+            '1' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_nominal_values'],
+            '2' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_temporal_values'],
+        ];
     }
 }

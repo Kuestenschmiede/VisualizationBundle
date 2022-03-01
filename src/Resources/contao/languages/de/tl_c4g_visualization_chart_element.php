@@ -25,6 +25,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'origin'            => ['Herkunft', 'Wie die Daten, die diesem Element zugeordnet sind, geladen werden sollen.'],
     'color'             => ['Farbe', 'Die Farbe, in der das Element dargestellt wird.'],
     'type'              => ['Elementtyp', 'Die Darstellungsform der Daten. Bachten Sie, dass manche Typen nicht miteinander kompatibel sind.'],
+    'xValueCharacter'   => ['Charakter der X-Werte', 'Gibt den Charakter der X-Werte an. Diese Auswahl beeinflusst das Formular und das Laden der Daten.'],
     'inputWizard'       => ['Eingaben', 'X- und Y-Wertepaare, die geladen werden. Beliebig viele Paare sind zulässig. Werden die Daten regelmäßig erweitert, sollten sie in einer eigenen Tabelle in der Datenbank gespeichert werden.'],
     'xinput'            => ['X-Wert', 'Bis zu zehn Stellen jeweils vor und hinter dem Dezimaltrennzeichen. Sowohl Komma als auch Punkt sind als Trennzeichen erlaubt. Im Falle eines Kuchendiagramms werden die X-Werte ignoriert.'],
     'yinput'            => ['Y-Wert', 'Bis zu zehn Stellen jeweils vor und hinter dem Dezimaltrennzeichen. Sowohl Komma als auch Punkt sind als Trennzeichen erlaubt. Im Falle eines Kuchendiagramms bestimmt sich die Größe des Kuchenstücks aus der Summe der Y-Werte.'],
@@ -69,5 +70,8 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'option_donut' => 'Ring / Donut',
     'option_gauge' => 'Manometer',
     'option_bar' => 'Balken / Säulen',
-    'option_gantt' => 'Gantt (Zeitlinie)'
+    'option_gantt' => 'Gantt (Zeitlinie)',
+    
+    'option_nominal_values' => 'Nominalwerte',
+    'option_temporal_values' => 'Zeitwerte'
 ];
