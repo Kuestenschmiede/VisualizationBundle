@@ -149,11 +149,17 @@ class ChartElement
             foreach ($dataPoints as $key => $dataPoint) {
                 $dataPoints[$key]['x'] = intval($dataPoints[$key]['x']);
                 $tstamp = $dataPoints[$key]['x'];
-
+                if ($tstamp === 1) {
+                    $tstamp = 0;
+                }
+                
                 if ($tstamp != $oldstamp) {
                     $i++;
                 }
-
+    
+                if ($datetime->getTimezone()->getName() !== "UTC") {
+                    $tstamp -= 3600;
+                }
                 $datetime->setTimestamp($tstamp);
                 $map[$tstamp] = $datetime->format($this->dateTimeFormat);
 
