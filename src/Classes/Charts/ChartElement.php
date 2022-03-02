@@ -13,6 +13,7 @@ namespace con4gis\VisualizationBundle\Classes\Charts;
 use con4gis\VisualizationBundle\Classes\Labels\Label;
 use con4gis\VisualizationBundle\Classes\Source\Source;
 use con4gis\VisualizationBundle\Classes\Transformers\Transformer;
+use Contao\Config;
 use Contao\Controller;
 
 class ChartElement
@@ -157,9 +158,7 @@ class ChartElement
                     $i++;
                 }
     
-                if ($datetime->getTimezone()->getName() !== "UTC") {
-                    $tstamp -= 3600;
-                }
+                $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
                 $datetime->setTimestamp($tstamp);
                 $map[$tstamp] = $datetime->format($this->dateTimeFormat);
 

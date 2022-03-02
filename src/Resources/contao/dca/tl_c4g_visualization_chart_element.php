@@ -222,7 +222,7 @@ class tl_c4g_visualization_chart_element extends \Backend
         $activeRecord = $dc->activeRecord;
         
         $arrResult = $result->fetchAllAssoc();
-        $format = \Contao\Config::get("dateFormat");
+        $format = \Contao\Config::get("datimFormat");
         
         if ($activeRecord->xValueCharacter === '2') {
             foreach ($arrResult as $key => $item) {
@@ -254,11 +254,21 @@ class tl_c4g_visualization_chart_element extends \Backend
                         $x = 1.0;
                     }
                 } else {
-                    $date = new DateTimeImmutable();
-                    $format = \Contao\Config::get("dateFormat");
-                    $dateTime = DateTimeImmutable::createFromFormat($format, $input['xinput']);
+                    $format = \Contao\Config::get("datimFormat");
+                    if ($x == $input['xinput']) {
+                        // input was number
+                        $dateTime = new DateTimeImmutable();
+                        $dateTime = $dateTime->setTimestamp($input['xinput']);
+                    } else {
+                        $dateTime = new DateTimeImmutable($input['xinput']);
+                    }
+                    
                     if ($dateTime) {
-                        $dateTime->setTime(0, 0, 0);
+                        if (strlen($input['xinput']) < 11) {
+                            // string only contains date, so set time to 0
+                            $dateTime = $dateTime->setTime(0, 0, 0);
+                        }
+                        
                         $x = $dateTime->getTimestamp();
                     }
                 }
