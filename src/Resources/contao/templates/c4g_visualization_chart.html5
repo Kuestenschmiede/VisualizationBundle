@@ -6,6 +6,7 @@
         ?>
         <?php if ($this->path !== '') {
             echo "<img src=\"".$this->path."\"
+                     alt=\"".$this->imageAlt."\"   
                      style=\"max-height: ".$this->imageMaxHeight.
                      "px;max-width: ".$this->imageMaxWidth.
                        "px;position: absolute;z-index: -1;margin-top: ". $this->imageMarginTop
