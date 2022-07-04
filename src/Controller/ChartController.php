@@ -68,10 +68,10 @@ class ChartController extends AbstractController
     /**
      * @param Request $request
      * @param $chartId
-     * @return JsonResponse|Response
+     * @return JsonResponse
      * @Route("/visualization-api/fetchChart/{chartId}", methods={"GET"})
      */
-    public function getFetchChartAction(Request $request, $chartId)
+    public function getFetchChartAction(Request $request, $chartId): JsonResponse
     {
         try {
             $this->framework->initialize(true);
@@ -81,13 +81,13 @@ class ChartController extends AbstractController
 
                 $response = new JsonResponse($chart->createEncodableArray(), Response::HTTP_OK);
             } else {
-                $response = new Response('', Response::HTTP_UNAUTHORIZED);
+                $response = new JsonResponse('', Response::HTTP_UNAUTHORIZED);
             }
         } catch (UnknownChartException|UnknownChartSourceException|EmptyChartException $exception) {
-            $response = new Response('', Response::HTTP_NOT_FOUND);
+            $response = new JsonResponse('', Response::HTTP_NOT_FOUND);
             $this->log($exception);
         } catch (\Throwable $throwable) {
-            $response = new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response = new JsonResponse('', Response::HTTP_INTERNAL_SERVER_ERROR);
             $this->log($throwable);
         }
 
