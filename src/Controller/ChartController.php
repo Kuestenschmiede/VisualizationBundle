@@ -101,16 +101,6 @@ class ChartController extends AbstractController
     }
 
     private function log(\Throwable $throwable) {
-//        C4gLogModel::addLogEntry(
-//            'Visualization',
-//            "Message: " . $throwable->getMessage() .
-//            "\n" .
-//            "Trace: " . $throwable->getTraceAsString() .
-//            "\n" .
-//            "File: " . $throwable->getFile() .
-//            "\n" .
-//            "Line: " . $throwable->getLine()
-//        );
         $this->logger->error($throwable->getMessage() . "\n" . $throwable->getTraceAsString());
     }
 
