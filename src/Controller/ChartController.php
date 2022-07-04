@@ -80,6 +80,10 @@ class ChartController extends AbstractController
                 $chart = $this->chartBuilder->createChartFromId($chartId);
 
                 $response = new JsonResponse($chart->createEncodableArray(), Response::HTTP_OK);
+                if (extension_loaded('zlib')) {
+                    $response->setContent(gzdeflate($response->getContent()));
+                    $response->headers->set('Content-encoding', 'deflate');
+                }
             } else {
                 $response = new JsonResponse('', Response::HTTP_UNAUTHORIZED);
             }
