@@ -45,6 +45,9 @@ class ChartContentElement extends ContentElement
                 $this->Template->chartID = $chartId;
                 $this->Template->headline = $headline;
                 $this->Template->path = $fileModel->path;
+                $meta = StringUtil::deserialize($fileModel->meta, true);
+                global $objPage;
+                $this->Template->imageAlt = $meta[$objPage->language]['alt'] ?? '';
 
                 $this->Template->imageMaxHeight = $chartModel->imageMaxHeight;
                 $this->Template->imageMaxWidth = $chartModel->imageMaxWidth;

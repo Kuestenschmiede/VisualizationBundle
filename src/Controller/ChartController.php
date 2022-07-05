@@ -68,10 +68,10 @@ class ChartController extends AbstractController
     /**
      * @param Request $request
      * @param $chartId
-     * @return JsonResponse|Response
+     * @return JsonResponse
      * @Route("/visualization-api/fetchChart/{chartId}", methods={"GET"})
      */
-    public function getFetchChartAction(Request $request, $chartId)
+    public function getFetchChartAction(Request $request, $chartId): JsonResponse
     {
         try {
             $this->framework->initialize(true);
@@ -80,20 +80,18 @@ class ChartController extends AbstractController
                 $chart = $this->chartBuilder->createChartFromId($chartId);
 
                 $response = new JsonResponse($chart->createEncodableArray(), Response::HTTP_OK);
+                if (extension_loaded('zlib')) {
+                    $response->setContent(gzdeflate($response->getContent()));
+                    $response->headers->set('Content-encoding', 'deflate');
+                }
             } else {
-                $response = new Response('', Response::HTTP_UNAUTHORIZED);
+                $response = new JsonResponse('', Response::HTTP_UNAUTHORIZED);
             }
-        } catch (UnknownChartException $exception) {
-            $response = new Response('', Response::HTTP_NOT_FOUND);
-            $this->log($exception);
-        } catch (UnknownChartSourceException $exception) {
-            $response = new Response('', Response::HTTP_NOT_FOUND);
-            $this->log($exception);
-        } catch (EmptyChartException $exception) {
-            $response = new Response('', Response::HTTP_NOT_FOUND);
+        } catch (UnknownChartException|UnknownChartSourceException|EmptyChartException $exception) {
+            $response = new JsonResponse('', Response::HTTP_NOT_FOUND);
             $this->log($exception);
         } catch (\Throwable $throwable) {
-            $response = new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response = new JsonResponse('', Response::HTTP_INTERNAL_SERVER_ERROR);
             $this->log($throwable);
         }
 
@@ -101,16 +99,6 @@ class ChartController extends AbstractController
     }
 
     private function log(\Throwable $throwable) {
-//        C4gLogModel::addLogEntry(
-//            'Visualization',
-//            "Message: " . $throwable->getMessage() .
-//            "\n" .
-//            "Trace: " . $throwable->getTraceAsString() .
-//            "\n" .
-//            "File: " . $throwable->getFile() .
-//            "\n" .
-//            "Line: " . $throwable->getLine()
-//        );
         $this->logger->error($throwable->getMessage() . "\n" . $throwable->getTraceAsString());
     }
 
