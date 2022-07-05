@@ -1,11 +1,11 @@
 <?php if ($this->published === '1') { ?>
-    <div class="c4g_chart_container <?= $this->outerClass ?>" id="<?= $this->outerID ?>">
+    <div class="c4g_chart_container <?php if ($this->path) {echo 'watermark';} echo $this->outerClass; ?>"<?php if ($this->outerID) { echo ' id="'.$this->outerID.'"'; }?>>
         <?php if ($this->headline !== [] && $this->headline['value'] !== "") {
             echo "<".$this->headline['unit'].">".$this->headline['value']."</".$this->headline['unit'].">";
         }
         ?>
         <?php if ($this->path !== '') {
-            echo "<img src=\"".$this->path."\"
+            echo "<img class=\"watermark\" src=\"".$this->path."\"
                      alt=\"".$this->imageAlt."\"   
                      style=\"max-height: ".$this->imageMaxHeight.
                      "px;max-width: ".$this->imageMaxWidth.
