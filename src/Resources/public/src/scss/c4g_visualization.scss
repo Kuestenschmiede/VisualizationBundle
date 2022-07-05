@@ -12,6 +12,21 @@
     h1, h2, h3, h4, h5, h6 {
         text-align: center;
     }
+
+    &.watermark {
+        position: relative;
+
+        .watermark {
+            left: 50%;
+            top: 25%;
+            transform: translate(-50%, -25%);
+
+            @media screen and (max-width: 600px) {
+                max-width: 30vw!important;
+            }
+
+        }
+    }
 }
 
 .c4g_chart_range_button {
