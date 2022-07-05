@@ -9,7 +9,7 @@
                      alt=\"".$this->imageAlt."\"   
                      style=\"max-height: ".$this->imageMaxHeight.
                      "px;max-width: ".$this->imageMaxWidth.
-                       "px;position: absolute;z-index: -1;margin-top: ". $this->imageMarginTop
+                       "px;position: absolute;margin-top: ". $this->imageMarginTop
                        ."px;margin-left: ".$this->imageMarginLeft
                        ."px;opacity: ".$this->imageOpacity.";\">";
         }?>
