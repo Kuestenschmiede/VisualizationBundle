@@ -111,8 +111,7 @@ class ChartElement
             $oldstamp = '';
 
             foreach ($dataPoints as $key => $dataPoint) {
-                $dataPoints[$key]['x'] = intval($dataPoints[$key]['x']);
-                $tstamp = $dataPoints[$key]['x'];
+                $tstamp = intval($dataPoint['x']);
                 if ($tstamp === 1) {
                     $tstamp = 0;
                 }
