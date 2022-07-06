@@ -18,20 +18,20 @@ use Contao\Controller;
 
 class ChartElement
 {
-    const TYPE_BAR = 'bar';
-    const TYPE_LINE = 'line';
-    const TYPE_AREA_LINE = 'area';
-    const TYPE_SPLINE = 'spline';
-    const TYPE_AREA_SPLINE = 'areaspline';
-    const TYPE_AREA = 'area';
-    const TYPE_PIE = 'pie';
-    const TYPE_DONUT = 'donut';
-    const TYPE_GAUGE = 'gauge';
-    const TYPE_GANTT = 'gantt';
+    public const TYPE_BAR = 'bar';
+    public const TYPE_LINE = 'line';
+    public const TYPE_AREA_LINE = 'area';
+    public const TYPE_SPLINE = 'spline';
+    public const TYPE_AREA_SPLINE = 'areaspline';
+    public const TYPE_AREA = 'area';
+    public const TYPE_PIE = 'pie';
+    public const TYPE_DONUT = 'donut';
+    public const TYPE_GAUGE = 'gauge';
+    public const TYPE_GANTT = 'gantt';
 
-    const ORIGIN_INPUT = '1';
-    const ORIGIN_TABLE = '2';
-    const ORIGIN_PERIOD = '3';
+    public const ORIGIN_INPUT = '1';
+    public const ORIGIN_TABLE = '2';
+    public const ORIGIN_PERIOD = '3';
 
     protected $type;
     protected $source;
