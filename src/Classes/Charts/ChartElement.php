@@ -33,27 +33,27 @@ class ChartElement
     public const ORIGIN_TABLE = '2';
     public const ORIGIN_PERIOD = '3';
 
-    protected string $type;
-    protected Source $source;
-    protected array $transformers = [];
-    protected array $labels = [];
-    protected string $x = 'x';
-    protected string $y = 'y';
-    protected int $yLabelCount = 1;
-    protected string $yAxisSelection = "y1";
-    protected string $x2 = 'x2';
-    protected string $name = '';
-    protected int $group = -1;
-    protected string $color = '';
-    protected bool $mapTimeValues = false;
-    protected string $dateTimeFormat = '';
-    protected ?CoordinateSystem $coordinateSystem = null;
-    protected ?Tooltip $toolTip = null;
-    protected int $decimalPoints = 2;
-    protected bool $showEmptyYValues = true;
-    protected string $tooltipExtension = "";
-    protected int $xLabelCount;
-    protected int $xRotate;
+    private string $type;
+    private Source $source;
+    private array $transformers = [];
+    private array $labels = [];
+    private string $x = 'x';
+    private string $y = 'y';
+    private int $yLabelCount = 1;
+    private string $yAxisSelection = "y1";
+    private string $x2 = 'x2';
+    private string $name = '';
+    private int $group = -1;
+    private string $color = '';
+    private bool $mapTimeValues = false;
+    private string $dateTimeFormat = '';
+    private ?CoordinateSystem $coordinateSystem = null;
+    private ?Tooltip $toolTip = null;
+    private int $decimalPoints = 2;
+    private bool $showEmptyYValues = true;
+    private string $tooltipExtension = "";
+    private int $xLabelCount;
+    private int $xRotate;
 
     public function __construct(string $type, Source $source)
     {
