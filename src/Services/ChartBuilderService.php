@@ -269,15 +269,17 @@ class ChartBuilderService
                 }
                 
                 if ($chartModel->xValueCharacter === '2') {
-                    $element->mapTimeValues($chartModel->xTimeFormat, $coordinateSystem, $chart->getTooltip(), $chartModel->xLabelCount, intval($chartModel->xRotate));
+                    $element->mapTimeValues(
+                        $chartModel->xTimeFormat,
+                        $coordinateSystem,
+                        $chart->getTooltip(),
+                        $chartModel->xLabelCount,
+                        intval($chartModel->xRotate),
+                        $chartModel->tickMode
+                    );
                 }
                 if ($elementModel->groupIdenticalX === '1') {
                     $element->addTransformer(new GroupIdenticalXTransformer());
-                }
-            
-                if ($elementModel->redirectSite && (($jumpTo = \PageModel::findByPk($elementModel->redirectSite)) !== null)) {
-                    $url = $jumpTo->getFrontendUrl();
-                    $element->setRedirectSite($url);
                 }
             
                 $chart->addElement($element);

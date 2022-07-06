@@ -33,6 +33,9 @@ class ChartElement
     public const ORIGIN_TABLE = '2';
     public const ORIGIN_PERIOD = '3';
 
+    private const TICK_MODE_NTH = 'nth';
+    private const TICK_MODE_MONTHLY = 'monthly';
+
     private string $type;
     private Source $source;
     private array $transformers = [];
@@ -54,6 +57,7 @@ class ChartElement
     private string $tooltipExtension = "";
     private int $xLabelCount;
     private int $xRotate;
+    private string $tickMode = '';
 
     public function __construct(string $type, Source $source)
     {
@@ -143,29 +147,47 @@ class ChartElement
             $oldstamp = 0;
 
             foreach ($dataPoints as $dataPoint) {
-                $tstamp = intval($dataPoint['x']);
-                if ($tstamp === 1) {
-                    $tstamp = 0;
+                switch ($this->tickMode) {
+                    case self::TICK_MODE_NTH:
+                        $tstamp = intval($dataPoint['x']);
+                        if ($tstamp === 1) {
+                            $tstamp = 0;
+                        }
+
+                        if ($tstamp !== $oldstamp) {
+                            $i += 1;
+                        }
+
+                        $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
+                        $datetime->setTimestamp($tstamp);
+                        $map[$tstamp] = $datetime->format($this->dateTimeFormat);
+
+                        if ($oldFormat !== $map[$tstamp]) {
+                            if (($i % $count === 0) || ($i === 1)) {
+                                $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
+                            }
+                        }
+
+                        $oldFormat = $map[$tstamp];
+                        $oldstamp = $tstamp;
+                        break;
+                    case self::TICK_MODE_MONTHLY:
+                        $tstamp = intval($dataPoint['x']);
+
+                        $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
+                        $datetime->setTimestamp($tstamp);
+                        if ($datetime->format('d') !== '01') {
+                            continue 2;
+                        }
+                        $map[$tstamp] = $datetime->format($this->dateTimeFormat);
+
+                        if ($oldFormat !== $map[$tstamp]) {
+                            $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
+                        }
+
+                        $oldFormat = $map[$tstamp];
+                        break;
                 }
-                
-                if ($tstamp !== $oldstamp) {
-                    $i += 1;
-                }
-
-
-
-                $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
-                $datetime->setTimestamp($tstamp);
-                $map[$tstamp] = $datetime->format($this->dateTimeFormat);
-
-                if ($oldFormat != $map[$tstamp]) {
-                    if (($i % $count === 0) || ($i === 1)) {
-                        $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
-                    }
-                }
-
-                $oldFormat = $map[$tstamp];
-                $oldstamp = $tstamp;
             }
 
             foreach ($map as $key => $value) {
@@ -277,14 +299,21 @@ class ChartElement
         return $this;
     }
 
-    public function mapTimeValues(string $dateTimeFormat, CoordinateSystem $coordinateSystem, Tooltip $tooltip, int $xLabelCount = 1, int $xRotate = 0)
-    {
+    public function mapTimeValues(
+        string $dateTimeFormat,
+        CoordinateSystem $coordinateSystem,
+        Tooltip $tooltip,
+        int $xLabelCount = 1,
+        int $xRotate = 0,
+        string $tickMode = self::TICK_MODE_NTH
+    ) {
         $this->mapTimeValues = true;
         $this->dateTimeFormat = $dateTimeFormat;
         $this->coordinateSystem = $coordinateSystem;
         $this->toolTip = $tooltip;
         $this->xLabelCount = $xLabelCount;
         $this->xRotate = $xRotate;
+        $this->tickMode = $tickMode;
     }
 
     /**
