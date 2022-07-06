@@ -110,7 +110,7 @@ class ChartElement
             $oldFormat = '';
             $oldstamp = '';
 
-            foreach ($dataPoints as $key => $dataPoint) {
+            foreach ($dataPoints as $dataPoint) {
                 $tstamp = intval($dataPoint['x']);
                 if ($tstamp === 1) {
                     $tstamp = 0;
