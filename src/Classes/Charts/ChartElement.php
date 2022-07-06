@@ -95,37 +95,13 @@ class ChartElement
                     'min' => $entry->get('min'),
                     'redirect' => $entry->get('redirectSite'),
                 ];
-
-//               //ToDo configuration param
-//               //$factor = ($xend-$xstart) / 2;
-//               if (($xend-$xstart) > 57600) {
-//                   $factor = 28800;
-//               }
-//               if (($xend-$xstart) > 172800) {
-//                   $factor = 86400;
-//               }
-//               if (($xend-$xstart) > 1209600) {
-//                   $factor = 604800;
-//               }
-//               if (($xend-$xstart) > 5184000) {
-//                   $factor = 2592000;
-//               }
-//               for ($i=$xstart; $i <= $xend; $i+=$factor) {
-//                    $dataPoints[] = [
-//                        'x' => $i,
-//                        'y' => $yValue,
-//                        'min' => $entry->get('min'),
-//                        'redirect' => $entry->get('redirectSite')
-//                    ];
-//                }
             }
         }
 
         foreach ($this->transformers as $transformer) {
             $dataPoints = $transformer->transform($dataPoints);
         }
-
-        $labelArr = $dataPoints;
+        
         if ($this->mapTimeValues === true) {
             $datetime = new \DateTime();
             $map = [];
