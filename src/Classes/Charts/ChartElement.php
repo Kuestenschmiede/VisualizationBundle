@@ -33,39 +33,27 @@ class ChartElement
     public const ORIGIN_TABLE = '2';
     public const ORIGIN_PERIOD = '3';
 
-    protected $type;
-    protected $source;
-    protected $transformers = [];
-    protected $labels = [];
-    
-    protected $x = 'x';
-    protected $y = 'y';
-    protected $yLabelCount = 1;
-    protected $yAxisSelection = "y1";
-//    protected $yRotate = ;
-
-    protected $x2 = 'x2'; //for gantt charts
-
-    //protected $showInLegend = true;
-    protected $name = '';
-    protected $group = -1;
-    protected $color = '';
-
-    protected $mapTimeValues = false;
-    protected $dateTimeFormat = '';
-    
-    /**
-     * @var CoordinateSystem
-     */
-    protected $coordinateSystem = null;
-    
-    protected $toolTip = null;
-
-
-    protected $decimalPoints = 2;
-    protected $showEmptyYValues = true;
-    
-    protected $tooltipExtension = "";
+    protected string $type;
+    protected Source $source;
+    protected array $transformers = [];
+    protected array $labels = [];
+    protected string $x = 'x';
+    protected string $y = 'y';
+    protected int $yLabelCount = 1;
+    protected string $yAxisSelection = "y1";
+    protected string $x2 = 'x2';
+    protected string $name = '';
+    protected int $group = -1;
+    protected string $color = '';
+    protected bool $mapTimeValues = false;
+    protected string $dateTimeFormat = '';
+    protected ?CoordinateSystem $coordinateSystem = null;
+    protected ?Tooltip $toolTip = null;
+    protected int $decimalPoints = 2;
+    protected bool $showEmptyYValues = true;
+    protected string $tooltipExtension = "";
+    protected int $xLabelCount;
+    protected int $xRotate;
 
     public function __construct(string $type, Source $source)
     {
