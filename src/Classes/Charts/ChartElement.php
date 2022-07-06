@@ -63,7 +63,39 @@ class ChartElement
 
     public function createEncodableArray()
     {
-        return $this->createEncodableDataPointsArray();
+        $result = [
+            'type' => $this->type,
+            'dataPoints' => $this->createEncodableDataPointsArray(),
+        ];
+
+        if ($this->yAxisSelection === "y1") {
+            $result['target'] = "y";
+        } else if ($this->yAxisSelection === "y2") {
+            $result['target'] = "y2";
+        }
+
+        $group = ($this->group >= 0) ? $this->group : false; //ToDo different groups for intervals
+        $name = ($this->name !== '') ? $this->name : false;
+
+        if ($group) {
+            $result['group'] = $group;
+        }
+
+        if ($name) {
+            $result['name'] = html_entity_decode($name);
+        }
+
+        if ($this->tooltipExtension) {
+            $result['tooltipExtension'] = Controller::replaceInsertTags($this->tooltipExtension);
+        }
+
+        if ($this->mapTimeValues) {
+            $result['xType'] = "datetime";
+        } else {
+            $result['xType'] = "nominal";
+        }
+
+        return $result;
     }
 
     private function createEncodableDataPointsArray()
@@ -108,7 +140,7 @@ class ChartElement
             $count = $this->xLabelCount;
             $i = 0;
             $oldFormat = '';
-            $oldstamp = '';
+            $oldstamp = 0;
 
             foreach ($dataPoints as $dataPoint) {
                 $tstamp = intval($dataPoint['x']);
@@ -116,16 +148,18 @@ class ChartElement
                     $tstamp = 0;
                 }
                 
-                if ($tstamp != $oldstamp) {
-                    $i++;
+                if ($tstamp !== $oldstamp) {
+                    $i += 1;
                 }
-    
+
+
+
                 $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
                 $datetime->setTimestamp($tstamp);
                 $map[$tstamp] = $datetime->format($this->dateTimeFormat);
 
                 if ($oldFormat != $map[$tstamp]) {
-                    if (($i % $count == 0) || ($i == 1)) {
+                    if (($i % $count === 0) || ($i === 1)) {
                         $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
                     }
                 }
@@ -143,42 +177,7 @@ class ChartElement
             $dataPoints = $label->label($dataPoints);
         }
 
-        $result = [
-            'type' => $this->type,
-            'dataPoints' => $dataPoints,
-        ];
-    
-        if ($this->yAxisSelection === "y1") {
-            $result['target'] = "y";
-        } else if ($this->yAxisSelection === "y2") {
-            $result['target'] = "y2";
-        }
-
-        $group = ($this->group >= 0) ? $this->group : false; //ToDo different groups for intervals
-        $name = ($this->name !== '') ? $this->name : false;
-
-        if ($group) {
-            $result['group'] = $group;
-        }
-
-        if ($name) {
-            $result['name'] = html_entity_decode($name);
-        }
-        
-        if ($this->tooltipExtension) {
-            $result['tooltipExtension'] = Controller::replaceInsertTags($this->tooltipExtension);
-        }
-        
-        if ($this->mapTimeValues) {
-            $result['xType'] = "datetime";
-            $result['dateTimeFormat'] = $dateTimeFormat;
-        } else {
-            $result['xType'] = "nominal";
-        }
-        
-        
-
-        return $result;
+        return $dataPoints;
     }
 
     /**
