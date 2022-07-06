@@ -71,8 +71,8 @@ class ChartElement
         $dataPoints = [];
 
         foreach ($this->source as $entry) {
-            $yValue = round(floatval($this->y), intval($this->decimalPoints)) ? $this->y : round(floatval($entry->get($this->y)), intval($this->decimalPoints));
-            $xValue = round(floatval($this->x), intval($this->decimalPoints)) ? $this->x : round(floatval($entry->get($this->x)), intval($this->decimalPoints));
+            $yValue = round(floatval($this->y), $this->decimalPoints) ? $this->y : round(floatval($entry->get($this->y)), $this->decimalPoints);
+            $xValue = round(floatval($this->x), $this->decimalPoints) ? $this->x : round(floatval($entry->get($this->x)), $this->decimalPoints);
     
             if (!$this->showEmptyYValues && $yValue === 0.0) {
                 continue;
@@ -86,7 +86,7 @@ class ChartElement
             ];
 
             $xstart = $xValue;
-            $xend = round(floatval($this->x2), intval($this->decimalPoints)) ? $this->x2 : round(floatval($entry->get($this->x2)), intval($this->decimalPoints));
+            $xend = round(floatval($this->x2), $this->decimalPoints) ? $this->x2 : round(floatval($entry->get($this->x2)), $this->decimalPoints);
 
             if ($xstart && $xend && ($xend > $xstart)) {
                 $dataPoints[] = [
