@@ -61,7 +61,6 @@ class ChartElement
     
     protected $toolTip = null;
 
-    protected $redirectSite = '';
 
     protected $decimalPoints = 2;
     protected $showEmptyYValues = true;
@@ -252,17 +251,6 @@ class ChartElement
     }
 
     /**
-     * @param bool $showInLegend
-     * @return ChartElement
-     */
-    public function setShowInLegend(bool $showInLegend = true): ChartElement
-    {
-        $this->showInLegend = $showInLegend;
-
-        return $this;
-    }
-
-    /**
      * @param string $name
      * @return ChartElement
      */
@@ -335,16 +323,6 @@ class ChartElement
         $this->toolTip = $tooltip;
         $this->xLabelCount = $xLabelCount;
         $this->xRotate = $xRotate;
-    }
-
-    /**
-     * @param string $redirectSite
-     */
-    public function setRedirectSite(string $redirectSite): ChartElement
-    {
-        $this->redirectSite = $redirectSite;
-
-        return $this;
     }
 
     /**
