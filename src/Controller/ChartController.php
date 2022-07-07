@@ -10,32 +10,13 @@
  */
 namespace con4gis\VisualizationBundle\Controller;
 
-use con4gis\CoreBundle\Controller\BaseController;
-use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
-use con4gis\VisualizationBundle\Classes\Charts\Axis;
-use con4gis\VisualizationBundle\Classes\Charts\Chart;
-use con4gis\VisualizationBundle\Classes\Charts\ChartElement;
-use con4gis\VisualizationBundle\Classes\Charts\CoordinateSystem;
-use con4gis\VisualizationBundle\Classes\Charts\Tooltip;
 use con4gis\VisualizationBundle\Classes\Exceptions\EmptyChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartSourceException;
-use con4gis\VisualizationBundle\Classes\Source\Source;
-use con4gis\VisualizationBundle\Classes\Transformers\AddIdenticalYTransformer;
-use con4gis\VisualizationBundle\Classes\Transformers\GroupIdenticalXTransformer;
-use con4gis\VisualizationBundle\Resources\contao\models\ChartElementConditionModel;
-use con4gis\VisualizationBundle\Resources\contao\models\ChartElementInputModel;
-use con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel;
-use con4gis\VisualizationBundle\Resources\contao\models\ChartElementPeriodModel;
-use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
-use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
 use con4gis\VisualizationBundle\Services\ChartBuilderService;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\Database;
-use Contao\Model\Collection;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
