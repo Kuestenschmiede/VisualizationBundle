@@ -325,17 +325,6 @@ class tl_c4g_visualization_chart extends \Backend
         ];
     }
 
-//    public function loadScaleOptions(DataContainer $dc) {
-//        return [
-//            '1' => 'innen rechts/oben',
-//            '2' => 'innen mittig',
-//            '3' => 'innen links/unten',
-//            '4' => 'außen rechts/oben',
-//            '5' => 'außen mittig',
-//            '6' => 'außen links/unten'
-//        ];
-//    }
-
     /**
      * @param $value
      * @param DataContainer $dc
@@ -394,28 +383,6 @@ class tl_c4g_visualization_chart extends \Backend
                 if ($input['defaultRange'] !== '1') {
                     $input['defaultRange'] = '0';
                 }
-
-//                if ($dc->activeRecord->xValueCharacter === '2') {
-//
-//                    $dateTime = new \DateTime();
-//
-//                    $array = explode('/', $input['fromX']);
-//
-//                    $month = $array[0];
-//                    $day = $array[1];
-//                    $year = $array[2];
-//                    $dateTime->setDate($year, $month, $day);
-//                    $input['fromX'] = floatval(strtotime('today', $dateTime->getTimestamp()));
-//
-//                    $array = explode('/', $input['toX']);
-//                    $month = $array[0];
-//                    $day = $array[1];
-//                    $year = $array[2];
-//                    $dateTime->setDate($year, $month, $day);
-//                    $input['toX'] = floatval(strtotime('today', $dateTime->getTimestamp()));
-//                }
-
-
                 $stmt = $database->prepare(
                     "INSERT INTO tl_c4g_visualization_chart_range (chartId, name, fromX, toX, defaultRange) ".
                     "VALUES (?, ?, ?, ?, ?)");
@@ -444,21 +411,13 @@ class tl_c4g_visualization_chart extends \Backend
                     $value['fromX'] = time();
                 }
                 $dateTime->setTimestamp(intval($value['fromX']));
-                $year = $dateTime->format('Y');
-                $month = $dateTime->format('m');
-                $day = $dateTime->format('d');
-
-
-                $result[$key]['fromX'] = date($dateFormat, $value['fromX']);//"$month/$day/$year";
+                $result[$key]['fromX'] = date($dateFormat, $value['fromX']);
 
                 if ($value['toX'] === 0.0) {
                     $value['toX'] = time();
                 }
                 $dateTime->setTimestamp(intval($value['toX']));
-                $year = $dateTime->format('Y');
-                $month = $dateTime->format('m');
-                $day = $dateTime->format('d');
-                $result[$key]['toX'] = date($dateFormat, $value['toX']);//"$month/$day/$year";
+                $result[$key]['toX'] = date($dateFormat, $value['toX']);
             }
         }
         return $result;
