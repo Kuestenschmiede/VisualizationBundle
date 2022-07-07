@@ -440,6 +440,7 @@ class tl_c4g_visualization_chart extends \Backend
         return [
             '' => 'Alle',
             'monthly' => 'Der erste Tag jedes Monats (wenn vorhanden)',
+            'yearly' => 'Der erste Tag jedes Jahres (wenn vorhanden)',
             'nth' => 'Benutzerdefiniert (Jedes X. Label anzeigen)',
         ];
     }

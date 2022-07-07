@@ -35,6 +35,7 @@ class ChartElement
 
     private const TICK_MODE_NTH = 'nth';
     private const TICK_MODE_MONTHLY = 'monthly';
+    private const TICK_MODE_YEARLY = 'yearly';
 
     private string $type;
     private Source $source;
@@ -176,10 +177,26 @@ class ChartElement
 
                         $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
                         $datetime->setTimestamp($tstamp);
+                        $map[$tstamp] = $datetime->format($this->dateTimeFormat);
                         if ($datetime->format('d') !== '01') {
                             continue 2;
                         }
+
+                        if ($oldFormat !== $map[$tstamp]) {
+                            $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
+                        }
+
+                        $oldFormat = $map[$tstamp];
+                        break;
+                    case self::TICK_MODE_YEARLY:
+                        $tstamp = intval($dataPoint['x']);
+
+                        $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
+                        $datetime->setTimestamp($tstamp);
                         $map[$tstamp] = $datetime->format($this->dateTimeFormat);
+                        if ($datetime->format('dm') !== '0101') {
+                            continue 2;
+                        }
 
                         if ($oldFormat !== $map[$tstamp]) {
                             $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
