@@ -43,6 +43,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'toX'               => ['Zeitraum Ende', 'Bis zu diesem X-Wert (inklusiv) werden die Werte angezeigt.'],
     'groupIdenticalX'   => ['Identische X-Werte gruppieren', 'Liegen mehrere Y-Werte für den gleichen X-Wert vor, werden die Werte addiert und die Summe statt der individuellen Werte angezeigt.'],
     'minCountIdenticalX' => ['Min. Anzahl für Gruppierung', 'Identische Werte werden erst ab der angegebenen Anzahl dargestellt.'],
+    'extractYearFromXTimestamp' => ['Jahr in Zeitwerten auf der X-Achse ignorieren', 'Bildet bei Zeitwerten die X-Werte vom 01.01. bis zum 31.12. ab, ohne das Jahr zu berücksichtigen. Dadurch ist es möglich, jedes Jahr in einem separaten Element abzubilden.'],
     'redirectSite'      => ['Weiterleitungsseite', 'Beim Klick auf das Element soll auf die ausgewählte Seite weitergeleitet werden.'],
     'yAxisSelection'      => ['Y-Achsen-Auswahl', 'Auf welcher Y-Achse sollen die Werte dieses Elements dargestellt werden?'],
     'tooltipExtension'      => ['Eigener Tooltip-Inhalt', 'Zusätzlicher Inhalt für den Tooltip dieses Elements (unterstützt Insert-Tags).'],

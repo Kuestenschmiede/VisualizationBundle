@@ -11,6 +11,7 @@ use con4gis\VisualizationBundle\Classes\Exceptions\EmptyChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartSourceException;
 use con4gis\VisualizationBundle\Classes\Source\Source;
+use con4gis\VisualizationBundle\Classes\Transformers\ExtractYearFromXTimestampTransformer;
 use con4gis\VisualizationBundle\Classes\Transformers\GroupIdenticalXTransformer;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementConditionModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementInputModel;
@@ -280,6 +281,9 @@ class ChartBuilderService
                 }
                 if ($elementModel->groupIdenticalX === '1') {
                     $element->addTransformer(new GroupIdenticalXTransformer());
+                }
+                if ($elementModel->extractYearFromXTimestamp === '1') {
+                    $element->addTransformer(new ExtractYearFromXTimestampTransformer());
                 }
             
                 $chart->addElement($element);

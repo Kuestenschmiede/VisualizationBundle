@@ -34,8 +34,8 @@ $dca->list()->addRegularOperations($dca);
 $dca->palette()->selector(['origin'])
     ->default('{general_legend},backendtitle,frontendtitle,color,redirectSite;'.
         '{type_origin_legend},type,xValueCharacter,origin;'.
-        '{transform_legend},groupIdenticalX,minCountIdenticalX,yAxisSelection;'.
-        '{expert_legend},tooltipExtension;'.
+        '{transform_legend},groupIdenticalX,minCountIdenticalX,extractYearFromXTimestamp;'.
+        '{expert_legend},tooltipExtension,yAxisSelection;'.
         '{publish_legend},published;')
     ->subPalette('origin', '1', 'inputWizard')
     ->subPalette('origin', '2', 'table,tablex,tablex2,tabley,whereWizard')
@@ -114,6 +114,7 @@ $groupIdenticalX = new CheckboxField('groupIdenticalX', $dca);
 $minCountIdenticalX = new DigitField('minCountIdenticalX', $dca);
 $minCountIdenticalX->default('1');
 $minCountIdenticalX->sql("int(10) NOT NULL default '1'");
+$extractYearFromXTimestamp = new CheckboxField('extractYearFromXTimestamp', $dca);
 
 $periodWizard = new MultiColumnField('periodWizard', $dca);
 $periodWizard->saveCallback($cbClass, 'savePeriod')
