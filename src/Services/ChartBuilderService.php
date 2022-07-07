@@ -275,7 +275,7 @@ class ChartBuilderService
                         $chart->getTooltip(),
                         $chartModel->xLabelCount,
                         intval($chartModel->xRotate),
-                        $chartModel->tickMode
+                        $chartModel->xTickMode
                     );
                 }
                 if ($elementModel->groupIdenticalX === '1') {

@@ -28,7 +28,7 @@ $palettes = [
     'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
     'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
     'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
-    'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
+    'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xTickMode,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
     'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart,gridX,gridY',
     'publish' => ';{publish_legend},published'
@@ -192,6 +192,10 @@ $xShow->default(true);
 $xLabelText = new TextField('xLabelText', $dca);
 $xTimeFormat = new TextField('xTimeFormat', $dca);
 $xTimeFormat->default('d.m.Y')->sql("varchar(255) NOT NULL default 'd.m.Y'")->eval()->class('clr');
+$xTickMode = new SelectField('xTickMode', $dca);
+$xTickMode->optionsCallback('tl_c4g_visualization_chart', 'loadXTickModeOptions');
+$xTickMode->default('nth');
+$xTickMode->sql('varchar(7) NOT NULL default "nth"');
 $xLabelCount = new NaturalField('xLabelCount', $dca);
 $xLabelCount->default('1')->sql("int(10) unsigned NOT NULL default '1'")
     ->eval()->maxlength(10)
@@ -429,5 +433,14 @@ class tl_c4g_visualization_chart extends \Backend
         }
         
         return null;
+    }
+
+    public function loadXTickModeOptions(DataContainer $dc): array
+    {
+        return [
+            '' => 'Alle',
+            'monthly' => 'Der erste Tag jedes Monats (wenn vorhanden)',
+            'nth' => 'Benutzerdefiniert (Jedes X. Label anzeigen)',
+        ];
     }
 }
