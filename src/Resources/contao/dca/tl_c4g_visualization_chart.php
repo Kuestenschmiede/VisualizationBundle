@@ -190,6 +190,7 @@ $swapAxes = new CheckboxField('swapAxes', $dca);
 $xShow = new CheckboxField('xshow', $dca);
 $xShow->default(true);
 $xLabelText = new TextField('xLabelText', $dca);
+$xLabelText->loadCallback('tl_c4g_visualization_chart', 'loadXLabelText');
 $xTimeFormat = new TextField('xTimeFormat', $dca);
 $xTimeFormat->default('d.m.Y')->sql("varchar(255) NOT NULL default 'd.m.Y'")->eval()->class('clr');
 $xTickMode = new SelectField('xTickMode', $dca);
@@ -213,6 +214,7 @@ $yShow = new CheckboxField('yshow', $dca);
 $yShow->default(true);
 $yInverted = new CheckboxField('yInverted', $dca);
 $yLabelText = new TextField('yLabelText', $dca);
+$yLabelText->loadCallback('tl_c4g_visualization_chart', 'loadYLabelText');
 $yLabelText->eval()->class('w50');
 $yLabelPosition = new SelectField('yLabelPosition', $dca);
 $yLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
@@ -222,6 +224,7 @@ $y2Show = new CheckboxField('y2show', $dca);
 $y2Show->default(false);
 $y2Inverted = new CheckboxField('y2Inverted', $dca);
 $y2LabelText = new TextField('y2LabelText', $dca);
+$y2LabelText->loadCallback('tl_c4g_visualization_chart', 'loadY2LabelText');
 $y2LabelText->eval()->class('w50');
 $y2LabelPosition = new SelectField('y2LabelPosition', $dca);
 $y2LabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
@@ -443,5 +446,38 @@ class tl_c4g_visualization_chart extends \Backend
             'yearly' => 'Der erste Tag jedes Jahres (wenn vorhanden)',
             'nth' => 'Benutzerdefiniert (Jedes X. Label anzeigen)',
         ];
+    }
+
+    public function loadXLabelText($fieldValue, DataContainer $dc)
+    {
+        $database = \Contao\Database::getInstance();
+        $statement = $database->prepare('SELECT xLabelText FROM tl_c4g_visualization_chart WHERE id = ?');
+        $result = $statement->execute($dc->activeRecord->id)->fetchAssoc();
+        if ($result !== false) {
+            return $result['xLabelText'];
+        }
+        return '';
+    }
+
+    public function loadYLabelText($fieldValue, DataContainer $dc)
+    {
+        $database = \Contao\Database::getInstance();
+        $statement = $database->prepare('SELECT yLabelText FROM tl_c4g_visualization_chart WHERE id = ?');
+        $result = $statement->execute($dc->activeRecord->id)->fetchAssoc();
+        if ($result !== false) {
+            return $result['yLabelText'];
+        }
+        return '';
+    }
+
+    public function loadY2LabelText($fieldValue, DataContainer $dc)
+    {
+        $database = \Contao\Database::getInstance();
+        $statement = $database->prepare('SELECT y2LabelText FROM tl_c4g_visualization_chart WHERE id = ?');
+        $result = $statement->execute($dc->activeRecord->id)->fetchAssoc();
+        if ($result !== false) {
+            return $result['y2LabelText'];
+        }
+        return '';
     }
 }

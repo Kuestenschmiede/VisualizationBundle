@@ -14,7 +14,6 @@ use con4gis\VisualizationBundle\Classes\Source\Source;
 use con4gis\VisualizationBundle\Classes\Transformers\ExtractYearFromXTimestampTransformer;
 use con4gis\VisualizationBundle\Classes\Transformers\GroupIdenticalXTransformer;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementConditionModel;
-use con4gis\VisualizationBundle\Resources\contao\models\ChartElementInputModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartElementPeriodModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
@@ -84,8 +83,8 @@ class ChartBuilderService
         $chart->setCoordinateSystem($coordinateSystem);
         if ($chartModel->xshow === '1') {
             $coordinateSystem->x()->setShow(true);
-            if (is_string($chartModel->xLabelText) === true) {
-                $coordinateSystem->x()->setLabel($chartModel->xLabelText, round(floatval($chartModel->xLabelPosition), intval($chartModel->decimalPoints)));
+            if (is_string($chartModel->xLabeltext) === true) {
+                $coordinateSystem->x()->setLabel($chartModel->xLabeltext, round(floatval($chartModel->xLabelPosition), intval($chartModel->decimalPoints)));
             }
         }
         
@@ -101,8 +100,8 @@ class ChartBuilderService
             if ($chartModel->yInverted === '1') {
                 $coordinateSystem->y()->setInverted(true);
             }
-            if (is_string($chartModel->yLabelText) === true) {
-                $coordinateSystem->y()->setLabel($chartModel->yLabelText, round(floatval($chartModel->yLabelPosition), intval($chartModel->decimalPoints)));
+            if (is_string($chartModel->yLabeltext) === true) {
+                $coordinateSystem->y()->setLabel($chartModel->yLabeltext, round(floatval($chartModel->yLabelPosition), intval($chartModel->decimalPoints)));
             }
             if ($chartModel->yFormat) {
                 $coordinateSystem->y()->setTickFormat($chartModel->yFormat);
@@ -118,8 +117,8 @@ class ChartBuilderService
             if ($chartModel->yInverted === '1') {
                 $coordinateSystem->y2()->setInverted(true);
             }
-            if (is_string($chartModel->y2LabelText) === true) {
-                $coordinateSystem->y2()->setLabel($chartModel->y2LabelText, round(floatval($chartModel->y2LabelPosition), intval($chartModel->decimalPoints)));
+            if (is_string($chartModel->y2Labeltext) === true) {
+                $coordinateSystem->y2()->setLabel($chartModel->y2Labeltext, round(floatval($chartModel->y2LabelPosition), intval($chartModel->decimalPoints)));
             }
             if ($chartModel->y2Format) {
                 $coordinateSystem->y2()->setTickFormat($chartModel->y2Format);
