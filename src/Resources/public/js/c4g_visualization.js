@@ -195,6 +195,7 @@ class Vis {
     let index = 0;
     while (index < json.colors.length) {
       c3json.data.colors['y' + index] = json.colors[index];
+      c3json.data.colors[json.data[index].name] = json.colors[index];
       index += 1;
     }
 
