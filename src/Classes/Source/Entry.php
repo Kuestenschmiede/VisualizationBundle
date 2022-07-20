@@ -24,6 +24,6 @@ class Entry
 
     public function get($index)
     {
-        return $this->values[$index];
+        return $this->values[$index] ?? '';
     }
 }
