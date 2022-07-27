@@ -42,6 +42,8 @@ class Axis
     protected $tickFormattedValue = [];
     protected $tickRotate = [];
     protected $tickFormat = "";
+    private ?int $min = null;
+    private ?int $max = null;
 
     public function createEncodableArray()
     {
@@ -135,6 +137,12 @@ class Axis
         }
         $array['tickFormat'] = $this->tickFormat;
         $array['labelCount'] = $this->labelCount;
+        if ($this->min !== null) {
+            $array['min'] = $this->min;
+        }
+        if ($this->max !== null) {
+            $array['max'] = $this->max;
+        }
 
         return $array;
     }
@@ -246,5 +254,37 @@ class Axis
     public function setLabelCount(int $labelCount): void
     {
         $this->labelCount = $labelCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMin(): int
+    {
+        return $this->min;
+    }
+
+    /**
+     * @param int $min
+     */
+    public function setMin(int $min): void
+    {
+        $this->min = $min;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMax(): int
+    {
+        return $this->max;
+    }
+
+    /**
+     * @param int $max
+     */
+    public function setMax(int $max): void
+    {
+        $this->max = $max;
     }
 }

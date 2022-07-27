@@ -27,8 +27,8 @@ $palettes = [
     'elements' => 'elementWizard',
     'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
     'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
-    'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
-    'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xTickMode,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount', //
+    'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
+    'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xTickMode,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
     'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart,gridX,gridY',
     'publish' => ';{publish_legend},published'
@@ -219,7 +219,12 @@ $yLabelText->eval()->class('w50');
 $yLabelPosition = new SelectField('yLabelPosition', $dca);
 $yLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
 $yLabelPosition->eval()->class('w50');
-
+$yMin = new NaturalField('yMin', $dca);
+$yMin->default(null)->sql("int unsigned NULL")
+    ->eval()->maxlength(10)->class('w50');
+$yMax = new NaturalField('yMax', $dca);
+$yMax->default(null)->sql("int unsigned NULL")
+    ->eval()->maxlength(10)->class('w50');
 $y2Show = new CheckboxField('y2show', $dca);
 $y2Show->default(false);
 $y2Inverted = new CheckboxField('y2Inverted', $dca);
@@ -229,6 +234,12 @@ $y2LabelText->eval()->class('w50');
 $y2LabelPosition = new SelectField('y2LabelPosition', $dca);
 $y2LabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
 $y2LabelPosition->eval()->class('w50');
+$y2Min = new NaturalField('y2Min', $dca);
+$y2Min->default(null)->sql("int unsigned NULL")
+    ->eval()->maxlength(10)->class('w50');
+$y2Max = new NaturalField('y2Max', $dca);
+$y2Max->default(null)->sql("int unsigned NULL")
+    ->eval()->maxlength(10)->class('w50');
 
 $image = new ImageField('image', $dca);
 $image->saveCallback('tl_c4g_visualization_chart', 'changeFileBinToUuid');

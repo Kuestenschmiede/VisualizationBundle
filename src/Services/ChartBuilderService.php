@@ -110,6 +110,14 @@ class ChartBuilderService
             if ($chartModel->yLabelCount) {
                 $coordinateSystem->y()->setLabelCount(intval($chartModel->yLabelCount));
             }
+
+            if ($chartModel->yMin !== null) {
+                $coordinateSystem->y()->setMin((int) $chartModel->yMin);
+            }
+
+            if ($chartModel->yMax !== null) {
+                $coordinateSystem->y()->setMax((int) $chartModel->yMax);
+            }
         }
     
         if ($chartModel->y2show === '1') {
@@ -126,6 +134,14 @@ class ChartBuilderService
     
             if ($chartModel->y2LabelCount) {
                 $coordinateSystem->y2()->setLabelCount(intval($chartModel->y2LabelCount));
+            }
+
+            if ($chartModel->y2Min !== null) {
+                $coordinateSystem->y2()->setMin((int) $chartModel->y2Min);
+            }
+
+            if ($chartModel->y2Max != null) {
+                $coordinateSystem->y2()->setMax((int) $chartModel->y2Max);
             }
         }
         

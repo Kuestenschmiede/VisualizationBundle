@@ -51,12 +51,16 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'yRotate'           => ['Y-Achsenrotation', 'Rotiert die Beschriftung der Y-Werte. Das Vorzeichen gibt die Rotationsrichtung an.'],
     
     'yInverted'         => ['Y-Achse invertieren', 'Falls gesetzt, beginnt die Y-Achse am oberen Rand statt am unteren.'],
+    'yMin'         => ['Mindestwert der Y-Achse', 'Versucht, diesen Wert als Mindestwert auf der Y-Achse zu erzwingen.'],
+    'yMax'         => ['Höchstwert der Y-Achse', 'Versucht, diesen Wert als Höchstwert auf der Y-Achse zu erzwingen.'],
     'y2show'            => ['Zweite Y-Achse anzeigen', 'Zeigt eine zweite Y-Achse an oder nicht.'],
     'y2LabelText'       => ['Bezeichnung der zweiten Y-Achse', 'Definiert die Bezeichnung der zweiten Y-Achse.'],
     'y2LabelPosition'   => ['Position der Bezeichnung', 'Definiert die Position der Bezeichnung relativ zur Achse.'],
     'y2Inverted'        => ['Zweite Y-Achse invertieren', 'Falls gesetzt, beginnt die zweite Y-Achse am oberen Rand statt am unteren.'],
     'y2Format'           => ['Format', 'Formatierungsstring für den Wert der zweiten Y-Achse.'],
     'y2LabelCount'       => ['Anzahl Label an der zweiten Y-Achse', 'Hier können Sie angeben, wieviele Labels an der zweiten Y-Achse dargestellt werden sollen (0 für alle).'],
+    'y2Min'         => ['Mindestwert der zweiten Y-Achse', 'Versucht, diesen Wert als Mindestwert auf der zweiten Y-Achse zu erzwingen.'],
+    'y2Max'         => ['Höchstwert der zweiten Y-Achse', 'Versucht, diesen Wert als Höchstwert auf der zweiten Y-Achse zu erzwingen.'],
     'gridX'       => ['Gitterlinien für X-Achse anzeigen', 'Zeigt Gitterlinien für die X-Achse an.'],
     'gridY'       => ['Gitterlinien für Y-Achse anzeigen', 'Zeigt Gitterlinien für die Y-Achse an.'],
     
