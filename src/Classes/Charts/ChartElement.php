@@ -149,29 +149,6 @@ class ChartElement
 
             foreach ($dataPoints as $dataPoint) {
                 switch ($this->tickMode) {
-                    case self::TICK_MODE_NTH:
-                        $tstamp = intval($dataPoint['x']);
-                        if ($tstamp === 1) {
-                            $tstamp = 0;
-                        }
-
-                        if ($tstamp !== $oldstamp) {
-                            $i += 1;
-                        }
-
-                        $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
-                        $datetime->setTimestamp($tstamp);
-                        $map[$tstamp] = $datetime->format($this->dateTimeFormat);
-
-                        if ($oldFormat !== $map[$tstamp]) {
-                            if (($i % $count === 0) || ($i === 1)) {
-                                $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
-                            }
-                        }
-
-                        $oldFormat = $map[$tstamp];
-                        $oldstamp = $tstamp;
-                        break;
                     case self::TICK_MODE_MONTHLY:
                         $tstamp = intval($dataPoint['x']);
 
@@ -203,6 +180,29 @@ class ChartElement
                         }
 
                         $oldFormat = $map[$tstamp];
+                        break;
+                    default:
+                        $tstamp = intval($dataPoint['x']);
+                        if ($tstamp === 1) {
+                            $tstamp = 0;
+                        }
+
+                        if ($tstamp !== $oldstamp) {
+                            $i += 1;
+                        }
+
+                        $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
+                        $datetime->setTimestamp($tstamp);
+                        $map[$tstamp] = $datetime->format($this->dateTimeFormat);
+
+                        if ($oldFormat !== $map[$tstamp]) {
+                            if (($i % $count === 0) || ($i === 1)) {
+                                $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
+                            }
+                        }
+
+                        $oldFormat = $map[$tstamp];
+                        $oldstamp = $tstamp;
                         break;
                 }
             }
