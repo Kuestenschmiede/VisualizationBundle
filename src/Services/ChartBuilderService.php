@@ -180,46 +180,18 @@ class ChartBuilderService
                     case ChartElement::ORIGIN_TABLE:
                         try {
                             $table = $elementModel->table;
-                            $x = $elementModel->tablex;
-                            $x2 = $elementModel->tablex2;
-                            if ($rangeModels instanceof Collection && $chartModel->loadOutOfRangeData !== '1') {
-                                $fromX = 0;
-                                $toX = 0;
-                                foreach ($rangeModels as $model) {
-                                    if ($fromX === 0 || $fromX > $model->fromX) {
-                                        $fromX = $model->fromX;
-                                    }
-                                
-                                    if ($toX === 0 || $toX < $model->toX) {
-                                        $toX = $model->toX;
-                                    }
-                                }
-                                $query = "SELECT * FROM $table WHERE $x >= ? AND $x <= ?";
-                                $additionalWhereString = $this->createAdditionalWhereString($elementModel);
-                                if ($additionalWhereString !== '') {
-                                    $query .= " AND " . $additionalWhereString;
-                                }
-                                $stmt = $this->database->prepare($query);
-                                $result = $stmt->execute($fromX, $toX);
-                                $arrResult = $result->fetchAllAssoc();
-                                if (!$arrResult || count($arrResult) <= 0) {
-                                    continue 2;
-                                }
-                                $source = new Source($arrResult, $elementModel->minCountIdenticalX, $elementModel->redirectSite);
-                            } else {
-                                $query = "SELECT * FROM " . $table;
-                                $additionalWhereString = $this->createAdditionalWhereString($elementModel);
-                                if ($additionalWhereString !== '') {
-                                    $query .= " WHERE " . $additionalWhereString;
-                                }
-                                $stmt = $this->database->prepare($query);
-                                $result = $stmt->execute();
-                                $arrResult = $result->fetchAllAssoc();
-                                if (!$arrResult || count($arrResult) <= 0) {
-                                    continue 2;
-                                }
-                                $source = new Source($arrResult, $elementModel->minCountIdenticalX, $elementModel->redirectSite);
+                            $query = "SELECT * FROM " . $table;
+                            $additionalWhereString = $this->createAdditionalWhereString($elementModel);
+                            if ($additionalWhereString !== '') {
+                                $query .= " WHERE " . $additionalWhereString;
                             }
+                            $stmt = $this->database->prepare($query);
+                            $result = $stmt->execute();
+                            $arrResult = $result->fetchAllAssoc();
+                            if (!$arrResult || count($arrResult) <= 0) {
+                                continue 2;
+                            }
+                            $source = new Source($arrResult, $elementModel->minCountIdenticalX, $elementModel->redirectSite);
                         } catch (\Throwable $throwable) {
                             $this->log($throwable);
                             continue 2;
