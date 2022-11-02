@@ -122,7 +122,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yRotate'] =  [
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yFormat'] =  [
     'inputType' => "text",
     'default' => '',
-    'eval' => ['tl_class' => "clr", 'maxlength' => 20],
+    'eval' => ['tl_class' => "clr", 'maxlength' => 20, 'doNotTrim' => true],
     'sql' => "varchar(20) NOT NULL DEFAULT ''"
 ];
 
@@ -136,7 +136,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yLabelCount'] =  [
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['y2Format'] =  [
     'inputType' => "text",
     'default' => '',
-    'eval' => ['tl_class' => "clr", 'maxlength' => 20],
+    'eval' => ['tl_class' => "clr", 'maxlength' => 20, 'doNotTrim' => true],
     'sql' => "varchar(20) NOT NULL DEFAULT ''"
 ];
 
