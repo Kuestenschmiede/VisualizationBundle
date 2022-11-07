@@ -313,7 +313,7 @@ class ChartBuilderService
                     default:
                         return '';
                 }
-                $where .= $model->whereColumn . ' ' . $comparison . ' ' . $model->whereValue;
+                $where .= $model->whereColumn . ' ' . $comparison . ' \'' . $model->whereValue . '\'';
             }
             return $where;
         } else {
