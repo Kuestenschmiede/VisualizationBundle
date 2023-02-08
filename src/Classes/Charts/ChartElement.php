@@ -162,7 +162,7 @@ class ChartElement
                             continue 2;
                         }
 
-                        if ($oldFormat !== $map[$tstamp]) {
+                        if ($this->coordinateSystem && ($oldFormat !== $map[$tstamp])) {
                             $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
                         }
 
@@ -178,7 +178,7 @@ class ChartElement
                             continue 2;
                         }
 
-                        if ($oldFormat !== $map[$tstamp]) {
+                        if ($this->coordinateSystem && ($oldFormat !== $map[$tstamp])) {
                             $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
                         }
 
@@ -198,7 +198,7 @@ class ChartElement
                         $datetime->setTimestamp($tstamp);
                         $map[$tstamp] = $datetime->format($this->dateTimeFormat);
 
-                        if ($oldFormat !== $map[$tstamp]) {
+                        if ($this->coordinateSystem && ($oldFormat !== $map[$tstamp])) {
                             if (($i % $count === 0) || ($i === 1)) {
                                 $this->coordinateSystem->x()->setTickValue($tstamp, $map[$tstamp], $this->xRotate);
                             }
@@ -214,8 +214,8 @@ class ChartElement
                 $this->toolTip->setTitle($key, $value);
             }
         }
-        $ticks = $this->coordinateSystem->x()->getTicks();
-        if ($this->xLabelCountAll) {
+        $ticks = $this->coordinateSystem ? $this->coordinateSystem->x()->getTicks() : false;
+        if ($ticks && $this->xLabelCountAll) {
             $map = [];
             for ($i = 0; $i <= count($ticks); $i += $this->xLabelCountAll) {
                 $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
