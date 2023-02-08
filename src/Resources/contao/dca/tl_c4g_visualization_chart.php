@@ -26,7 +26,7 @@ $palettes = [
     'general' => '{general_legend},backendtitle,xValueCharacter,',
     'elements' => 'elementWizard',
     'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
-    'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
+    'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,xLabelCountAll,xTimeFormatAll,loadOutOfRangeData,decimalPoints',
     'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
     'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xTickMode,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
@@ -105,6 +105,15 @@ $y2MinRange = new NaturalField('y2Min', $dca, $rangeWizardTime);
 $y2MaxRange = new NaturalField('y2Max', $dca, $rangeWizardTime);
 
 $buttonAllCaption = new TextField('buttonAllCaption', $dca);
+
+$xLabelCountAll = new NaturalField('xLabelCountAll', $dca);
+$xLabelCountAll->default('1')->sql("int(10) unsigned NOT NULL default '1'")
+    ->eval()->maxlength(10)
+    ->regEx('natural')
+    ->class('clr');
+$xTimeFormatAll = new TextField('xTimeFormatAll', $dca);
+$xTimeFormatAll->default('d.m.Y')->sql("varchar(255) NOT NULL default 'd.m.Y'")->eval()->class('clr');
+
 $buttonPosition = new SelectField('buttonPosition', $dca);
 $buttonPosition->optionsCallback('tl_c4g_visualization_chart', 'loadButtonPositionOptions')
     ->eval()->class('w50');
@@ -453,7 +462,7 @@ class tl_c4g_visualization_chart extends \Backend
         if ($fieldValue) {
             return \StringUtil::binToUuid($fieldValue);
         }
-        
+
         return null;
     }
 

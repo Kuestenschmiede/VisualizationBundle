@@ -205,6 +205,10 @@ class Vis {
     let rangeLowerBound;
     let rangeUpperBound;
     if (range !== 'range_all') {
+      c3json.axis.x.tick.values = c3json.axis.x.tick.singleValues;
+      c3json.axis.x.tick.format = (value) => {
+        return c3json.axis.x.tick.singleFormat[value];
+      }
       if (typeof json.ranges[range] === 'undefined') {
         range = 'range_all';
       } else {
@@ -223,6 +227,12 @@ class Vis {
           c3json.axis.y2.max = json.ranges[range].y2Max;
         }
         //console.log(rangeLowerBound + "/" + rangeUpperBound);
+      }
+    }
+    else {
+      c3json.axis.x.tick.values = c3json.axis.x.tick.valuesAll;
+      c3json.axis.x.tick.format = (value) => {
+        return c3json.axis.x.tick.formatAll[value];
       }
     }
 

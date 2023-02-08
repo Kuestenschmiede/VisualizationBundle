@@ -13,6 +13,7 @@ namespace con4gis\VisualizationBundle\Classes\Charts;
 use con4gis\VisualizationBundle\Classes\Labels\Label;
 use con4gis\VisualizationBundle\Classes\Source\Source;
 use con4gis\VisualizationBundle\Classes\Transformers\Transformer;
+use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 use Contao\Config;
 use Contao\Controller;
 
@@ -51,12 +52,14 @@ class ChartElement
     private string $color = '';
     private bool $mapTimeValues = false;
     private string $dateTimeFormat = '';
+    private string $dateTimeFormatAll = '';
     private ?CoordinateSystem $coordinateSystem = null;
     private ?Tooltip $toolTip = null;
     private int $decimalPoints = 2;
     private bool $showEmptyYValues = true;
     private string $tooltipExtension = "";
     private int $xLabelCount;
+    private int $xLabelCountAll;
     private int $xRotate;
     private string $tickMode = '';
 
@@ -110,11 +113,11 @@ class ChartElement
         foreach ($this->source as $entry) {
             $yValue = round(floatval($this->y), $this->decimalPoints) ? $this->y : round(floatval($entry->get($this->y)), $this->decimalPoints);
             $xValue = round(floatval($this->x), $this->decimalPoints) ? $this->x : round(floatval($entry->get($this->x)), $this->decimalPoints);
-    
+
             if (!$this->showEmptyYValues && $yValue === 0.0) {
                 continue;
             }
-    
+
             $dataPoints[] = [
                 'x' => $xValue,
                 'y' => $yValue,
@@ -138,7 +141,7 @@ class ChartElement
         foreach ($this->transformers as $transformer) {
             $dataPoints = $transformer->transform($dataPoints);
         }
-        
+
         if ($this->mapTimeValues === true) {
             $datetime = new \DateTime();
             $map = [];
@@ -211,7 +214,17 @@ class ChartElement
                 $this->toolTip->setTitle($key, $value);
             }
         }
+        $ticks = $this->coordinateSystem->x()->getTicks();
+        if ($this->xLabelCountAll) {
+            $map = [];
+            for ($i = 0; $i <= count($ticks); $i += $this->xLabelCountAll) {
+                $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
+                $datetime->setTimestamp($ticks[$i]);
+                $map[$ticks[$i]] = $datetime->format($this->dateTimeFormatAll);
+                $this->coordinateSystem->x()->setTickValueAll($ticks[$i], $map[$ticks[$i]]);
+            }
 
+        }
         foreach ($this->labels as $label) {
             $dataPoints = $label->label($dataPoints);
         }
@@ -317,20 +330,19 @@ class ChartElement
     }
 
     public function mapTimeValues(
-        string $dateTimeFormat,
+        ChartModel $chartModel,
         CoordinateSystem $coordinateSystem,
-        Tooltip $tooltip,
-        int $xLabelCount = 1,
-        int $xRotate = 0,
-        string $tickMode = self::TICK_MODE_NTH
+        Tooltip $tooltip
     ) {
         $this->mapTimeValues = true;
-        $this->dateTimeFormat = $dateTimeFormat;
+        $this->dateTimeFormat = $chartModel->xTimeFormat;
         $this->coordinateSystem = $coordinateSystem;
         $this->toolTip = $tooltip;
-        $this->xLabelCount = $xLabelCount;
-        $this->xRotate = $xRotate;
-        $this->tickMode = $tickMode;
+        $this->xLabelCount = $chartModel->xLabelCount;
+        $this->xRotate = intval($chartModel->xRotate);
+        $this->tickMode = $chartModel->xTickMode;
+        $this->dateTimeFormatAll = $chartModel->xTimeFormatAll;
+        $this->xLabelCountAll = $chartModel->xLabelCountAll;
     }
 
     /**
@@ -348,7 +360,7 @@ class ChartElement
     {
         $this->decimalPoints = $decimalPoints;
     }
-    
+
     /**
      * @return bool
      */
@@ -356,7 +368,7 @@ class ChartElement
     {
         return $this->showEmptyYValues;
     }
-    
+
     /**
      * @param bool $showEmptyYValues
      */
@@ -364,7 +376,7 @@ class ChartElement
     {
         $this->showEmptyYValues = $showEmptyYValues;
     }
-    
+
     /**
      * @return int
      */
@@ -372,7 +384,7 @@ class ChartElement
     {
         return $this->yLabelCount;
     }
-    
+
     /**
      * @param int $yLabelCount
      */
@@ -380,7 +392,7 @@ class ChartElement
     {
         $this->yLabelCount = $yLabelCount;
     }
-    
+
     /**
      * @return string
      */
@@ -388,7 +400,7 @@ class ChartElement
     {
         return $this->yAxisSelection;
     }
-    
+
     /**
      * @param string $yAxisSelection
      */
@@ -396,7 +408,7 @@ class ChartElement
     {
         $this->yAxisSelection = $yAxisSelection;
     }
-    
+
     /**
      * @return string
      */
@@ -404,7 +416,7 @@ class ChartElement
     {
         return $this->tooltipExtension;
     }
-    
+
     /**
      * @param string $tooltipExtension
      */

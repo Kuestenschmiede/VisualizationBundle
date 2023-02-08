@@ -185,6 +185,9 @@ class ChartBuilderService
                             if ($additionalWhereString !== '') {
                                 $query .= " WHERE " . $additionalWhereString;
                             }
+                            if ($elementModel->tablex) {
+                                $query .= " ORDER BY " . $elementModel->tablex;
+                            }
                             $stmt = $this->database->prepare($query);
                             $result = $stmt->execute();
                             $arrResult = $result->fetchAllAssoc();
@@ -258,12 +261,9 @@ class ChartBuilderService
                 
                 if ($chartModel->xValueCharacter === '2') {
                     $element->mapTimeValues(
-                        $chartModel->xTimeFormat,
+                        $chartModel,
                         $coordinateSystem,
-                        $chart->getTooltip(),
-                        $chartModel->xLabelCount,
-                        intval($chartModel->xRotate),
-                        $chartModel->xTickMode
+                        $chart->getTooltip()
                     );
                 }
                 if ($elementModel->groupIdenticalX === '1') {

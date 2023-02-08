@@ -39,7 +39,9 @@ class Axis
     protected $labelCount = 0;
     protected $inverted = false;
     protected $ticks = [];
+    protected $ticksAll = [];
     protected $tickFormattedValue = [];
+    protected $tickFormattedValueAll = [];
     protected $tickRotate = [];
     protected $tickFormat = "";
     private ?int $min = null;
@@ -132,7 +134,9 @@ class Axis
 
         if (!empty($this->ticks) === true) {
             $array['tick']['values'] = $this->ticks;
+            $array['tick']['singleValues'] = $this->ticks;
             $array['tick']['format'] = $this->tickFormattedValue;
+            $array['tick']['singleFormat'] = $this->tickFormattedValue;
             $array['tick']['rotate'] = $this->rotate;
         }
         $array['tickFormat'] = $this->tickFormat;
@@ -143,7 +147,10 @@ class Axis
         if ($this->max !== null) {
             $array['max'] = $this->max;
         }
-
+        if (!empty($this->ticksAll) === true) {
+            $array['tick']['valuesAll'] = $this->ticksAll;
+            $array['tick']['formatAll'] = $this->tickFormattedValueAll;
+        }
         return $array;
     }
 
@@ -286,5 +293,20 @@ class Axis
     public function setMax(int $max): void
     {
         $this->max = $max;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTicks(): array
+    {
+        return $this->ticks;
+    }
+    public function setTickValueAll(int $value, string $formattedValue)
+    {
+        if (in_array($value, $this->ticksAll) === false) {
+            $this->ticksAll[] = $value;
+            $this->tickFormattedValueAll[$value] = $formattedValue;
+        }
     }
 }
