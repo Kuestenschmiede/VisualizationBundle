@@ -116,17 +116,25 @@ class Chart
         return $this;
     }
 
-    public function addRange(string $name, float $lowerBound, float $upperBound, bool $default = false)
+    public function addRange(string $name, float $lowerBound, float $upperBound, bool $default = false, $yMin = false, $yMax = false, $y2Min = false, $y2Max = false)
     {
         if (($default === true) && (empty($this->ranges[static::RANGE_DEFAULT]) === true)) {
             $this->ranges[static::RANGE_DEFAULT] = [
-                'lowerBound' => $lowerBound,
-                'upperBound' => $upperBound,
+                'lowerBound'    => $lowerBound,
+                'upperBound'    => $upperBound,
+                'yMin'          => $yMin,
+                'yMax'          => $yMax,
+                'y2Min'         => $y2Min,
+                'y2Max'         => $y2Max,
             ];
         } else {
             $this->ranges[$name] = [
                 'lowerBound' => $lowerBound,
                 'upperBound' => $upperBound,
+                'yMin'          => $yMin,
+                'yMax'          => $yMax,
+                'y2Min'         => $y2Min,
+                'y2Max'         => $y2Max,
             ];
         }
     }

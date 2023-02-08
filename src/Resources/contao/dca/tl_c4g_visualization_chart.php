@@ -87,6 +87,10 @@ $name = new TextField('name', $dca, $rangeWizardNominal);
 $fromX = new TextField('fromX', $dca, $rangeWizardNominal);
 $toX = new TextField('toX', $dca, $rangeWizardNominal);
 $defaultRange = new CheckboxField('defaultRange', $dca, $rangeWizardNominal);
+$yMinRange = new NaturalField('yMin', $dca, $rangeWizardNominal);
+$yMaxRange = new NaturalField('yMax', $dca, $rangeWizardNominal);
+$y2MinRange = new NaturalField('y2Min', $dca, $rangeWizardNominal);
+$y2MaxRange = new NaturalField('y2Max', $dca, $rangeWizardNominal);
 
 $rangeWizardTime = new MultiColumnField('rangeWizardTime', $dca);
 $rangeWizardTime->saveCallback('tl_c4g_visualization_chart', 'saveRanges')
@@ -95,6 +99,10 @@ $name = new TextField('name', $dca, $rangeWizardTime);
 $fromX = new DatePickerField('fromX', $dca, $rangeWizardTime);
 $toX = new DatePickerField('toX', $dca, $rangeWizardTime);
 $defaultRange = new CheckboxField('defaultRange', $dca, $rangeWizardTime);
+$yMinRange = new NaturalField('yMin', $dca, $rangeWizardTime);
+$yMaxRange = new NaturalField('yMax', $dca, $rangeWizardTime);
+$y2MinRange = new NaturalField('y2Min', $dca, $rangeWizardTime);
+$y2MaxRange = new NaturalField('y2Max', $dca, $rangeWizardTime);
 
 $buttonAllCaption = new TextField('buttonAllCaption', $dca);
 $buttonPosition = new SelectField('buttonPosition', $dca);
@@ -402,9 +410,9 @@ class tl_c4g_visualization_chart extends \Backend
                     $input['defaultRange'] = '0';
                 }
                 $stmt = $database->prepare(
-                    "INSERT INTO tl_c4g_visualization_chart_range (chartId, name, fromX, toX, defaultRange) ".
-                    "VALUES (?, ?, ?, ?, ?)");
-                $stmt->execute($dc->activeRecord->id, $input['name'], $input['fromX'], $input['toX'], $input['defaultRange']);
+                    "INSERT INTO tl_c4g_visualization_chart_range (chartId, name, fromX, toX, defaultRange, yMin, yMax, y2Min, y2Max) ".
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute($dc->activeRecord->id, $input['name'], $input['fromX'], $input['toX'], $input['defaultRange'], $input['yMin'], $input['yMax'], $input['y2Min'], $input['y2Max']);
             }
         }
         return null;
@@ -419,7 +427,7 @@ class tl_c4g_visualization_chart extends \Backend
     public function loadRanges($value, DataContainer $dc) : array {
         $database = \Contao\Database::getInstance();
         $stmt = $database->prepare(
-            "SELECT name, fromX, toX, defaultRange FROM tl_c4g_visualization_chart_range WHERE chartId = ?");
+            "SELECT name, fromX, toX, defaultRange, yMin, yMax, y2Min, y2Max FROM tl_c4g_visualization_chart_range WHERE chartId = ?");
         $result = $stmt->execute($dc->activeRecord->id)->fetchAllAssoc();
         if ($dc->activeRecord->xValueCharacter === '2') {
             $dateTime = new DateTime();

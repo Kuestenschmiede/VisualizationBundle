@@ -153,7 +153,7 @@ class ChartBuilderService
         $rangeModels = ChartRangeModel::findByChartId($chartId);
         if ($rangeModels) {
             foreach ($rangeModels as $model) {
-                $chart->addRange($model->name, $model->fromX, $model->toX, $model->defaultRange === '1');
+                $chart->addRange($model->name, $model->fromX, $model->toX, $model->defaultRange === '1', $model->yMin, $model->yMax, $model->y2Min, $model->y2Max);
             }
         }
         

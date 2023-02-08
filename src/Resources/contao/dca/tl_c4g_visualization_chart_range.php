@@ -21,6 +21,10 @@ new SQLField('name', $dca, "varchar(255) NOT NULL default''");
 new SQLField('fromX', $dca, "double NOT NULL default 0");
 new SQLField('toX', $dca, "double NOT NULL default 0");
 new SQLField('defaultRange', $dca, "CHAR(1) NOT NULL default '0'");
+new SQLField('yMin', $dca, "int unsigned NOT NULL");
+new SQLField('yMax', $dca, "int unsigned NOT NULL");
+new SQLField('y2Min', $dca, "int unsigned NOT NULL");
+new SQLField('y2Max', $dca, "int unsigned NOT NULL");
 $importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
 $importId->eval()->doNotCopy(true);
 

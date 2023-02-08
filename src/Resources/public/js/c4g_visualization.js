@@ -198,6 +198,9 @@ class Vis {
       c3json.data.colors[json.data[index].name] = json.colors[index];
       index += 1;
     }
+    if (typeof json.axis !== 'undefined') {
+      c3json.axis = json.axis;
+    }
 
     let rangeLowerBound;
     let rangeUpperBound;
@@ -207,6 +210,18 @@ class Vis {
       } else {
         rangeLowerBound = json.ranges[range].lowerBound;
         rangeUpperBound = json.ranges[range].upperBound;
+        if (json.ranges[range].yMin) {
+          c3json.axis.y.min = json.ranges[range].yMin;
+        }
+        if (json.ranges[range].y2Min) {
+          c3json.axis.y2.min = json.ranges[range].y2Min;
+        }
+        if (json.ranges[range].yMax) {
+          c3json.axis.y.max = json.ranges[range].yMax;
+        }
+        if (json.ranges[range].y2Max) {
+          c3json.axis.y2.max = json.ranges[range].y2Max;
+        }
         //console.log(rangeLowerBound + "/" + rangeUpperBound);
       }
     }
@@ -288,10 +303,6 @@ class Vis {
       }
 
       index += 1;
-    }
-
-    if (typeof json.axis !== 'undefined') {
-      c3json.axis = json.axis;
     }
 
     if (typeof json.grid !== 'undefined') {
