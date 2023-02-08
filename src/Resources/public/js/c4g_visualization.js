@@ -68,7 +68,7 @@ class Vis {
               },
               update: function() {
                 // console.log(this.json);
-                this.chart = c3.generate(this.json);
+                this.chart = this.json ? c3.generate(this.json) : '';
                 // this.chart.pie.
               },
             };
@@ -76,7 +76,7 @@ class Vis {
             chart.json = scope.parseJson('#' + element.id, responseJson, chart);
 
             // set format for x axis
-            if (typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.format !== 'undefined') {
+            if (responseJson.axis && typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.format !== 'undefined') {
               chart.format = responseJson.axis.x.tick.format;
               chart.json.axis.x.tick.format = function (x) {
                 let chrt = scope.getChartByBindId(element.id);
@@ -84,7 +84,7 @@ class Vis {
               };
             }
 
-            if (typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.rotate === '1') {
+            if (responseJson.axis && typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.rotate === '1') {
               chart.rotate = responseJson.axis.x.tick.rotate;
               chart.json.axis.x.tick.rotate = function (x) {
                 let chrt = scope.getChartByBindId(element.id);
@@ -104,44 +104,45 @@ class Vis {
   }
 
   setTickConfigForYAxis(json) {
-    if (json.axis.y.tickFormat) {
-      if (!json.axis.y.tick) {
-        json.axis.y.tick = {};
+    if (json.axis) {
+      if (json.axis.y && json.axis.y.tickFormat) {
+        if (!json.axis.y.tick) {
+          json.axis.y.tick = {};
+        }
+        json.axis.y.tick.format = (d) => {
+          let roundedVal = parseFloat(d).toFixed(3); // ToDo set parameter from config
+          return roundedVal + json.axis.y.tickFormat;
+        };
       }
-      json.axis.y.tick.format = (d) => {
-        let roundedVal = parseFloat(d).toFixed(3); // ToDo set parameter from config
-        return roundedVal + json.axis.y.tickFormat;
-      };
-    }
-    if (json.axis.y.labelCount) {
-      if (!json.axis.y.tick) {
-        json.axis.y.tick = {};
+      if (json.axis.y.labelCount) {
+        if (!json.axis.y.tick) {
+          json.axis.y.tick = {};
+        }
+        let labelCount = parseInt(json.axis.y.labelCount, 10);
+        if (labelCount > 0) {
+          json.axis.y.tick.count = labelCount;
+        }
       }
-      let labelCount = parseInt(json.axis.y.labelCount, 10);
-      if (labelCount > 0) {
-        json.axis.y.tick.count = labelCount;
-      }
-    }
 
-    if (json.axis.y2.tickFormat) {
-      if (!json.axis.y2.tick) {
-        json.axis.y2.tick = {};
+      if (json.axis.y2.tickFormat) {
+        if (!json.axis.y2.tick) {
+          json.axis.y2.tick = {};
+        }
+        json.axis.y2.tick.format = (d) => {
+          let roundedVal = parseFloat(d).toFixed(3); // ToDo set parameter from config
+          return roundedVal + json.axis.y2.tickFormat;
+        };
       }
-      json.axis.y2.tick.format = (d) => {
-        let roundedVal = parseFloat(d).toFixed(3); // ToDo set parameter from config
-        return roundedVal + json.axis.y2.tickFormat;
-      };
+      if (json.axis.y2.labelCount) {
+        if (!json.axis.y2.tick) {
+          json.axis.y2.tick = {};
+        }
+        let labelCount = parseInt(json.axis.y2.labelCount, 10);
+        if (labelCount > 0) {
+          json.axis.y2.tick.count = labelCount;
+        }
+      }
     }
-    if (json.axis.y2.labelCount) {
-      if (!json.axis.y2.tick) {
-        json.axis.y2.tick = {};
-      }
-      let labelCount = parseInt(json.axis.y2.labelCount, 10);
-      if (labelCount > 0) {
-        json.axis.y2.tick.count = labelCount;
-      }
-    }
-
     return json;
   }
 
@@ -192,6 +193,10 @@ class Vis {
       }
     };
 
+    if (!json) {
+      return '';
+    }
+
     let index = 0;
     while (index < json.colors.length) {
       c3json.data.colors['y' + index] = json.colors[index];
@@ -205,9 +210,11 @@ class Vis {
     let rangeLowerBound;
     let rangeUpperBound;
     if (range !== 'range_all') {
-      c3json.axis.x.tick.values = c3json.axis.x.tick.singleValues;
-      c3json.axis.x.tick.format = (value) => {
-        return c3json.axis.x.tick.singleFormat[value];
+      if (c3json.axis.x.tick) {
+        c3json.axis.x.tick.values = c3json.axis.x.tick.singleValues;
+        c3json.axis.x.tick.format = (value) => {
+          return c3json.axis.x.tick.singleFormat[value];
+        }
       }
       if (typeof json.ranges[range] === 'undefined') {
         range = 'range_all';
