@@ -221,7 +221,9 @@ class ChartElement
                 $datetime->setTimezone(new \DateTimeZone(Config::get("timeZone")));
                 $datetime->setTimestamp($ticks[$i]);
                 $map[$ticks[$i]] = $datetime->format($this->dateTimeFormatAll);
-                $this->coordinateSystem->x()->setTickValueAll($ticks[$i], $map[$ticks[$i]]);
+                if ($map[$ticks[$i]]) {
+                    $this->coordinateSystem->x()->setTickValueAll(intval($ticks[$i]), $map[$ticks[$i]]);
+                }
             }
 
         }

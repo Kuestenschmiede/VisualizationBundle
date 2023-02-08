@@ -163,7 +163,7 @@ class ChartBuilderService
     private function addElementsToChart(Chart $chart, $chartId, ChartModel $chartModel, CoordinateSystem $coordinateSystem)
     {
         $elementModels = ChartElementModel::findByChartId($chartId);
-        if ($elementModels === null) {
+        if ($chart === null || $elementModels === null) {
             throw new EmptyChartException();
         }
     
