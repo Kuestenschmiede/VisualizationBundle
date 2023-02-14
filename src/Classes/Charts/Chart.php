@@ -121,21 +121,37 @@ class Chart
         if (($default === true) && (empty($this->ranges[static::RANGE_DEFAULT]) === true)) {
             $this->ranges[static::RANGE_DEFAULT] = [
                 'lowerBound'    => $lowerBound,
-                'upperBound'    => $upperBound,
-                'yMin'          => $yMin,
-                'yMax'          => $yMax,
-                'y2Min'         => $y2Min,
-                'y2Max'         => $y2Max,
+                'upperBound'    => $upperBound
             ];
+            if ($yMin) {
+                $this->ranges[static::RANGE_DEFAULT]['yMin'] = $yMin;
+            }
+            if ($yMax) {
+                $this->ranges[static::RANGE_DEFAULT]['yMax'] = $yMax;
+            }
+            if ($yMin) {
+                $this->ranges[static::RANGE_DEFAULT]['y2Min'] = $yMin;
+            }
+            if ($y2Max) {
+                $this->ranges[static::RANGE_DEFAULT]['y2Max'] = $y2Max;
+            }
         } else {
             $this->ranges[$name] = [
                 'lowerBound' => $lowerBound,
-                'upperBound' => $upperBound,
-                'yMin'          => $yMin,
-                'yMax'          => $yMax,
-                'y2Min'         => $y2Min,
-                'y2Max'         => $y2Max,
+                'upperBound' => $upperBound
             ];
+            if ($yMin) {
+                $this->ranges[$name]['yMin'] = $yMin;
+            }
+            if ($yMax) {
+                $this->ranges[$name]['yMax'] = $yMax;
+            }
+            if ($yMin) {
+                $this->ranges[$name]['y2Min'] = $yMin;
+            }
+            if ($y2Max) {
+                $this->ranges[$name]['y2Max'] = $y2Max;
+            }
         }
     }
 
