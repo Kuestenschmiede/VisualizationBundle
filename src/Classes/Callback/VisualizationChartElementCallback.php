@@ -11,6 +11,7 @@ use Contao\Database;
 use Contao\DataContainer;
 use Contao\StringUtil;
 use MenAtWork\MultiColumnWizardBundle\Contao\Widgets\MultiColumnWizard;
+use Safe\DateTimeImmutable;
 
 class VisualizationChartElementCallback extends Backend
 {
