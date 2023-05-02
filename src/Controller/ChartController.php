@@ -10,19 +10,21 @@
  */
 namespace con4gis\VisualizationBundle\Controller;
 
+use con4gis\CoreBundle\Controller\BaseController;
 use con4gis\VisualizationBundle\Classes\Exceptions\EmptyChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartException;
 use con4gis\VisualizationBundle\Classes\Exceptions\UnknownChartSourceException;
-use con4gis\VisualizationBundle\Services\ChartBuilderService;
+use con4gis\VisualizationBundle\Classes\Services\ChartBuilderService;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ChartController extends AbstractController
+class ChartController extends BaseController
 {
     private $framework = null;
     
@@ -37,25 +39,31 @@ class ChartController extends AbstractController
     private $chartBuilder;
 
     public function __construct(
+        ContainerInterface $container,
         ContaoFramework $framework,
         LoggerInterface $logger,
         ChartBuilderService $chartBuilder
     ) {
-        $this->framework = $framework;
         $this->logger = $logger;
         $this->chartBuilder = $chartBuilder;
+        parent::__construct($container);
+        $framework->initialize(true);
+    }
+
+    protected function initialize($withEntityManager = true)
+    {
+        parent::initialize(false);
     }
 
     /**
      * @param Request $request
      * @param $chartId
      * @return JsonResponse
-     * @Route("/visualization-api/fetchChart/{chartId}", methods={"GET"})
+     * @Route("/con4gis/fetchChart/{chartId}", methods={"GET"})
      */
     public function getFetchChartAction(Request $request, $chartId): JsonResponse
     {
         try {
-            $this->framework->initialize(true);
             if ($chartId/* && $this->authorized() === true*/) {
                 $chartId = intval($chartId);
                 $chart = $this->chartBuilder->createChartFromId($chartId);

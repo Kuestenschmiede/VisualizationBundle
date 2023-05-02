@@ -1,6 +1,6 @@
 <?php
 
-namespace con4gis\VisualizationBundle\Services;
+namespace con4gis\VisualizationBundle\Classes\Services;
 
 use con4gis\VisualizationBundle\Classes\Charts\Axis;
 use con4gis\VisualizationBundle\Classes\Charts\Chart;
@@ -20,6 +20,7 @@ use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
 use Contao\Database;
 use Contao\Model\Collection;
+use Contao\System;
 use Psr\Log\LoggerInterface;
 
 class ChartBuilderService
@@ -35,12 +36,10 @@ class ChartBuilderService
     private $logger;
     
     /**
-     * @param Database $database
      * @param LoggerInterface $logger
      */
-    public function __construct(Database $database, LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger)
     {
-        $this->database = $database;
         $this->logger = $logger;
     }
     
@@ -166,13 +165,14 @@ class ChartBuilderService
         if ($chart === null || $elementModels === null) {
             throw new EmptyChartException();
         }
-    
+
+        $db = Database::getInstance();
         foreach ($elementModels as $elementModel) {
             if ($elementModel->published === '1') {
                 switch ($elementModel->origin) {
                     case ChartElement::ORIGIN_INPUT:
                         $sql = "SELECT * FROM tl_c4g_visualization_chart_element_input WHERE `elementId` = ?";
-                        $elementInputs = $this->database->prepare($sql)->execute($elementModel->id)->fetchAllAssoc();
+                        $elementInputs = $db->prepare($sql)->execute($elementModel->id)->fetchAllAssoc();
                         if ($elementInputs !== null) {
                             $source = new Source($elementInputs, $elementModel->minCountIdenticalX, $elementModel->redirectSite);
                         }
@@ -188,7 +188,7 @@ class ChartBuilderService
                             if ($elementModel->tablex) {
                                 $query .= " ORDER BY " . $elementModel->tablex;
                             }
-                            $stmt = $this->database->prepare($query);
+                            $stmt = $db->prepare($query);
                             $result = $stmt->execute();
                             $arrResult = $result->fetchAllAssoc();
                             if (!$arrResult || count($arrResult) <= 0) {

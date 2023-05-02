@@ -19,9 +19,9 @@
   ],
   "require": {
     "php": "^7.4 || ^8.0",
-    "contao/core-bundle": "^4.9",
-    "con4gis/core": "^6.0.21",
-    "menatwork/contao-multicolumnwizard-bundle": "^3.5.8"
+    "contao/core-bundle": "^4.13 || ^5.0",
+    "con4gis/core": "^6.0 || ^7.0",
+    "menatwork/contao-multicolumnwizard-bundle": "^3.6"
   },
   "conflict": {
     "contao/core": "*",

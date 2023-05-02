@@ -7,11 +7,22 @@ services:
   Contao\Database:
     factory: [ 'Contao\Database', 'getInstance' ]
     public: true
-    lazy: true
+    lazy: false
 
-  con4gis\VisualizationBundle\Controller\:
-    resource: '../../Controller'
+  con4gis.chart_service:
+    class: con4gis\VisualizationBundle\Classes\Services\ChartBuilderService
+    public: true
+    arguments:
+      - "@logger"
+
+  con4gis\VisualizationBundle\Controller\ChartController:
+    class: con4gis\VisualizationBundle\Controller\ChartController
     tags: [ 'controller.service_arguments' ]
-
-  con4gis\VisualizationBundle\Services\:
-    resource: '../../Services'
+    public: true
+    calls:
+      - setContainer: [ '@service_container' ]
+    arguments:
+      - "@service_container"
+      - "@contao.framework"
+      - "@logger"
+      - "@con4gis.chart_service"

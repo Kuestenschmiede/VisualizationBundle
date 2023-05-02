@@ -45,12 +45,11 @@ class Vis {
     while (elIndex < this.elements.length) {
       let element = this.elements.item(elIndex);
       if (element && element.dataset && element.dataset.chart) {
-        let url = '/visualization-api/fetchChart/' + element.dataset.chart;
+        let url = '/con4gis/fetchChart/' + element.dataset.chart;
         fetch(url)
           .then(response => response.json())
           .then((responseJson) => {
             responseJson = this.setTickConfigForYAxis(responseJson);
-
 
             let chart = {
               bindto: '#' + element.id,

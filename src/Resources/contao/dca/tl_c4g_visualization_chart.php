@@ -321,7 +321,7 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['list']['sorting'] = [
 /**
  * Class tl_c4g_visualization_chart
  */
-class tl_c4g_visualization_chart extends \Backend
+class tl_c4g_visualization_chart extends \Contao\Backend
 {
 
     public function loadButtonAllPositionOptions(DataContainer $dc) {

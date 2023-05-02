@@ -17,6 +17,7 @@ use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
 use Contao\ContentElement;
 use Contao\FilesModel;
 use Contao\StringUtil;
+use Contao\System;
 
 class ChartContentElement extends ContentElement
 {
@@ -25,7 +26,8 @@ class ChartContentElement extends ContentElement
 
     protected function compile()
     {
-        if (TL_MODE == 'BE') {
+        if (System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest(System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')))
+        {
             $chartModel = ChartModel::findByPk($this->getModel()->chartID);
             $this->strTemplate          = 'be_wildcard';
             $this->Template             = new \BackendTemplate($this->strTemplate);

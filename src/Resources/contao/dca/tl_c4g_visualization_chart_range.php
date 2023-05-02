@@ -31,7 +31,7 @@ $importId->eval()->doNotCopy(true);
 /**
  * Class tl_c4g_visualization_chart_range
  */
-class tl_c4g_visualization_chart_range extends \Backend
+class tl_c4g_visualization_chart_range extends \Contao\Backend
 {
 
 }

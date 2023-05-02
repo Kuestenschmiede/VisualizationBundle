@@ -24,7 +24,7 @@ $importId->eval()->doNotCopy(true);
 /**
  * Class tl_c4g_visualization_chart_element_relation
  */
-class tl_c4g_visualization_chart_element_relation extends \Backend
+class tl_c4g_visualization_chart_element_relation extends \Contao\Backend
 {
 
 }

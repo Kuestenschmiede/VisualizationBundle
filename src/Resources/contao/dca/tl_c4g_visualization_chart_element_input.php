@@ -37,7 +37,7 @@ $importId->eval()->doNotCopy(true);
 /**
  * Class tl_c4g_visualization_chart_element_input
  */
-class tl_c4g_visualization_chart_element_input extends \Backend
+class tl_c4g_visualization_chart_element_input extends \Contao\Backend
 {
 
 }

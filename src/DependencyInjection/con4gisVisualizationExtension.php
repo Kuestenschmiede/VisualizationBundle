@@ -32,9 +32,4 @@ class con4gisVisualizationExtension extends Extension
         );
         $loader->load('services.yml');
     }
-    
-    public function getAlias()
-    {
-        return "con4gis_visualization";
-    }
 }
