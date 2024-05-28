@@ -21,7 +21,7 @@ class Vis {
   }
 
 
-  generateCharts() {
+  generateCharts(opt_callback) {
     const scope = this;
     let elIndex = 0;
 
@@ -94,6 +94,10 @@ class Vis {
             scope.charts.push(chart);
 
             chart.update();
+
+            if (opt_callback && typeof opt_callback === 'function') {
+              opt_callback();
+            }
 
           });
       }
@@ -208,6 +212,9 @@ class Vis {
 
     let rangeLowerBound;
     let rangeUpperBound;
+    let setMinMaxValues; // used for range_all
+    let minValue = 0, maxValue = 0;
+
     if (range !== 'range_all') {
       if (c3json.axis.x.tick) {
         c3json.axis.x.tick.values = c3json.axis.x.tick.singleValues;
@@ -234,11 +241,19 @@ class Vis {
         }
         //console.log(rangeLowerBound + "/" + rangeUpperBound);
       }
-    }
-    else {
-      c3json.axis.x.tick.values = c3json.axis.x.tick.valuesAll;
+    } else {
+
+      setMinMaxValues = true;
+      // c3json.axis.x.tick.values = c3json.axis.x.tick.valuesAll;
+      // c3json.axis.x.tick.format = (value) => {
+      //   return c3json.axis.x.tick.formatAll[value];
+      // }
+      // c3json.axis.x.tick.culling = true;
+      c3json.axis.x.tick.values = [];
       c3json.axis.x.tick.format = (value) => {
-        return c3json.axis.x.tick.formatAll[value];
+        // console.log(value);
+        // return c3json.axis.x.tick.singleFormat[value];
+        return "";
       }
     }
 
@@ -275,6 +290,19 @@ class Vis {
       while (i < json.data[index].dataPoints.length) {
         let chartTypeCondition = (json.data[index].type === 'pie') || (json.data[index].type === 'donut') || (json.data[index].type === 'gauge');
         let rangeCondition = (range === 'range_all') || (json.data[index].dataPoints[i].x >= rangeLowerBound  && json.data[index].dataPoints[i].x <= rangeUpperBound);
+
+        if (setMinMaxValues) {
+          // check values for bounds
+          if (json.data[index].dataPoints[i].y < minValue) {
+            minValue = json.data[index].dataPoints[i].y;
+          }
+          if (json.data[index].dataPoints[i].y > maxValue) {
+            maxValue = json.data[index].dataPoints[i].y;
+          }
+
+          c3json.axis.y.min = minValue;
+          c3json.axis.y.max = maxValue;
+        }
 
         if (chartTypeCondition || rangeCondition) {
           x.push(json.data[index].dataPoints[i].x);
@@ -493,5 +521,8 @@ class Vis {
 }
 
 let vis = new Vis();
-vis.generateCharts();
+vis.generateCharts(() => {
+  let button = document.querySelector(".c4g_chart_range_button.range-active");
+  button.click();
+});
 vis.addClickListeners();
