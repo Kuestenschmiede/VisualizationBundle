@@ -63,12 +63,22 @@ class Vis {
                     element.classList.remove("range-active");
                   }
                 });
+
                 this.json = scope.parseJson(this.bindto, this.base, this, range);
               },
               update: function() {
-                // console.log(this.json);
                 this.chart = this.json ? c3.generate(this.json) : '';
-                // this.chart.pie.
+                if (this.base.data[0].xType === "datetime") {
+                  // needed to clean up the labels on the X axis for large timeseries data that spans multiple years
+                  cleanTicks();
+                  window.setTimeout(cleanTicks, 1000);
+                  window.addEventListener('resize', () => {
+                    window.setTimeout(cleanTicks, 100);
+                  });
+                  window.addEventListener('focus', () => {
+                    window.setTimeout(cleanTicks, 100);
+                  });
+                }
               },
             };
 
@@ -249,11 +259,15 @@ class Vis {
       //   return c3json.axis.x.tick.formatAll[value];
       // }
       // c3json.axis.x.tick.culling = true;
-      c3json.axis.x.tick.values = [];
+      // c3json.axis.x.tick.values = [];
       c3json.axis.x.tick.format = (value) => {
         // console.log(value);
         // return c3json.axis.x.tick.singleFormat[value];
-        return "";
+        // console.log(value);
+        let date = new Date();
+        date.setTime(value * 1000);
+
+        return date.getFullYear();
       }
     }
 
@@ -526,3 +540,17 @@ vis.generateCharts(() => {
   button.click();
 });
 vis.addClickListeners();
+
+
+function cleanTicks() {
+  let ticks = document.querySelectorAll(".c3-axis-x > .tick > text > tspan");
+  let yearValues = [];
+  for (let i = 0; i < ticks.length; i++) {
+    // console.log(ticks[i]);
+    if (!yearValues.includes(ticks[i].innerHTML)) {
+      yearValues.push(ticks[i].innerHTML);
+    } else {
+      ticks[i].parentNode.parentNode.remove();
+    }
+  }
+}
