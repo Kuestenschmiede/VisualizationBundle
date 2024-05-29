@@ -68,7 +68,12 @@ class Vis {
               },
               update: function() {
                 this.chart = this.json ? c3.generate(this.json) : '';
-                if (this.base.data[0].xType === "datetime") {
+                let activeRangeButton = document.querySelector(".c4g_chart_range_button.range-active");
+                let range = "";
+                if (activeRangeButton) {
+                  range = activeRangeButton.getAttribute('data-range');
+                }
+                if (this.base.data[0].xType === "datetime" && range === "range_all") {
                   // needed to clean up the labels on the X axis for large timeseries data that spans multiple years
                   cleanTicks();
                   window.setTimeout(cleanTicks, 1000);
@@ -526,8 +531,10 @@ class Vis {
     while (index < buttons.length) {
       buttons.item(index).addEventListener('click', function() {
         let chart = scope.getChartByBindId(this.dataset.target);
-        chart.range(this.dataset.range);
-        chart.update();
+        if (chart) {
+          chart.range(this.dataset.range);
+          chart.update();
+        }
       });
       index += 1;
     }
@@ -535,11 +542,14 @@ class Vis {
 }
 
 let vis = new Vis();
+vis.addClickListeners();
 vis.generateCharts(() => {
   let button = document.querySelector(".c4g_chart_range_button.range-active");
-  button.click();
+  if (button) {
+    button.click();
+  }
 });
-vis.addClickListeners();
+
 
 
 function cleanTicks() {
