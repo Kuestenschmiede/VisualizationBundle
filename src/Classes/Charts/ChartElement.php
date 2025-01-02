@@ -2,14 +2,15 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\VisualizationBundle\Classes\Charts;
 
+use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\VisualizationBundle\Classes\Labels\Label;
 use con4gis\VisualizationBundle\Classes\Source\Source;
 use con4gis\VisualizationBundle\Classes\Transformers\Transformer;
@@ -94,7 +95,7 @@ class ChartElement
         }
 
         if ($this->tooltipExtension) {
-            $result['tooltipExtension'] = Controller::replaceInsertTags($this->tooltipExtension);
+            $result['tooltipExtension'] = C4GUtils::replaceInsertTags($this->tooltipExtension);
         }
 
         if ($this->mapTimeValues) {
