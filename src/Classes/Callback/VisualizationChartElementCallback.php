@@ -184,7 +184,7 @@ class VisualizationChartElementCallback extends Backend
     }
     
     public function loadColumnNames($dc) {
-        
+        $activeRecord = false;
         if ($dc instanceof MultiColumnWizard) {
             $dca = $dc->dataContainer;
             $id = $dca->id;

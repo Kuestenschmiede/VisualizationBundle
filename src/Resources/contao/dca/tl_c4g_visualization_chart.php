@@ -20,6 +20,7 @@ use con4gis\CoreBundle\Classes\DCA\Fields\NaturalField;
 use con4gis\CoreBundle\Classes\DCA\Fields\SelectField;
 use con4gis\CoreBundle\Classes\DCA\Fields\SQLField;
 use con4gis\CoreBundle\Classes\DCA\Fields\TextField;
+use Contao\DataContainer;
 
 $palettes = [
     '__selector__' => ['showSubchart'],
