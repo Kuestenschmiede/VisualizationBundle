@@ -56,6 +56,10 @@ class ChartController extends BaseController
     }
 
     /**
+     * @Route(
+     *      path="/con4gis/fetchChart/{chartId}",
+     *      methods={"GET"}
+     *  )
      * @param Request $request
      * @param $chartId
      * @return JsonResponse
