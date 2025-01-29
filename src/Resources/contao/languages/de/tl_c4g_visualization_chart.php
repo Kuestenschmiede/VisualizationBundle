@@ -101,12 +101,20 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'option_bottom_left' => 'Unten Links',
     'option_bottom_middle' => 'Unten Mittig',
     'option_bottom_right' => 'Unten Rechts',
-    'option_inner_right_up' => 'innen rechts/oben',
+    // label position options
+    'option_inner_right' => 'innen rechts',
     'option_inner_middle' => 'innen mittig',
-    'option_inner_left_down' => 'innen links/unten',
-    'option_outer_right_up' => 'außen rechts/oben',
+    'option_inner_left' => 'innen links',
+    'option_outer_right' => 'außen rechts',
     'option_outer_middle' => 'außen mittig',
-    'option_outer_left_down' => 'außen links/unten',
+    'option_outer_left' => 'außen links',
+
+    'option_inner_top' => 'innen oben',
+    'option_inner_bottom' => 'innen unten',
+    'option_outer_top' => 'außen oben',
+    'option_outer_bottom' => 'außen unten',
+
+
     'option_nominal_values' => 'Nominalwerte',
     'option_temporal_values' => 'Zeitwerte'
 ];

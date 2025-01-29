@@ -35,7 +35,7 @@ class Axis
     protected $scale = 'linear';
     protected $rotate = 0;
     protected $labelText = '';
-    protected $labelPosition = 0;
+    protected $labelPosition = '';
     protected $labelCount = 0;
     protected $inverted = false;
     protected $ticks = [];
@@ -62,71 +62,72 @@ class Axis
 
         $array['debug'] = ['labelText' => $this->labelText, 'labelPosition' => $this->labelPosition];
         if (($this->labelText !== '') && ($this->labelPosition !== 0)) {
-            if ($this->horizontal === true) {
-                switch ($this->labelPosition) {
-                    case 1:
-                        $position = static::LABEL_POSITION_INNER_RIGHT;
+//            if ($this->horizontal === true) {
+//                switch ($this->labelPosition) {
+//                    case 1:
+//                        $position = static::LABEL_POSITION_INNER_RIGHT;
+//
+//                        break;
+//                    case 2:
+//                        $position = static::LABEL_POSITION_INNER_CENTER;
+//
+//                        break;
+//                    case 3:
+//                        $position = static::LABEL_POSITION_INNER_LEFT;
+//
+//                        break;
+//                    case 4:
+//                        $position = static::LABEL_POSITION_OUTER_RIGHT;
+//
+//                        break;
+//                    case 5:
+//                        $position = static::LABEL_POSITION_OUTER_CENTER;
+//
+//                        break;
+//                    case 6:
+//                        $position = static::LABEL_POSITION_OUTER_LEFT;
+//
+//                        break;
+//                    default:
+//                        $position = static::LABEL_POSITION_INNER_RIGHT;
+//
+//                        break;
+//                }
+//            } else {
+//                switch ($this->labelPosition) {
+//                    case 1:
+//                        $position = static::LABEL_POSITION_INNER_UP;
+//
+//                        break;
+//                    case 2:
+//                        $position = static::LABEL_POSITION_INNER_MIDDLE;
+//
+//                        break;
+//                    case 3:
+//                        $position = static::LABEL_POSITION_INNER_DOWN;
+//
+//                        break;
+//                    case 4:
+//                        $position = static::LABEL_POSITION_OUTER_UP;
+//
+//                        break;
+//                    case 5:
+//                        $position = static::LABEL_POSITION_OUTER_MIDDLE;
+//
+//                        break;
+//                    case 6:
+//                        $position = static::LABEL_POSITION_OUTER_DOWN;
+//
+//                        break;
+//                    default:
+//                        $position = static::LABEL_POSITION_INNER_UP;
+//
+//                        break;
+//                }
+//            }
 
-                        break;
-                    case 2:
-                        $position = static::LABEL_POSITION_INNER_CENTER;
-
-                        break;
-                    case 3:
-                        $position = static::LABEL_POSITION_INNER_LEFT;
-
-                        break;
-                    case 4:
-                        $position = static::LABEL_POSITION_OUTER_RIGHT;
-
-                        break;
-                    case 5:
-                        $position = static::LABEL_POSITION_OUTER_CENTER;
-
-                        break;
-                    case 6:
-                        $position = static::LABEL_POSITION_OUTER_LEFT;
-
-                        break;
-                    default:
-                        $position = static::LABEL_POSITION_INNER_RIGHT;
-
-                        break;
-                }
-            } else {
-                switch ($this->labelPosition) {
-                    case 1:
-                        $position = static::LABEL_POSITION_INNER_UP;
-
-                        break;
-                    case 2:
-                        $position = static::LABEL_POSITION_INNER_MIDDLE;
-
-                        break;
-                    case 3:
-                        $position = static::LABEL_POSITION_INNER_DOWN;
-
-                        break;
-                    case 4:
-                        $position = static::LABEL_POSITION_OUTER_UP;
-
-                        break;
-                    case 5:
-                        $position = static::LABEL_POSITION_OUTER_MIDDLE;
-
-                        break;
-                    case 6:
-                        $position = static::LABEL_POSITION_OUTER_DOWN;
-
-                        break;
-                    default:
-                        $position = static::LABEL_POSITION_INNER_UP;
-
-                        break;
-                }
-            }
-
-                $array['label'] = ['text' => $this->labelText, 'position' => $position];
+            $position = $this->labelPosition;
+            $array['label'] = ['text' => $this->labelText, 'position' => $position];
         }
 
         if ($this->horizontal === false) {
@@ -204,7 +205,7 @@ class Axis
      * @param int $position
      * @return Axis
      */
-    public function setLabel(string $text, int $position): Axis
+    public function setLabel(string $text, string $position): Axis
     {
         $this->labelText = $text;
         $this->labelPosition = $position;
