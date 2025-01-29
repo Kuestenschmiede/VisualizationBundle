@@ -60,6 +60,7 @@ class Axis
             $array['label']['rotate'] = $this->rotate;
         }
 
+        $array['debug'] = ['labelText' => $this->labelText, 'labelPosition' => $this->labelPosition];
         if (($this->labelText !== '') && ($this->labelPosition !== 0)) {
             if ($this->horizontal === true) {
                 switch ($this->labelPosition) {
@@ -125,7 +126,7 @@ class Axis
                 }
             }
 
-            $array['label'] = ['text' => $this->labelText, 'position' => $position];
+                $array['label'] = ['text' => $this->labelText, 'position' => $position];
         }
 
         if ($this->horizontal === false) {

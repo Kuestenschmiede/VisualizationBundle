@@ -45,6 +45,6 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "c3": "^0.7.20"
+    "billboard.js": "^3.14.3"
   }
 }

@@ -461,7 +461,7 @@ class tl_c4g_visualization_chart extends \Contao\Backend
 
     public function changeFileBinToUuid($fieldValue, DataContainer $dc) {
         if ($fieldValue) {
-            return \StringUtil::binToUuid($fieldValue);
+            return \Contao\StringUtil::binToUuid($fieldValue);
         }
 
         return null;

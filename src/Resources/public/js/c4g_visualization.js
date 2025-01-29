@@ -10,8 +10,18 @@
 
 'use strict';
 
-import c3 from 'c3';
-import * as d3 from 'd3';
+// import c3 from 'c3';
+// import * as d3 from 'd3';
+import bb, {
+  bar,
+  line,
+  area,
+  spline,
+  areaSpline,
+  pie,
+  donut,
+  gauge
+} from "billboard.js";
 
 class Vis {
 
@@ -49,70 +59,117 @@ class Vis {
         fetch(url)
           .then(response => response.json())
           .then((responseJson) => {
-            responseJson = this.setTickConfigForYAxis(responseJson);
-
-            let chart = {
-              bindto: '#' + element.id,
-              base: responseJson,
-              json: {},
-              range: function(range) {
-                document.querySelectorAll('.c4g_chart_range_button').forEach((element) => {
-                  if (element.getAttribute('data-range') === range) {
-                    element.classList.add("range-active");
-                  } else {
-                    element.classList.remove("range-active");
-                  }
-                });
-
-                this.json = scope.parseJson(this.bindto, this.base, this, range);
-              },
-              update: function() {
-                this.chart = this.json ? c3.generate(this.json) : '';
-                let activeRangeButton = document.querySelector(".c4g_chart_range_button.range-active");
-                let range = "";
-                if (activeRangeButton) {
-                  range = activeRangeButton.getAttribute('data-range');
-                }
-                if (this.base.data[0].xType === "datetime" && range === "range_all") {
-                  // needed to clean up the labels on the X axis for large timeseries data that spans multiple years
-                  cleanTicks();
-                  window.setTimeout(cleanTicks, 1000);
-                  window.addEventListener('resize', () => {
-                    window.setTimeout(cleanTicks, 100);
-                  });
-                  window.addEventListener('focus', () => {
-                    window.setTimeout(cleanTicks, 100);
-                  });
-                }
-              },
+            // responseJson = this.setTickConfigForYAxis(responseJson);
+            let chartJson = scope.parseJson('#' + element.id, responseJson, null);
+            let chart = bb.generate(chartJson);
+            chart.json = chartJson;
+            let objChart = {
+              chart: chart,
+              ranges: responseJson.ranges,
+              id: '#' + element.id,
+              data: responseJson.data
             };
 
-            chart.json = scope.parseJson('#' + element.id, responseJson, chart);
+            chart.range = function(range) {
+              document.querySelectorAll('.c4g_chart_range_button').forEach((element) => {
+                if (element.getAttribute('data-range') === range) {
+                  element.classList.add("range-active");
+                } else {
+                  element.classList.remove("range-active");
+                }
+              });
 
-            // set format for x axis
-            if (responseJson.axis && typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.format !== 'undefined') {
-              chart.format = responseJson.axis.x.tick.format;
-              chart.json.axis.x.tick.format = function (x) {
-                let chrt = scope.getChartByBindId(element.id);
-                return chrt.format[x];
-              };
-            }
 
-            if (responseJson.axis && typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.rotate === '1') {
-              chart.rotate = responseJson.axis.x.tick.rotate;
-              chart.json.axis.x.tick.rotate = function (x) {
-                let chrt = scope.getChartByBindId(element.id);
-                return chrt.rotate[x];
-              };
-            }
+              let bounds = objChart.ranges[range];
+              let unloadNames = [];
+              if (bounds) {
+                let lowerBound = bounds.lowerBound;
+                let upperBound = bounds.upperBound;
 
-            scope.charts.push(chart);
+                let columns = [];
+                for (let i = 0; i < objChart.data.length; i++) {
+                  let name = objChart.data[i].name;
+                  let xName = `x${i}`;
+                  let yName = `y${i}`;
+                  let xValues = [];
+                  let yValues = [];
 
-            chart.update();
+                  for (let j = 0; j < objChart.data[i].dataPoints.length; j++) {
+                    let point = objChart.data[i].dataPoints[j];
 
-            if (opt_callback && typeof opt_callback === 'function') {
-              opt_callback();
-            }
+                    if (point.x >= lowerBound && point.x <= upperBound) {
+                      xValues.push(objChart.data[i].dataPoints[j].x);
+                      yValues.push(objChart.data[i].dataPoints[j].y);
+                    }
+                  }
+
+                  unloadNames.push(xName, yName);
+
+                  columns.push([xName, ...xValues]);
+                  columns.push([yName, ...yValues]);
+
+                }
+
+                chart.load({
+                  columns: columns,
+                  resizeAfter: true,
+                  unload: unloadNames
+                });
+              }
+
+
+              // this.json = scope.parseJson(this.bindto, this.base, this, range);
+            };
+
+            chart.update = function() {
+              this.chart = this.json ? bb.generate(this.json) : '';
+              let activeRangeButton = document.querySelector(".c4g_chart_range_button.range-active");
+              let range = "";
+              if (activeRangeButton) {
+                range = activeRangeButton.getAttribute('data-range');
+              }
+              // if (this.base.data[0].xType === "datetime" && range === "range_all") {
+              //   // needed to clean up the labels on the X axis for large timeseries data that spans multiple years
+              //   cleanTicks();
+              //   window.setTimeout(cleanTicks, 1000);
+              //   window.addEventListener('resize', () => {
+              //     window.setTimeout(cleanTicks, 100);
+              //   });
+              //   window.addEventListener('focus', () => {
+              //     window.setTimeout(cleanTicks, 100);
+              //   });
+              // }
+            };
+
+
+            // };
+            //
+            // chart.json = scope.parseJson('#' + element.id, responseJson, chart);
+            //
+            // // set format for x axis
+            // if (responseJson.axis && typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.format !== 'undefined') {
+            //   chart.format = responseJson.axis.x.tick.format;
+            //   chart.json.axis.x.tick.format = function (x) {
+            //     let chrt = scope.getChartByBindId(element.id);
+            //     return chrt.format[x];
+            //   };
+            // }
+            //
+            // if (responseJson.axis && typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.rotate === '1') {
+            //   chart.rotate = responseJson.axis.x.tick.rotate;
+            //   chart.json.axis.x.tick.rotate = function (x) {
+            //     let chrt = scope.getChartByBindId(element.id);
+            //     return chrt.rotate[x];
+            //   };
+            // }
+            //
+            scope.charts.push(objChart);
+            //
+            // chart.update();
+            //
+            // if (opt_callback && typeof opt_callback === 'function') {
+            //   opt_callback();
+            // }
 
           });
       }
@@ -165,7 +222,6 @@ class Vis {
   }
 
   parseJson(bindto, json, chart, range = 'range_default') {
-    //console.log(range);
     let c3json = {
       bindto: bindto,
       data: {
@@ -254,7 +310,6 @@ class Vis {
         if (json.ranges[range].y2Max) {
           c3json.axis.y2.max = json.ranges[range].y2Max;
         }
-        //console.log(rangeLowerBound + "/" + rangeUpperBound);
       }
     } else {
 
@@ -332,7 +387,7 @@ class Vis {
       }
       c3json.data.columns.push(x, y);
 
-      if (json.data[index].type == 'areaspline') {
+      if (json.data[index].type === 'areaspline') {
         json.data[index].type = 'area-spline';
       }
 
@@ -342,13 +397,6 @@ class Vis {
       if (typeof json.data[index].name !== 'undefined') {
         c3json.data.names['y' + index] = json.data[index].name;
       }
-      if (typeof json.data[index].group !== 'undefined') {
-        while (typeof c3json.data.groups[json.data[index].group] === 'undefined') {
-          c3json.data.groups.push([]);
-        }
-        c3json.data.groups[json.data[index].group].push('y' + index);
-      }
-
       if (typeof json.data[index].group !== 'undefined') {
         while (typeof c3json.data.groups[json.data[index].group] === 'undefined') {
           c3json.data.groups.push([]);
@@ -503,21 +551,22 @@ class Vis {
     let scope = this;
     c3json.data.onclick = function (d, element) {
       let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
-      let redirect = chrt.json.data.redirects[d.id];
-      if (redirect && redirect != 0) {
-        window.location = chrt.json.data.redirects[d.id]
+      if (chrt) {
+        let redirect = chrt.json.data.redirects[d.id];
+        if (redirect && redirect !== 0) {
+          window.location = chrt.json.data.redirects[d.id]
+        }
       }
     }
 
-    // console.log(c3json);
     return c3json;
   }
 
   getChartByBindId(id) {
     let index = 0;
     while (index < this.charts.length) {
-      if (this.charts[index].bindto === '#' + id) {
-        return this.charts[index];
+      if (this.charts[index].id === ('#' + id)) {
+        return this.charts[index].chart;
       }
       index += 1;
     }
@@ -533,7 +582,7 @@ class Vis {
         let chart = scope.getChartByBindId(this.dataset.target);
         if (chart) {
           chart.range(this.dataset.range);
-          chart.update();
+          // chart.update();
         }
       });
       index += 1;
@@ -556,7 +605,6 @@ function cleanTicks() {
   let ticks = document.querySelectorAll(".c3-axis-x > .tick > text > tspan");
   let yearValues = [];
   for (let i = 0; i < ticks.length; i++) {
-    // console.log(ticks[i]);
     if (!yearValues.includes(ticks[i].innerHTML)) {
       yearValues.push(ticks[i].innerHTML);
     } else {

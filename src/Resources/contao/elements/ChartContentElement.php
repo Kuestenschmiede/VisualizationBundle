@@ -14,6 +14,7 @@ use con4gis\CoreBundle\Classes\ResourceLoader;
 use con4gis\VisualizationBundle\Classes\Charts\Chart;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartRangeModel;
+use Contao\BackendTemplate;
 use Contao\ContentElement;
 use Contao\FilesModel;
 use Contao\StringUtil;
@@ -30,13 +31,14 @@ class ChartContentElement extends ContentElement
         {
             $chartModel = ChartModel::findByPk($this->getModel()->chartID);
             $this->strTemplate          = 'be_wildcard';
-            $this->Template             = new \BackendTemplate($this->strTemplate);
+            $this->Template             = new BackendTemplate($this->strTemplate);
             $this->Template->title      = $this->headline;
             $this->Template->wildcard   = "### $chartModel->backendtitle ###";
         } else if (!$this->getModel()->invisible) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/build/c4g_visualization.js', ResourceLoader::BODY);
-            ResourceLoader::loadCssResource('bundles/con4gisvisualization/dist/css/c3.min.css');
+//            ResourceLoader::loadCssResource('bundles/con4gisvisualization/dist/css/c3.min.css');
             ResourceLoader::loadCssResource('bundles/con4gisvisualization/dist/css/c4g_visualization.min.css');
+            ResourceLoader::loadCssResource('bundles/con4gisvisualization/dist/css/billboard.min.css');
             $elementModel = $this->getModel();
             $chartId = $elementModel->chartID;
             $chartModel = ChartModel::findByPk($chartId);
