@@ -35,23 +35,6 @@ class Vis {
     const scope = this;
     let elIndex = 0;
 
-    // var deLocaleDef = {
-    //     "dateTime": "%A, der %e. %B %Y, %X",
-    //     "date": "%d.%m.%Y",
-    //     "time": "%H:%M:%S",
-    //     "periods": ["vormittags", "nachmittags"],
-    //     "days": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
-    //     "shortDays": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-    //     "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
-    //     "shortMonths": ["Jan", "Feb", "Mrz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
-    //     "decimal": ",",
-    //     "thousands": "'",
-    //     "grouping": [3],
-    //     "currency": ["", "\u00a0EUR"]
-    // };
-    //
-    // var deLocale = d3.locale(deLocaleDef);
-
     while (elIndex < this.elements.length) {
       let element = this.elements.item(elIndex);
       if (element && element.dataset && element.dataset.chart) {
@@ -116,61 +99,9 @@ class Vis {
                   unload: unloadNames
                 });
               }
-
-
-              // this.json = scope.parseJson(this.bindto, this.base, this, range);
             };
 
-            // chart.update = function() {
-            //   this.chart = this.json ? bb.generate(this.json) : '';
-            //   let activeRangeButton = document.querySelector(".c4g_chart_range_button.range-active");
-            //   let range = "";
-            //   if (activeRangeButton) {
-            //     range = activeRangeButton.getAttribute('data-range');
-            //   }
-            //   // if (this.base.data[0].xType === "datetime" && range === "range_all") {
-            //   //   // needed to clean up the labels on the X axis for large timeseries data that spans multiple years
-            //   //   cleanTicks();
-            //   //   window.setTimeout(cleanTicks, 1000);
-            //   //   window.addEventListener('resize', () => {
-            //   //     window.setTimeout(cleanTicks, 100);
-            //   //   });
-            //   //   window.addEventListener('focus', () => {
-            //   //     window.setTimeout(cleanTicks, 100);
-            //   //   });
-            //   // }
-            // };
-
-
-            // };
-            //
-            // chart.json = scope.parseJson('#' + element.id, responseJson, chart);
-            //
-            // // set format for x axis
-            // if (responseJson.axis && typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.format !== 'undefined') {
-            //   chart.format = responseJson.axis.x.tick.format;
-            //   chart.json.axis.x.tick.format = function (x) {
-            //     let chrt = scope.getChartByBindId(element.id);
-            //     return chrt.format[x];
-            //   };
-            // }
-            //
-            // if (responseJson.axis && typeof responseJson.axis.x.tick !== 'undefined' && typeof responseJson.axis.x.tick.rotate === '1') {
-            //   chart.rotate = responseJson.axis.x.tick.rotate;
-            //   chart.json.axis.x.tick.rotate = function (x) {
-            //     let chrt = scope.getChartByBindId(element.id);
-            //     return chrt.rotate[x];
-            //   };
-            // }
-            //
             scope.charts.push(objChart);
-            //
-            // chart.update();
-            //
-            // if (opt_callback && typeof opt_callback === 'function') {
-            //   opt_callback();
-            // }
-
           });
       }
 
@@ -449,10 +380,9 @@ class Vis {
     if ((typeof json.labels !== 'undefined') && (typeof json.labels.enabled !== 'undefined')) {
       bbjson.data.labels = json.labels.enabled;
       if (json.data[0].type === "pie") {
-        if (!bbjson.pie) {
-          bbjson.pie =  {};
-        }
-        bbjson.pie.label = {show: json.labels.enabled};
+        bbjson.data.labels = {
+          colors: "white"
+        };
       }
 
       if (((typeof json.oneLabelPerElement !== 'undefined') && (typeof json.oneLabelPerElement.enabled !== 'undefined') && json.oneLabelPerElement.enabled)) {
