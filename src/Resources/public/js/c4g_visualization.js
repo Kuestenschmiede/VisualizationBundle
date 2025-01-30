@@ -44,6 +44,7 @@ class Vis {
           .then((responseJson) => {
             // responseJson = this.setTickConfigForYAxis(responseJson);
             let chartJson = scope.parseJson('#' + element.id, responseJson, null);
+            console.log(chartJson);
             let chart = bb.generate(chartJson);
             chart.json = chartJson;
             let objChart = {
@@ -252,9 +253,6 @@ class Vis {
       // bbjson.axis.x.tick.culling = true;
       // bbjson.axis.x.tick.values = [];
       bbjson.axis.x.tick.format = (value) => {
-        // console.log(value);
-        // return bbjson.axis.x.tick.singleFormat[value];
-        // console.log(value);
         let date = new Date();
         date.setTime(value * 1000);
 
@@ -379,15 +377,9 @@ class Vis {
 
     if ((typeof json.labels !== 'undefined') && (typeof json.labels.enabled !== 'undefined')) {
       bbjson.data.labels = json.labels.enabled;
-      if (json.labels.colors) {
+      if (json.labels.enabled && json.labels.colors) {
         bbjson.data.labels = { colors: json.labels.colors };
       }
-      // bbjson.data.labels.colors =
-      // if (json.data[0].type === "pie") {
-      //   bbjson.data.labels = {
-      //     colors: "white"
-      //   };
-      // }
 
       if (((typeof json.oneLabelPerElement !== 'undefined') && (typeof json.oneLabelPerElement.enabled !== 'undefined') && json.oneLabelPerElement.enabled)) {
         let scope = this;
@@ -404,82 +396,44 @@ class Vis {
       }
     }
 
-    if ((typeof json.tooltips !== 'undefined') && (typeof json.tooltips.enabled !== 'undefined') && json.tooltips.enabled &&
-      (typeof json.tooltip !== 'undefined' && typeof json.tooltip.format !== 'undefined' && typeof json.tooltip.format.title !== 'undefined')) {
-      chart.tooltipformattitle = json.tooltip.format.title;
-      let scope = this;
-      bbjson.tooltip.format.title = function (x) {
-        let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
-        return chrt.tooltipformattitle[x];
-      };
-    } else {
-      bbjson.tooltip.show = (json.tooltips.enabled && json.tooltips.enabled !== 'undefined');
-    }
-
     bbjson.tooltip.format.value = (value, ratio, id, index) => {
-      if (id === "y0") {
-        return value + " " + bbjson.axis.y.tickFormat;
-      } else if (id === "y1" && bbjson.axis.y2.show) {
-        return value + " " + bbjson.axis.y2.tickFormat;
-      } else if (bbjson.data.axes[id]) {
-        return value + " " + bbjson.axis[bbjson.data.axes[id]].tickFormat;
-      }
 
-      return value;
+      // check for custom tooltip
+      if (json.data[index] && json.data[index].tooltipExtension) {
+        let el = document.createElement("p");
+        el.innerHTML = json.data[index].tooltipExtension;
+        return el.innerText;
+      } else {
+        if (id === "y0") {
+          return value + " " + bbjson.axis.y.tickFormat;
+        } else if (id === "y1" && bbjson.axis.y2.show) {
+          return value + " " + bbjson.axis.y2.tickFormat;
+        } else if (bbjson.data.axes[id]) {
+          return value + " " + bbjson.axis[bbjson.data.axes[id]].tickFormat;
+        } else if (id.indexOf("y") === 0) {
+          return value + " " + bbjson.axis.y.tickFormat;
+        }
+
+        return value;
+      }
     };
 
-    // check for custom tooltip
-    if (hasCustomTooltip) {
-      if (json.data[0].type === 'line') {
-        bbjson.tooltip.contents = function (data, defaultTitleFormat, defaultValueFormat, color) {
-          let valueDiv = "<div class='c3-tooltip'>";
+    let hasDate = false;
+    for (let i = 0; i < json.data.length; i++) {
+      if (json.data[i].xType === "datetime") {
+        hasDate = true;
+        break;
+      }
+    }
 
-          if (json.data[0].xType === "datetime") {
-            // js works with microseconds
-            let value = new Date(data[0].x * 1000);
-            value = value.toLocaleDateString("de");
-            valueDiv += "<div class='c4g-tooltip-name'>" + value + "</div>";
-          } else {
-            valueDiv += "<div class='c4g-tooltip-name'>" + data[0].x + "</div>";
-          }
+    bbjson.tooltip.format.title = function(xValue) {
 
-          valueDiv += "<div class='bb-tooltip-container'>";
-
-          for (let i = 0; i < data.length; i++ ) {
-
-            let axisName = bbjson.data.axes[data[i].name];
-
-            valueDiv += "<div class='c4g-tooltip-element'>";
-            valueDiv += "<div class='c4g-tooltip-element-color' style='background-color: " + color(data[i].name) + ";'></div>";
-            valueDiv += "<div class='c4g-tooltip-element-value'>" + data[i].name + ": " + defaultValueFormat(data[i].value, 1.0, axisName) + "</div>";
-            valueDiv += "<div class='c4g-tooltip-element-extension-line'>" + json.data[i].tooltipExtension + "</div>";
-            valueDiv += "</div>";
-          }
-
-          valueDiv += "</div>"; // close c3-tooltip-container
-          valueDiv += "</div>"; // close c3-tooltip
-
-          return valueDiv;
-        }
-      } else {
-        bbjson.tooltip.contents = function (data, defaultTitleFormat, defaultValueFormat, color) {
-          let valueDiv = "<div class='bb-tooltip'>";
-
-          valueDiv += "<div class='bb-tooltip-container'>";
-
-          for (let i = 0; i < data.length; i++ ) {
-            let index = data[i].index;
-            valueDiv += "<div class='c4g-tooltip-element-extension'>" + json.data[index].tooltipExtension + "</div>";
-            valueDiv += "</div>";
-          }
-
-          valueDiv += "</div>"; // close c3-tooltip-container
-          valueDiv += "</div>"; // close c3-tooltip
-
-          return valueDiv;
-        }
+      if (hasDate) {
+        let value = new Date(xValue * 1000);
+        xValue = value.toLocaleDateString("de");
       }
 
+      return xValue;
     }
 
     let scope = this;

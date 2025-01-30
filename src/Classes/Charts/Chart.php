@@ -67,10 +67,13 @@ class Chart
         $array['points'] = ['enabled' => boolval($this->points)];
         
         $array['tooltips'] = ['enabled' => boolval($this->tooltips)];
-        $array['labels'] = [
-            'enabled' => boolval($this->labels),
-            'colors' => "#".$this->labelColor
-        ];
+        if ($this->labels) {
+            $array['labels'] = [
+                'enabled' => boolval($this->labels),
+                'colors' => $this->labelColor ? "#".$this->labelColor : ""
+            ];
+        }
+
         $array['oneLabelPerElement'] = ['enabled' => boolval($this->oneLabelPerElement)];
 
         if ($this->coordinateSystem instanceof CoordinateSystem === true) {
