@@ -55,6 +55,16 @@ class VisualizationChartElementCallback extends Backend
             ChartElement::TYPE_BAR => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_bar'],
             ChartElement::TYPE_DONUT => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_donut'],
             ChartElement::TYPE_GAUGE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_gauge'],
+            ChartElement::TYPE_BUBBLE => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_bubble'],
+//            ChartElement::TYPE_CANDLESTICK => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_candlestick'],
+//            ChartElement::TYPE_FUNNEL => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_funnel'],
+//            ChartElement::TYPE_POLAR => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_polar'],
+//            ChartElement::TYPE_RADAR => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_radar'],
+//            ChartElement::TYPE_SCATTER => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_scatter'],
+            ChartElement::TYPE_STEP => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_step'],
+            ChartElement::TYPE_STEP_AREA => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_step_area'],
+//            ChartElement::TYPE_TIMESERIES => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_timeseries'],
+//            ChartElement::TYPE_TREEMAP => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_treemap'],
             ChartElement::TYPE_GANTT => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element']['option_gantt']
         ];
     }

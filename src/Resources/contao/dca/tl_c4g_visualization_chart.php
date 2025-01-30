@@ -81,6 +81,7 @@ $elementWizard = new MultiColumnField('elementWizard', $dca);
 $elementWizard->saveCallback('tl_c4g_visualization_chart', 'saveElements')
     ->loadCallback('tl_c4g_visualization_chart', 'loadElements');
 $elementId = new SelectField('elementId', $dca, $elementWizard);
+$elementId->default('');
 $elementId->foreignKey('tl_c4g_visualization_chart_element', 'backendtitle')->eval()->includeBlankOption();
 
 $rangeWizardNominal = new MultiColumnField('rangeWizardNominal', $dca);

@@ -51,7 +51,7 @@ $chartTitles = new LabelField('chartTitles', $dca);
 $chartTitles->exclude(false);
 $color = new ColorPickerField('color', $dca);
 $type = new SelectField('type', $dca);
-$type->sql("varchar(10) NOT NULL default ''")->default("")
+$type->sql("varchar(20) NOT NULL default ''")->default("")
     ->optionsCallback($cbClass, 'loadTypeOptions')
     ->eval()->submitOnChange();
 $origin = new SelectField('origin', $dca);
