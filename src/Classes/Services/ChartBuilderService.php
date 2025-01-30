@@ -69,6 +69,7 @@ class ChartBuilderService
         $chart->setLegend($chartModel->legend);
         $chart->setTooltips($chartModel->tooltips);
         $chart->setLabels($chartModel->labels);
+        $chart->setLabelColor($chartModel->labelColor);
         $chart->setOneLabelPerElement($chartModel->oneLabelPerElement);
         $chart->setShowSubchart($chartModel->showSubchart);
         $chart->setSubchartHeight($chartModel->subchartHeight);

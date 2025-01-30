@@ -20,6 +20,7 @@ class Chart
     protected $legend = true;
     protected $tooltips = true;
     protected $labels = false;
+    protected $labelColor = "white";
     protected $oneLabelPerElement = false;
 
     protected $showLegend = false;
@@ -66,7 +67,10 @@ class Chart
         $array['points'] = ['enabled' => boolval($this->points)];
         
         $array['tooltips'] = ['enabled' => boolval($this->tooltips)];
-        $array['labels'] = ['enabled' => boolval($this->labels)];
+        $array['labels'] = [
+            'enabled' => boolval($this->labels),
+            'colors' => "#".$this->labelColor
+        ];
         $array['oneLabelPerElement'] = ['enabled' => boolval($this->oneLabelPerElement)];
 
         if ($this->coordinateSystem instanceof CoordinateSystem === true) {
@@ -230,6 +234,13 @@ class Chart
     public function setLabels($labels = false): Chart
     {
         $this->labels = boolval($labels);
+
+        return $this;
+    }
+
+    public function setLabelColor(string $labelColor): Chart
+    {
+        $this->labelColor = $labelColor;
 
         return $this;
     }

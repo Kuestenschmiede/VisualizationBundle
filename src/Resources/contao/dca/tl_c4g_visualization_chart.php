@@ -11,6 +11,7 @@
 
 use con4gis\CoreBundle\Classes\DCA\DCA;
 use con4gis\CoreBundle\Classes\DCA\Fields\CheckboxField;
+use con4gis\CoreBundle\Classes\DCA\Fields\ColorPickerField;
 use con4gis\CoreBundle\Classes\DCA\Fields\DatePickerField;
 use con4gis\CoreBundle\Classes\DCA\Fields\DigitField;
 use con4gis\CoreBundle\Classes\DCA\Fields\IdField;
@@ -32,7 +33,7 @@ $palettes = [
     'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
     'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xTickMode,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
-    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart,gridX,gridY',
+    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,labelColor,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart,gridX,gridY',
     'publish' => ';{publish_legend},published'
 ];
 
@@ -303,6 +304,10 @@ $tooltips->sql("char(1) NOT NULL default '1'");
 $labels = new CheckboxField('labels', $dca);
 $labels->default(false);
 $labels->sql("char(1) NOT NULL default '0'");
+
+$labelColor = new ColorPickerField('labelColor', $dca);
+$labelColor->default('000000');
+$labelColor->sql("varchar(64) NOT NULL default '000000'");
 
 $oneLabelPerElement = new CheckboxField('oneLabelPerElement', $dca);
 $oneLabelPerElement->default(false);

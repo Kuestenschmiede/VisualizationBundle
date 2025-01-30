@@ -27,6 +27,7 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart'] =
     'legend'            => ['Legende darstellen', 'Im Normalfall wird unterhalb der Grafik die Legende dargestellt. Diese kann hier deaktiviert werden.'],
     'tooltips'          => ['Tooltips darstellen', 'Hierüber können die Tooltips deaktiviert werden.'],
     'labels'            => ['Label darstellen', 'Im Normalfall werden an den Grafikelementen selbst keine Label dargestellt. Das kann hiermit geändert werden.'],
+    'labelColor'            => ['Label-Farbe', 'Hier lässt sich die Farbe der Labels anpassen (Standard: weiß).'],
     'oneLabelPerElement' => ['Elementnamen als Label darstellen', 'Bei Aktivierung wird nur ein Label pro Element dargestellt'],
     'cssClass'          => ['CSS Klasse', 'Zusätzliche CSS Klasse für individuelles Styling. Benutze die Klasse c4g-gantt als Gantt Beispiel.'],
     'swapAxes'          => ['Achsen vertauschen', 'Falls gesetzt, tauschen die X- und Y-Achsen die Positionen.'],

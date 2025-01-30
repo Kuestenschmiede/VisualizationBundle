@@ -379,11 +379,15 @@ class Vis {
 
     if ((typeof json.labels !== 'undefined') && (typeof json.labels.enabled !== 'undefined')) {
       bbjson.data.labels = json.labels.enabled;
-      if (json.data[0].type === "pie") {
-        bbjson.data.labels = {
-          colors: "white"
-        };
+      if (json.labels.colors) {
+        bbjson.data.labels = { colors: json.labels.colors };
       }
+      // bbjson.data.labels.colors =
+      // if (json.data[0].type === "pie") {
+      //   bbjson.data.labels = {
+      //     colors: "white"
+      //   };
+      // }
 
       if (((typeof json.oneLabelPerElement !== 'undefined') && (typeof json.oneLabelPerElement.enabled !== 'undefined') && json.oneLabelPerElement.enabled)) {
         let scope = this;
