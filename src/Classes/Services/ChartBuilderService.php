@@ -273,6 +273,8 @@ class ChartBuilderService
                 if ($elementModel->extractYearFromXTimestamp === '1') {
                     $element->addTransformer(new ExtractYearFromXTimestampTransformer());
                 }
+
+                $element->setStepPosition($elementModel->stepPosition);
             
                 $chart->addElement($element);
             }

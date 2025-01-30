@@ -31,7 +31,7 @@ $dca->list()->sorting()->panelLayout('filter;sort,search,limit')
 $dca->list()->label()->fields(['id', 'backendtitle', 'frontendtitle', 'chartTitles'])
     ->labelCallback($cbClass, 'getLabel');
 $dca->list()->addRegularOperations($dca);
-$dca->palette()->selector(['origin'])
+$dca->palette()->selector(['origin', 'type'])
     ->default('{general_legend},backendtitle,frontendtitle,color,redirectSite;'.
         '{type_origin_legend},type,xValueCharacter,origin;'.
         '{transform_legend},groupIdenticalX,minCountIdenticalX,extractYearFromXTimestamp;'.
@@ -39,7 +39,10 @@ $dca->palette()->selector(['origin'])
         '{publish_legend},published;')
     ->subPalette('origin', '1', 'inputWizard')
     ->subPalette('origin', '2', 'table,tablex,tablex2,tabley,whereWizard')
-    ->subPalette('origin', '3', 'periodWizard');
+    ->subPalette('origin', '3', 'periodWizard')
+    ->subPalette('type', 'step', 'stepPosition')
+    ->subPalette('type', 'area-step', 'stepPosition');
+
 
 $id = new IdField('id', $dca);
 $tStamp = new NaturalField('tstamp', $dca);
@@ -146,6 +149,18 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['yAxisSelecti
     'options' => ['y1', 'y2'],
     'eval' => ['tl_class' => "clr"],
     'sql' => "varchar(20) NOT NULL DEFAULT 'y1'"
+];
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['stepPosition'] = [
+    'inputType' => "select",
+    'default' => 'default',
+    'options' => [
+        'default' => 'Zentriert auf Punkt',
+        'step-before' => 'Vor Punkt',
+        'step-after' => 'Hinter Punkt'
+    ],
+    'eval' => ['tl_class' => "clr"],
+    'sql' => "varchar(20) NOT NULL DEFAULT 'default'"
 ];
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['tooltipExtension'] = [

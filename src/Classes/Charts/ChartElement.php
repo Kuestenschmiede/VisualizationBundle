@@ -73,6 +73,7 @@ class ChartElement
     private int $xLabelCountAll;
     private int $xRotate;
     private string $tickMode = '';
+    private ?string $stepPosition = null;
 
     public function __construct(string $type, Source $source)
     {
@@ -436,5 +437,21 @@ class ChartElement
     public function setTooltipExtension(string $tooltipExtension): void
     {
         $this->tooltipExtension = $tooltipExtension;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getStepPosition(): ?string
+    {
+        return $this->stepPosition;
+    }
+
+    public function setStepPosition(?string $stepPosition): ChartElement
+    {
+        $this->stepPosition = $stepPosition;
+        return $this;
     }
 }

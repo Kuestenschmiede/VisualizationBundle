@@ -47,7 +47,8 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'redirectSite'      => ['Weiterleitungsseite', 'Beim Klick auf das Element soll auf die ausgewählte Seite weitergeleitet werden.'],
     'yAxisSelection'      => ['Y-Achsen-Auswahl', 'Auf welcher Y-Achse sollen die Werte dieses Elements dargestellt werden?'],
     'tooltipExtension'      => ['Eigener Tooltip-Inhalt', 'Zusätzlicher Inhalt für den Tooltip dieses Elements (unterstützt Insert-Tags).'],
-    
+    'stepPosition'      => ['Position der Stufe', 'Hier kann ausgewählt werden, ob die Stufe vor oder nach dem Punkt gezeichnet werden soll, oder ob der Punkt zentriert auf der Stufe liegen soll.'],
+
     'general_legend'    => 'Allgemeine Einstellungen',
     'expert_legend'    => 'Experten-Einstellungen',
     'type_origin_legend'     => 'Typ & Datenherkunft',

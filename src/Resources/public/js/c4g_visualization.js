@@ -447,6 +447,10 @@ class Vis {
       }
     }
 
+    if (json.line) {
+      bbjson.line = json.line;
+    }
+
     return bbjson;
   }
 

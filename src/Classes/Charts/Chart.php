@@ -74,6 +74,21 @@ class Chart
             ];
         }
 
+        foreach ($this->elements as $element) {
+            /** @var ChartElement $element */
+            if ($element->getType() === ChartElement::TYPE_STEP || $element->getType() === ChartElement::TYPE_STEP_AREA) {
+                $array['line'] = [
+                    'step' => [
+                        'tooltipMatch' => true,
+                    ]
+                ];
+                if ($element->getStepPosition() === "step-before" || $element->getStepPosition() === "step-after") {
+                    $array['line']['step']['type'] = $element->getStepPosition();
+                    break;
+                }
+            }
+        }
+
         $array['oneLabelPerElement'] = ['enabled' => boolval($this->oneLabelPerElement)];
 
         if ($this->coordinateSystem instanceof CoordinateSystem === true) {
