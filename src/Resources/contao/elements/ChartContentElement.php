@@ -35,6 +35,7 @@ class ChartContentElement extends ContentElement
             $this->Template->title      = $this->headline;
             $this->Template->wildcard   = "### $chartModel->backendtitle ###";
         } else if (!$this->getModel()->invisible) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/dist/js/d3.min.js', ResourceLoader::BODY);
             ResourceLoader::loadJavaScriptResource('bundles/con4gisvisualization/build/c4g_visualization.js', ResourceLoader::BODY);
 //            ResourceLoader::loadCssResource('bundles/con4gisvisualization/dist/css/c3.min.css');
             ResourceLoader::loadCssResource('bundles/con4gisvisualization/dist/css/c4g_visualization.min.css');
