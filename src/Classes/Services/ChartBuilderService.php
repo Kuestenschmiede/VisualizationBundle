@@ -69,6 +69,7 @@ class ChartBuilderService
         $chart->setLegend($chartModel->legend);
         $chart->setTooltips($chartModel->tooltips);
         $chart->setLabels($chartModel->labels);
+        $chart->setLabelColor($chartModel->labelColor);
         $chart->setOneLabelPerElement($chartModel->oneLabelPerElement);
         $chart->setShowSubchart($chartModel->showSubchart);
         $chart->setSubchartHeight($chartModel->subchartHeight);
@@ -82,8 +83,8 @@ class ChartBuilderService
         $chart->setCoordinateSystem($coordinateSystem);
         if ($chartModel->xshow === '1') {
             $coordinateSystem->x()->setShow(true);
-            if (is_string($chartModel->xLabeltext) === true) {
-                $coordinateSystem->x()->setLabel($chartModel->xLabeltext, round(floatval($chartModel->xLabelPosition), intval($chartModel->decimalPoints)));
+            if (is_string($chartModel->xLabelText) === true) {
+                $coordinateSystem->x()->setLabel($chartModel->xLabelText, $chartModel->xLabelPosition);
             }
         }
         
@@ -99,8 +100,8 @@ class ChartBuilderService
             if ($chartModel->yInverted === '1') {
                 $coordinateSystem->y()->setInverted(true);
             }
-            if (is_string($chartModel->yLabeltext) === true) {
-                $coordinateSystem->y()->setLabel($chartModel->yLabeltext, round(floatval($chartModel->yLabelPosition), intval($chartModel->decimalPoints)));
+            if (is_string($chartModel->yLabelText) === true) {
+                $coordinateSystem->y()->setLabel($chartModel->yLabelText, $chartModel->yLabelPosition);
             }
             if ($chartModel->yFormat) {
                 $coordinateSystem->y()->setTickFormat($chartModel->yFormat);
@@ -125,7 +126,7 @@ class ChartBuilderService
                 $coordinateSystem->y2()->setInverted(true);
             }
             if (is_string($chartModel->y2Labeltext) === true) {
-                $coordinateSystem->y2()->setLabel($chartModel->y2Labeltext, round(floatval($chartModel->y2LabelPosition), intval($chartModel->decimalPoints)));
+                $coordinateSystem->y2()->setLabel($chartModel->y2Labeltext, $chartModel->y2LabelPosition);
             }
             if ($chartModel->y2Format) {
                 $coordinateSystem->y2()->setTickFormat($chartModel->y2Format);
@@ -272,6 +273,8 @@ class ChartBuilderService
                 if ($elementModel->extractYearFromXTimestamp === '1') {
                     $element->addTransformer(new ExtractYearFromXTimestampTransformer());
                 }
+
+                $element->setStepPosition($elementModel->stepPosition);
             
                 $chart->addElement($element);
             }

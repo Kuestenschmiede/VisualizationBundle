@@ -11,6 +11,7 @@
 
 use con4gis\CoreBundle\Classes\DCA\DCA;
 use con4gis\CoreBundle\Classes\DCA\Fields\CheckboxField;
+use con4gis\CoreBundle\Classes\DCA\Fields\ColorPickerField;
 use con4gis\CoreBundle\Classes\DCA\Fields\DatePickerField;
 use con4gis\CoreBundle\Classes\DCA\Fields\DigitField;
 use con4gis\CoreBundle\Classes\DCA\Fields\IdField;
@@ -20,6 +21,7 @@ use con4gis\CoreBundle\Classes\DCA\Fields\NaturalField;
 use con4gis\CoreBundle\Classes\DCA\Fields\SelectField;
 use con4gis\CoreBundle\Classes\DCA\Fields\SQLField;
 use con4gis\CoreBundle\Classes\DCA\Fields\TextField;
+use con4gis\VisualizationBundle\Classes\Labels\LabelPosition;
 use Contao\DataContainer;
 
 $palettes = [
@@ -28,10 +30,10 @@ $palettes = [
     'elements' => 'elementWizard',
     'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
     'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,xLabelCountAll,xTimeFormatAll,loadOutOfRangeData,decimalPoints',
-    'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
+    'coordinate_system_nominal' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
     'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xTickMode,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
-    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart,gridX,gridY',
+    'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,labelColor,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart,gridX,gridY',
     'publish' => ';{publish_legend},published'
 ];
 
@@ -79,6 +81,7 @@ $elementWizard = new MultiColumnField('elementWizard', $dca);
 $elementWizard->saveCallback('tl_c4g_visualization_chart', 'saveElements')
     ->loadCallback('tl_c4g_visualization_chart', 'loadElements');
 $elementId = new SelectField('elementId', $dca, $elementWizard);
+$elementId->default('');
 $elementId->foreignKey('tl_c4g_visualization_chart_element', 'backendtitle')->eval()->includeBlankOption();
 
 $rangeWizardNominal = new MultiColumnField('rangeWizardNominal', $dca);
@@ -225,8 +228,10 @@ $xRotate->eval()->maxlength(10)
     ->class('clr');
 $xLabelText->eval()->class('w50');
 $xLabelPosition = new SelectField('xLabelPosition', $dca);
-$xLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
+$xLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadXLabelPositionOptions');
 $xLabelPosition->eval()->class('w50');
+$xLabelPosition->sql("varchar(20) NOT NULL default ". LabelPosition::HORIZONTAL_INNER_RIGHT);
+$xLabelPosition->default(LabelPosition::HORIZONTAL_INNER_RIGHT);
 
 $yShow = new CheckboxField('yshow', $dca);
 $yShow->default(true);
@@ -235,8 +240,10 @@ $yLabelText = new TextField('yLabelText', $dca);
 $yLabelText->loadCallback('tl_c4g_visualization_chart', 'loadYLabelText');
 $yLabelText->eval()->class('w50');
 $yLabelPosition = new SelectField('yLabelPosition', $dca);
-$yLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
+$yLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadYLabelPositionOptions');
 $yLabelPosition->eval()->class('w50');
+$yLabelPosition->sql("varchar(20) NOT NULL default ". LabelPosition::VERTICAL_INNER_TOP);
+$yLabelPosition->default(LabelPosition::VERTICAL_INNER_TOP);
 $yMin = new NaturalField('yMin', $dca);
 $yMin->default(null)->sql("int unsigned NULL")
     ->eval()->maxlength(10)->class('w50');
@@ -250,8 +257,10 @@ $y2LabelText = new TextField('y2LabelText', $dca);
 $y2LabelText->loadCallback('tl_c4g_visualization_chart', 'loadY2LabelText');
 $y2LabelText->eval()->class('w50');
 $y2LabelPosition = new SelectField('y2LabelPosition', $dca);
-$y2LabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadLabelPositionOptions');
+$y2LabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadYLabelPositionOptions');
 $y2LabelPosition->eval()->class('w50');
+$y2LabelPosition->sql("varchar(20) NOT NULL default ". LabelPosition::VERTICAL_INNER_TOP);
+$y2LabelPosition->default(LabelPosition::VERTICAL_INNER_TOP);
 $y2Min = new NaturalField('y2Min', $dca);
 $y2Min->default(null)->sql("int unsigned NULL")
     ->eval()->maxlength(10)->class('w50');
@@ -296,6 +305,10 @@ $tooltips->sql("char(1) NOT NULL default '1'");
 $labels = new CheckboxField('labels', $dca);
 $labels->default(false);
 $labels->sql("char(1) NOT NULL default '0'");
+
+$labelColor = new ColorPickerField('labelColor', $dca);
+$labelColor->default('000000');
+$labelColor->sql("varchar(64) NOT NULL default '000000'");
 
 $oneLabelPerElement = new CheckboxField('oneLabelPerElement', $dca);
 $oneLabelPerElement->default(false);
@@ -343,14 +356,25 @@ class tl_c4g_visualization_chart extends \Contao\Backend
         ];
     }
 
-    public function loadLabelPositionOptions(DataContainer $dc) {
+    public function loadXLabelPositionOptions(DataContainer $dc) {
         return [
-            '1' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_right_up'],
-            '2' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_middle'],
-            '3' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_left_down'],
-            '4' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_right_up'],
-            '5' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_middle'],
-            '6' => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_left_down']
+            LabelPosition::HORIZONTAL_INNER_RIGHT => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_right'],
+            LabelPosition::HORIZONTAL_INNER_CENTER => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_middle'],
+            LabelPosition::HORIZONTAL_INNER_LEFT => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_left'],
+            LabelPosition::HORIZONTAL_OUTER_RIGHT => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_right'],
+            LabelPosition::HORIZONTAL_OUTER_CENTER => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_middle'],
+            LabelPosition::HORIZONTAL_OUTER_LEFT => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_left']
+        ];
+    }
+
+    public function loadYLabelPositionOptions(DataContainer $dc) {
+        return [
+            LabelPosition::VERTICAL_INNER_TOP => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_top'],
+            LabelPosition::VERTICAL_INNER_CENTER => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_middle'],
+            LabelPosition::VERTICAL_INNER_BOTTOM => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_inner_bottom'],
+            LabelPosition::VERTICAL_OUTER_TOP => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_top'],
+            LabelPosition::VERTICAL_OUTER_CENTER => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_middle'],
+            LabelPosition::VERTICAL_OUTER_BOTTOM => &$GLOBALS['TL_LANG']['tl_c4g_visualization_chart']['option_outer_bottom']
         ];
     }
 
@@ -461,7 +485,7 @@ class tl_c4g_visualization_chart extends \Contao\Backend
 
     public function changeFileBinToUuid($fieldValue, DataContainer $dc) {
         if ($fieldValue) {
-            return \StringUtil::binToUuid($fieldValue);
+            return \Contao\StringUtil::binToUuid($fieldValue);
         }
 
         return null;

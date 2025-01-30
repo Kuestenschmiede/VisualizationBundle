@@ -20,6 +20,7 @@ class Chart
     protected $legend = true;
     protected $tooltips = true;
     protected $labels = false;
+    protected $labelColor = "white";
     protected $oneLabelPerElement = false;
 
     protected $showLegend = false;
@@ -66,7 +67,28 @@ class Chart
         $array['points'] = ['enabled' => boolval($this->points)];
         
         $array['tooltips'] = ['enabled' => boolval($this->tooltips)];
-        $array['labels'] = ['enabled' => boolval($this->labels)];
+        if ($this->labels) {
+            $array['labels'] = [
+                'enabled' => boolval($this->labels),
+                'colors' => $this->labelColor ? "#".$this->labelColor : ""
+            ];
+        }
+
+        foreach ($this->elements as $element) {
+            /** @var ChartElement $element */
+            if ($element->getType() === ChartElement::TYPE_STEP || $element->getType() === ChartElement::TYPE_STEP_AREA) {
+                $array['line'] = [
+                    'step' => [
+                        'tooltipMatch' => true,
+                    ]
+                ];
+                if ($element->getStepPosition() === "step-before" || $element->getStepPosition() === "step-after") {
+                    $array['line']['step']['type'] = $element->getStepPosition();
+                    break;
+                }
+            }
+        }
+
         $array['oneLabelPerElement'] = ['enabled' => boolval($this->oneLabelPerElement)];
 
         if ($this->coordinateSystem instanceof CoordinateSystem === true) {
@@ -230,6 +252,13 @@ class Chart
     public function setLabels($labels = false): Chart
     {
         $this->labels = boolval($labels);
+
+        return $this;
+    }
+
+    public function setLabelColor(string $labelColor): Chart
+    {
+        $this->labelColor = $labelColor;
 
         return $this;
     }

@@ -47,7 +47,8 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'redirectSite'      => ['Weiterleitungsseite', 'Beim Klick auf das Element soll auf die ausgewählte Seite weitergeleitet werden.'],
     'yAxisSelection'      => ['Y-Achsen-Auswahl', 'Auf welcher Y-Achse sollen die Werte dieses Elements dargestellt werden?'],
     'tooltipExtension'      => ['Eigener Tooltip-Inhalt', 'Zusätzlicher Inhalt für den Tooltip dieses Elements (unterstützt Insert-Tags).'],
-    
+    'stepPosition'      => ['Position der Stufe', 'Hier kann ausgewählt werden, ob die Stufe vor oder nach dem Punkt gezeichnet werden soll, oder ob der Punkt zentriert auf der Stufe liegen soll.'],
+
     'general_legend'    => 'Allgemeine Einstellungen',
     'expert_legend'    => 'Experten-Einstellungen',
     'type_origin_legend'     => 'Typ & Datenherkunft',
@@ -71,6 +72,16 @@ $GLOBALS['TL_LANG']['tl_c4g_visualization_chart_element'] = [
     'option_donut' => 'Ring / Donut',
     'option_gauge' => 'Manometer',
     'option_bar' => 'Balken / Säulen',
+    'option_bubble' => 'Bubbles',
+    'option_candlestick' => 'Kerzenchart',
+    'option_funnel' => 'Funnel',
+    'option_polar' => 'Polar',
+    'option_radar' => 'Netzdiagramm',
+    'option_scatter' => 'Streudiagramm',
+    'option_step' => 'Stufendiagramm',
+    'option_step_area' => 'Stufendiagramm (Bereich)',
+    'option_timeseries' => 'Zeitreihendaten',
+    'option_treemap' => 'Kacheldiagramm (Treemap)',
     'option_gantt' => 'Gantt (Zeitlinie)',
     
     'option_nominal_values' => 'Nominalwerte',

@@ -30,6 +30,16 @@ class ChartElement
     public const TYPE_DONUT = 'donut';
     public const TYPE_GAUGE = 'gauge';
     public const TYPE_GANTT = 'gantt';
+    public const TYPE_BUBBLE = 'bubble';
+    public const TYPE_CANDLESTICK = 'candlestick';
+    public const TYPE_FUNNEL = 'funnel';
+    public const TYPE_POLAR = 'polar';
+    public const TYPE_RADAR = 'radar';
+    public const TYPE_SCATTER = 'scatter';
+    public const TYPE_STEP = 'step';
+    public const TYPE_STEP_AREA = 'area-step';
+    public const TYPE_TIMESERIES = 'timeseries';
+    public const TYPE_TREEMAP = 'treemap';
 
     public const ORIGIN_INPUT = '1';
     public const ORIGIN_TABLE = '2';
@@ -63,6 +73,7 @@ class ChartElement
     private int $xLabelCountAll;
     private int $xRotate;
     private string $tickMode = '';
+    private ?string $stepPosition = null;
 
     public function __construct(string $type, Source $source)
     {
@@ -426,5 +437,21 @@ class ChartElement
     public function setTooltipExtension(string $tooltipExtension): void
     {
         $this->tooltipExtension = $tooltipExtension;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getStepPosition(): ?string
+    {
+        return $this->stepPosition;
+    }
+
+    public function setStepPosition(?string $stepPosition): ChartElement
+    {
+        $this->stepPosition = $stepPosition;
+        return $this;
     }
 }

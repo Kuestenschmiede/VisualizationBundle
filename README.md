@@ -4,7 +4,7 @@
 Easily visualize your data in different types of charts.
 
 __Features include:__
-* Configure line, pie or bar charts to display data from your Contao database or mix the types 
+* Configure line, pie, bubble, step or bar charts to display data from your Contao database or mix the types 
 * Load any data from any table or enter your own in the back end
 * Switch between different ranges of data on the click of a button
 * Add any image as watermark
@@ -39,6 +39,8 @@ The available chart types are:
 - Gantt
 - Ring / Donut
 - Manometer
+- Bubbles
+- Steps
 
 There are two options to add data to a chart element: manual input or loading 
 data from a table. For manual input, an inputWizard assists you with the process.
