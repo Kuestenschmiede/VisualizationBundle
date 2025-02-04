@@ -464,7 +464,7 @@ class tl_c4g_visualization_chart extends \Contao\Backend
             "SELECT name, fromX, toX, defaultRange, yMin, yMax, y2Min, y2Max FROM tl_c4g_visualization_chart_range WHERE chartId = ?");
         $result = $stmt->execute($dc->activeRecord->id)->fetchAllAssoc();
         if ($dc->activeRecord->xValueCharacter === '2') {
-            $dateTime = new DateTime();
+            $dateTime = new \Safe\DateTime();
             $dateFormat = $GLOBALS['TL_CONFIG']['dateFormat'];
             foreach ($result as $key => $value) {
                 if ($value['fromX'] === 0.0) {
