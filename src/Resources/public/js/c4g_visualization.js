@@ -44,7 +44,7 @@ class Vis {
           .then((responseJson) => {
             // responseJson = this.setTickConfigForYAxis(responseJson);
             let chartJson = scope.parseJson('#' + element.id, responseJson, null);
-            console.log(chartJson);
+            //console.log(chartJson);
             let chart = bb.generate(chartJson);
             chart.json = chartJson;
             let objChart = {
@@ -386,7 +386,7 @@ class Vis {
         bbjson.data.labels = {
           format: function (v, id, i, j) {
             let chrt = scope.getChartByBindId(bindto.substr(1, bindto.length));
-            if ( (id) && (i == 0) ) {
+            if (chrt && id && (i == 0) ) {
               return chrt.json.data.names[id];
             } else {
               return '';
