@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ChartController extends BaseController
 {
@@ -56,7 +56,7 @@ class ChartController extends BaseController
     }
 
     /**
-     * @Route(
+     * @\Symfony\Component\Routing\Annotation\Route(
      *      path="/con4gis/fetchChart/{chartId}",
      *      methods={"GET"}
      *  )
