@@ -11,8 +11,6 @@ use Contao\Database;
 use Contao\DataContainer;
 use Contao\StringUtil;
 use MenAtWork\MultiColumnWizardBundle\Contao\Widgets\MultiColumnWizard;
-use Safe\DateTime;
-use Safe\DateTimeImmutable;
 
 class VisualizationChartElementCallback extends Backend
 {
@@ -119,10 +117,10 @@ class VisualizationChartElementCallback extends Backend
                     $format = Config::get("datimFormat");
                     if ($x == $input['xinput']) {
                         // input was number
-                        $dateTime = new DateTimeImmutable();
+                        $dateTime = new \DateTimeImmutable();
                         $dateTime = $dateTime->setTimestamp($input['xinput']);
                     } else {
-                        $dateTime = new DateTimeImmutable($input['xinput']);
+                        $dateTime = new \DateTimeImmutable($input['xinput']);
                     }
                     
                     if ($dateTime) {
@@ -284,7 +282,7 @@ class VisualizationChartElementCallback extends Backend
         $result = $stmt->execute($dc->activeRecord->id)->fetchAllAssoc();
         
         //if ($dc->activeRecord->xValueCharacter === '2') {
-        $dateTime = new DateTime();
+        $dateTime = new \DateTime();
         $dateFormat = $GLOBALS['TL_CONFIG']['dateFormat'];
         foreach ($result as $key => $value) {
             if ($value['fromX'] === 0.0) {
