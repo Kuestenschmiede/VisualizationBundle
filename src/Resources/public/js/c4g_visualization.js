@@ -44,7 +44,7 @@ class Vis {
           .then((responseJson) => {
             // responseJson = this.setTickConfigForYAxis(responseJson);
             let chartJson = scope.parseJson('#' + element.id, responseJson, null);
-            //console.log(chartJson);
+
             let chart = bb.generate(chartJson);
             chart.json = chartJson;
             let objChart = {
@@ -165,6 +165,7 @@ class Vis {
         names: {},
         groups: [],
         redirects: {},
+        type: ""
       },
       axis: {},
       tooltip: {
@@ -312,6 +313,7 @@ class Vis {
       var type = json.data[index].type !== 'gantt' ? json.data[index].type : 'line';
 
       bbjson.data.types['y' + index] = type;
+      bbjson.data.type = type;
       if (typeof json.data[index].name !== 'undefined') {
         bbjson.data.names['y' + index] = json.data[index].name;
       }
