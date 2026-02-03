@@ -66,9 +66,10 @@ class Vis {
               // TODO in function auslagern, da auch in parseJson gebraucht
               let bounds = objChart.ranges[range];
               let unloadNames = [];
-              if (bounds) {
-                let lowerBound = bounds.lowerBound;
-                let upperBound = bounds.upperBound;
+              if (bounds || range === "range_all") {
+                let checkBounds = !(range === "range_all");
+                let lowerBound = checkBounds ? bounds.lowerBound : false;
+                let upperBound = checkBounds ? bounds.upperBound : false;
 
                 let columns = [];
                 for (let i = 0; i < objChart.data.length; i++) {
@@ -81,7 +82,7 @@ class Vis {
                   for (let j = 0; j < objChart.data[i].dataPoints.length; j++) {
                     let point = objChart.data[i].dataPoints[j];
 
-                    if (point.x >= lowerBound && point.x <= upperBound) {
+                    if (!checkBounds || (point.x >= lowerBound && point.x <= upperBound)) {
                       xValues.push(objChart.data[i].dataPoints[j].x);
                       yValues.push(objChart.data[i].dataPoints[j].y);
                     }
@@ -267,21 +268,9 @@ class Vis {
       let y = [];
       let i = 0;
 
-      if (json.data[index].type === "line") {
-        if (typeof json.data[index].name !== 'undefined') {
-          x.push('x' + index);
-          y.push(json.data[index].name);
-          bbjson.data.xs[json.data[index].name] = 'x' + index;
-        } else {
-          x.push('x' + index);
-          y.push('y' + index);
-          bbjson.data.xs['y' + index] = 'x' + index;
-        }
-      } else {
-        bbjson.data.xs['y' + index] = 'x' + index;
-        x.push('x' + index);
-        y.push('y' + index);
-      }
+      x.push('x' + index);
+      y.push('y' + index);
+      bbjson.data.xs['y' + index] = 'x' + index;
 
       if (!bbjson.data.axes) {
         bbjson.data.axes = {};

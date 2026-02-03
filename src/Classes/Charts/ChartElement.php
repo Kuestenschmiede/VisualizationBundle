@@ -17,7 +17,6 @@ use con4gis\VisualizationBundle\Classes\Transformers\Transformer;
 use con4gis\VisualizationBundle\Resources\contao\models\ChartModel;
 use Contao\Config;
 use Contao\Controller;
-use Safe\DateTime;
 
 class ChartElement
 {
@@ -156,7 +155,7 @@ class ChartElement
         }
 
         if ($this->mapTimeValues === true) {
-            $datetime = new DateTime();
+            $datetime = new \DateTime();
             $map = [];
             $count = $this->xLabelCount;
             $i = 0;
