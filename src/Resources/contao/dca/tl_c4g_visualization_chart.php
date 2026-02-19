@@ -34,7 +34,7 @@ $palettes = [
     'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xTickMode,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
     'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,labelColor,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart,gridX,gridY',
-    'publish' => ';{publish_legend},published'
+    'publish' => ';{publish_legend},published;'
 ];
 
 /**

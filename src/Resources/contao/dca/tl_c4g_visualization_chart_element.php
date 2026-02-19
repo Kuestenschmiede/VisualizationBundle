@@ -53,6 +53,7 @@ $frontendTitle->search()->sorting();
 $chartTitles = new LabelField('chartTitles', $dca);
 $chartTitles->exclude(false);
 $color = new ColorPickerField('color', $dca);
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['color']['default'] = "F56565";
 $type = new SelectField('type', $dca);
 $type->sql("varchar(20) NOT NULL default ''")->default("")
     ->optionsCallback($cbClass, 'loadTypeOptions')
@@ -70,6 +71,10 @@ $xInput = new TextField('xinput', $dca, $inputWizard);
 $xInput->eval()->maxlength(21);
 $yInput = new DigitField('yinput', $dca, $inputWizard);
 $yInput->eval()->maxlength(21);
+
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['inputWizard']['eval']['columnFields']['xinput']['eval']['wrapper_style'] = "width: 150px;";
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['inputWizard']['eval']['columnFields']['xinput']['eval']['chosen'] = false;
+
 $table = new SelectField('table', $dca);
 $table->optionsCallback($cbClass, 'loadTableNames')
     ->sql("varchar(255) NOT NULL default ''")
@@ -118,6 +123,9 @@ $minCountIdenticalX = new DigitField('minCountIdenticalX', $dca);
 $minCountIdenticalX->default('1');
 $minCountIdenticalX->sql("int(10) NOT NULL default '1'");
 $extractYearFromXTimestamp = new CheckboxField('extractYearFromXTimestamp', $dca);
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['whereWizard']['eval']['columnFields']['whereColumn']['eval']['wrapper_style'] = "width: 150px;";
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['whereWizard']['eval']['columnFields']['whereColumn']['eval']['chosen'] = false;
+
 
 $periodWizard = new MultiColumnField('periodWizard', $dca);
 $periodWizard->saveCallback($cbClass, 'savePeriod')
@@ -125,7 +133,8 @@ $periodWizard->saveCallback($cbClass, 'savePeriod')
 $fromX = new DatePickerField('fromX', $dca, $periodWizard);
 $toX = new DatePickerField('toX', $dca, $periodWizard);
 $yinput = new TextField('yinput', $dca, $periodWizard);
-
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['periodWizard']['eval']['columnFields']['fromX']['eval']['wrapper_style'] = "width: 150px;";
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['periodWizard']['eval']['columnFields']['fromX']['eval']['chosen'] = false;
 
 $published = new CheckboxField('published', $dca);
 $published->default(true);

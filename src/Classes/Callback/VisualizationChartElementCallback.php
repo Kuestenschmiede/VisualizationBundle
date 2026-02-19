@@ -18,9 +18,12 @@ class VisualizationChartElementCallback extends Backend
     
     public function getLabel($row) {
         $labels = [];
-        $labels['id'] = $row['id'];
-        $labels['backendtitle'] = $row['backendtitle'];
-        $labels['frontendtitle'] = $row['frontendtitle'];
+
+        $fields = $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['list']['label']['fields'];
+
+        $labels[array_search('id', $fields, true)] = $row['id'];
+        $labels[array_search('backendtitle', $fields, true)] = $row['backendtitle'];
+        $labels[array_search('frontendtitle', $fields, true)] = $row['frontendtitle'];
         $relations = ChartElementRelationModel::findByElementId($row['id']);
         $chartTitles = [];
         if ($relations !== null) {
@@ -29,7 +32,7 @@ class VisualizationChartElementCallback extends Backend
                 $chartTitles[] = $chart->backendtitle;
             }
         }
-        $labels['chartTitles'] = implode(', ', array_unique($chartTitles));
+        $labels[array_search('chartTitles', $fields, true)] = implode(', ', array_unique($chartTitles));
         return $labels;
     }
     
