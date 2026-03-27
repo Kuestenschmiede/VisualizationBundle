@@ -28,7 +28,7 @@
     "@babel/preset-env": "^7.26.7",
     "babel-loader": "^8.4.1",
     "clean-webpack-plugin": "^3.0.0",
-    "compression-webpack-plugin": "^7.1.2",
+    "compression-webpack-plugin": "^11.1.0",
     "echo-loader": "0.0.1",
     "gulp": "^5.0.0",
     "gulp-autoprefixer": "^8.0.0",
