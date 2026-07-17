@@ -20,12 +20,12 @@ use con4gis\CoreBundle\Classes\DCA\Fields\SQLField;
 
 $dca = new DCA('tl_c4g_visualization_chart_element_condition');
 new IdField('id', $dca);
-new SQLField('elementId', $dca, "int(10) unsigned NOT NULL");
-new SQLField('whereColumn', $dca, "varchar(255) NOT NULL default ''");
-new SQLField('whereComparison', $dca, "char(2) NOT NULL default''");
-new SQLField('whereValue', $dca, "varchar(255) NOT NULL default ''");
-new SQLField('and', $dca, "char(1) NOT NULL default '1'");
-$importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
+new SQLField('elementId', $dca,"int(10) unsigned NOT NULL");
+new SQLField('whereColumn', $dca,"varchar(255) NOT NULL default ''");
+new SQLField('whereComparison', $dca,"char(2) NOT NULL default''");
+new SQLField('whereValue', $dca,"varchar(255) NOT NULL default ''");
+new SQLField('and', $dca,"char(1) NOT NULL default '1'");
+$importId = new SQLField("importId", $dca,"int(20) unsigned NOT NULL default '0'");
 $importId->eval()->doNotCopy(true);
 
 /**

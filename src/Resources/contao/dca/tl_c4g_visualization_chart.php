@@ -26,7 +26,7 @@ use Contao\DataContainer;
 
 $palettes = [
     '__selector__' => ['showSubchart'],
-    'general' => '{general_legend},backendtitle,xValueCharacter,',
+    'general' => '{general_legend},backendtitle,xValueCharacter',
     'elements' => 'elementWizard',
     'ranges_nominal' => ';{ranges_legend},rangeWizardNominal,buttonAllCaption,buttonPosition,buttonAllPosition,loadOutOfRangeData,decimalPoints',
     'ranges_time' => ';{ranges_legend},rangeWizardTime,buttonAllCaption,buttonPosition,buttonAllPosition,xLabelCountAll,xTimeFormatAll,loadOutOfRangeData,decimalPoints',
@@ -34,7 +34,7 @@ $palettes = [
     'coordinate_system_time' => ';{coordinate_system_legend},swapAxes,xshow,xLabelText,xLabelPosition,xRotate,xTimeFormat,xTickMode,xLabelCount,yshow,yInverted,yLabelText,yLabelPosition,yFormat,yLabelCount,yMin,yMax,y2show,y2Inverted,y2LabelText,y2LabelPosition,y2Format,y2LabelCount,y2Min,y2Max',
     'watermark' => ';{watermark_legend:hide},image,imageMaxHeight,imageMaxWidth,imageMarginTop,imageMarginLeft,imageOpacity',
     'expert' => ';{expert_legend:hide},zoom,points,legend,tooltips,labels,labelColor,oneLabelPerElement,cssClass,showEmptyYValues,showSubchart,gridX,gridY',
-    'publish' => ';{publish_legend},published;'
+    'publish' => ';{publish_legend},published'
 ];
 
 /**
@@ -50,8 +50,8 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['subpalettes'] = [
     'showSubchart' => "subchartHeight,subchartShowXAxis",
 ];
 
-$dca->list()->sorting()->headerFields(['id', 'backendtitle']);
-$dca->list()->label()->fields(['id', 'backendtitle']);
+$dca->list()->sorting()->headerFields(['id','backendtitle']);
+$dca->list()->label()->fields(['id','backendtitle']);
 $dca->list()->addRegularOperations($dca);
 
 $dca->palette()->selector(['xValueCharacter','showSubchart']);
@@ -74,19 +74,19 @@ $backendTitle = new TextField('backendtitle', $dca);
 $backendTitle->search()->sorting();
 
 $xValueCharacter = new SelectField('xValueCharacter', $dca);
-$xValueCharacter->optionsCallback('tl_c4g_visualization_chart', 'loadXValueCharacterOptions')
+$xValueCharacter->optionsCallback('tl_c4g_visualization_chart','loadXValueCharacterOptions')
     ->eval()->submitOnChange();
 
 $elementWizard = new MultiColumnField('elementWizard', $dca);
-$elementWizard->saveCallback('tl_c4g_visualization_chart', 'saveElements')
-    ->loadCallback('tl_c4g_visualization_chart', 'loadElements');
+$elementWizard->saveCallback('tl_c4g_visualization_chart','saveElements')
+    ->loadCallback('tl_c4g_visualization_chart','loadElements');
 $elementId = new SelectField('elementId', $dca, $elementWizard);
 $elementId->default('');
-$elementId->foreignKey('tl_c4g_visualization_chart_element', 'backendtitle')->eval()->includeBlankOption();
+$elementId->foreignKey('tl_c4g_visualization_chart_element','backendtitle')->eval()->includeBlankOption();
 
 $rangeWizardNominal = new MultiColumnField('rangeWizardNominal', $dca);
-$rangeWizardNominal->saveCallback('tl_c4g_visualization_chart', 'saveRanges')
-    ->loadCallback('tl_c4g_visualization_chart', 'loadRanges');
+$rangeWizardNominal->saveCallback('tl_c4g_visualization_chart','saveRanges')
+    ->loadCallback('tl_c4g_visualization_chart','loadRanges');
 $name = new TextField('name', $dca, $rangeWizardNominal);
 $fromX = new TextField('fromX', $dca, $rangeWizardNominal);
 $toX = new TextField('toX', $dca, $rangeWizardNominal);
@@ -97,8 +97,8 @@ $y2MinRange = new NaturalField('y2Min', $dca, $rangeWizardNominal);
 $y2MaxRange = new NaturalField('y2Max', $dca, $rangeWizardNominal);
 
 $rangeWizardTime = new MultiColumnField('rangeWizardTime', $dca);
-$rangeWizardTime->saveCallback('tl_c4g_visualization_chart', 'saveRanges')
-    ->loadCallback('tl_c4g_visualization_chart', 'loadRanges');
+$rangeWizardTime->saveCallback('tl_c4g_visualization_chart','saveRanges')
+    ->loadCallback('tl_c4g_visualization_chart','loadRanges');
 $name = new TextField('name', $dca, $rangeWizardTime);
 $fromX = new DatePickerField('fromX', $dca, $rangeWizardTime);
 $toX = new DatePickerField('toX', $dca, $rangeWizardTime);
@@ -119,10 +119,10 @@ $xTimeFormatAll = new TextField('xTimeFormatAll', $dca);
 $xTimeFormatAll->default('d.m.Y')->sql("varchar(255) NOT NULL default 'd.m.Y'")->eval()->class('clr');
 
 $buttonPosition = new SelectField('buttonPosition', $dca);
-$buttonPosition->optionsCallback('tl_c4g_visualization_chart', 'loadButtonPositionOptions')
+$buttonPosition->optionsCallback('tl_c4g_visualization_chart','loadButtonPositionOptions')
     ->eval()->class('w50');
 $buttonAllPosition = new SelectField('buttonAllPosition', $dca);
-$buttonAllPosition->optionsCallback('tl_c4g_visualization_chart', 'loadButtonAllPositionOptions')
+$buttonAllPosition->optionsCallback('tl_c4g_visualization_chart','loadButtonAllPositionOptions')
     ->default('2')->sql("char(1) NOT NULL default '2'")->eval()->class('w50');
 $loadOutOfRangeData = new CheckboxField('loadOutOfRangeData', $dca);
 
@@ -136,49 +136,49 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['showEmptyYValues'] =
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yRotate'] =  [
     'inputType' => "text",
     'default' => '0',
-    'eval' => ['tl_class' => "clr", 'maxlength' => 10],
+    'eval' => ['tl_class' => "clr",'maxlength' => 10],
     'sql' => "int(10) signed NOT NULL default '0'"
 ];
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yFormat'] =  [
     'inputType' => "text",
     'default' => '',
-    'eval' => ['tl_class' => "clr", 'maxlength' => 20, 'doNotTrim' => true],
+    'eval' => ['tl_class' => "clr",'maxlength' => 20,'doNotTrim' => true],
     'sql' => "varchar(20) NOT NULL DEFAULT ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['yLabelCount'] =  [
     'inputType' => "text",
     'default' => '0',
-    'eval' => ['tl_class' => "clr", 'maxlength' => 10],
+    'eval' => ['tl_class' => "clr",'maxlength' => 10],
     'sql' => "int(10) signed NOT NULL default '0'"
 ];
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['y2Format'] =  [
     'inputType' => "text",
     'default' => '',
-    'eval' => ['tl_class' => "clr", 'maxlength' => 20, 'doNotTrim' => true],
+    'eval' => ['tl_class' => "clr",'maxlength' => 20,'doNotTrim' => true],
     'sql' => "varchar(20) NOT NULL DEFAULT ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['y2LabelCount'] =  [
     'inputType' => "text",
     'default' => '0',
-    'eval' => ['tl_class' => "clr", 'maxlength' => 10],
+    'eval' => ['tl_class' => "clr",'maxlength' => 10],
     'sql' => "int(10) signed NOT NULL default '0'"
 ];
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['showSubchart'] =  [
     'inputType' => "checkbox",
     'default' => '',
-    'eval' => ['tl_class' => "clr", 'submitOnChange' => true],
+    'eval' => ['tl_class' => "clr",'submitOnChange' => true],
     'sql' => "char(1) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart']['fields']['subchartHeight'] =  [
     'inputType' => "text",
     'default' => '20',
-    'eval' => ['tl_class' => "clr", 'maxlength' => 10],
+    'eval' => ['tl_class' => "clr",'maxlength' => 10],
     'sql' => "int(10) signed NOT NULL default '20'"
 ];
 
@@ -211,11 +211,11 @@ $swapAxes = new CheckboxField('swapAxes', $dca);
 $xShow = new CheckboxField('xshow', $dca);
 $xShow->default(true);
 $xLabelText = new TextField('xLabelText', $dca);
-$xLabelText->loadCallback('tl_c4g_visualization_chart', 'loadXLabelText');
+$xLabelText->loadCallback('tl_c4g_visualization_chart','loadXLabelText');
 $xTimeFormat = new TextField('xTimeFormat', $dca);
 $xTimeFormat->default('d.m.Y')->sql("varchar(255) NOT NULL default 'd.m.Y'")->eval()->class('clr');
 $xTickMode = new SelectField('xTickMode', $dca);
-$xTickMode->optionsCallback('tl_c4g_visualization_chart', 'loadXTickModeOptions');
+$xTickMode->optionsCallback('tl_c4g_visualization_chart','loadXTickModeOptions');
 $xTickMode->default('nth');
 $xTickMode->sql('varchar(7) NOT NULL default "nth"');
 $xLabelCount = new NaturalField('xLabelCount', $dca);
@@ -228,7 +228,7 @@ $xRotate->eval()->maxlength(10)
     ->class('clr');
 $xLabelText->eval()->class('w50');
 $xLabelPosition = new SelectField('xLabelPosition', $dca);
-$xLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadXLabelPositionOptions');
+$xLabelPosition->optionsCallback('tl_c4g_visualization_chart','loadXLabelPositionOptions');
 $xLabelPosition->eval()->class('w50');
 $xLabelPosition->sql("varchar(20) NOT NULL default ". LabelPosition::HORIZONTAL_INNER_RIGHT);
 $xLabelPosition->default(LabelPosition::HORIZONTAL_INNER_RIGHT);
@@ -237,10 +237,10 @@ $yShow = new CheckboxField('yshow', $dca);
 $yShow->default(true);
 $yInverted = new CheckboxField('yInverted', $dca);
 $yLabelText = new TextField('yLabelText', $dca);
-$yLabelText->loadCallback('tl_c4g_visualization_chart', 'loadYLabelText');
+$yLabelText->loadCallback('tl_c4g_visualization_chart','loadYLabelText');
 $yLabelText->eval()->class('w50');
 $yLabelPosition = new SelectField('yLabelPosition', $dca);
-$yLabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadYLabelPositionOptions');
+$yLabelPosition->optionsCallback('tl_c4g_visualization_chart','loadYLabelPositionOptions');
 $yLabelPosition->eval()->class('w50');
 $yLabelPosition->sql("varchar(20) NOT NULL default ". LabelPosition::VERTICAL_INNER_TOP);
 $yLabelPosition->default(LabelPosition::VERTICAL_INNER_TOP);
@@ -254,10 +254,10 @@ $y2Show = new CheckboxField('y2show', $dca);
 $y2Show->default(false);
 $y2Inverted = new CheckboxField('y2Inverted', $dca);
 $y2LabelText = new TextField('y2LabelText', $dca);
-$y2LabelText->loadCallback('tl_c4g_visualization_chart', 'loadY2LabelText');
+$y2LabelText->loadCallback('tl_c4g_visualization_chart','loadY2LabelText');
 $y2LabelText->eval()->class('w50');
 $y2LabelPosition = new SelectField('y2LabelPosition', $dca);
-$y2LabelPosition->optionsCallback('tl_c4g_visualization_chart', 'loadYLabelPositionOptions');
+$y2LabelPosition->optionsCallback('tl_c4g_visualization_chart','loadYLabelPositionOptions');
 $y2LabelPosition->eval()->class('w50');
 $y2LabelPosition->sql("varchar(20) NOT NULL default ". LabelPosition::VERTICAL_INNER_TOP);
 $y2LabelPosition->default(LabelPosition::VERTICAL_INNER_TOP);
@@ -269,7 +269,7 @@ $y2Max->default(null)->sql("int unsigned NULL")
     ->eval()->maxlength(10)->class('w50');
 
 $image = new ImageField('image', $dca);
-$image->saveCallback('tl_c4g_visualization_chart', 'changeFileBinToUuid');
+$image->saveCallback('tl_c4g_visualization_chart','changeFileBinToUuid');
 
 $imageMaxHeight = new NaturalField('imageMaxHeight', $dca);
 $imageMaxHeight->default('200')->sql("int(10) unsigned NOT NULL default '200'")
@@ -317,7 +317,7 @@ $oneLabelPerElement->sql("char(1) NOT NULL default '0'");
 $published = new CheckboxField('published', $dca);
 $published->default(true);
 
-$importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
+$importId = new SQLField("importId", $dca,"int(20) unsigned NOT NULL default '0'");
 $importId->eval()->doNotCopy(true);
 
 $cssClass = new TextField('cssClass', $dca);

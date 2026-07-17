@@ -27,21 +27,17 @@ $cbClass = \con4gis\VisualizationBundle\Classes\Callback\VisualizationChartEleme
 
 $dca = new DCA('tl_c4g_visualization_chart_element');
 $dca->list()->sorting()->panelLayout('filter;sort,search,limit')
-    ->headerFields(['id', 'backendtitle', 'frontendtitle', 'chartTitles']);
-$dca->list()->label()->fields(['id', 'backendtitle', 'frontendtitle', 'chartTitles'])
-    ->labelCallback($cbClass, 'getLabel');
+    ->headerFields(['id','backendtitle','frontendtitle','chartTitles']);
+$dca->list()->label()->fields(['id','backendtitle','frontendtitle','chartTitles'])
+    ->labelCallback($cbClass,'getLabel');
 $dca->list()->addRegularOperations($dca);
-$dca->palette()->selector(['origin', 'type'])
-    ->default('{general_legend},backendtitle,frontendtitle,color,redirectSite;'.
-        '{type_origin_legend},type,xValueCharacter,origin;'.
-        '{transform_legend},groupIdenticalX,minCountIdenticalX,extractYearFromXTimestamp;'.
-        '{expert_legend},tooltipExtension,yAxisSelection;'.
-        '{publish_legend},published;')
-    ->subPalette('origin', '1', 'inputWizard')
-    ->subPalette('origin', '2', 'table,tablex,tablex2,tabley,whereWizard')
-    ->subPalette('origin', '3', 'periodWizard')
-    ->subPalette('type', 'step', 'stepPosition')
-    ->subPalette('type', 'area-step', 'stepPosition');
+$dca->palette()->selector(['origin','type'])
+    ->default('{general_legend},backendtitle,frontendtitle,color,redirectSite;' . '{type_origin_legend},type,xValueCharacter,origin;' . '{transform_legend},groupIdenticalX,minCountIdenticalX,extractYearFromXTimestamp;' . '{expert_legend},tooltipExtension,yAxisSelection;' . '{publish_legend},published')
+    ->subPalette('origin','1','inputWizard')
+    ->subPalette('origin','2','table,tablex,tablex2,tabley,whereWizard')
+    ->subPalette('origin','3','periodWizard')
+    ->subPalette('type','step','stepPosition')
+    ->subPalette('type','area-step','stepPosition');
 
 
 $id = new IdField('id', $dca);
@@ -56,27 +52,27 @@ $color = new ColorPickerField('color', $dca);
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['color']['default'] = "F56565";
 $type = new SelectField('type', $dca);
 $type->sql("varchar(20) NOT NULL default ''")->default("")
-    ->optionsCallback($cbClass, 'loadTypeOptions')
+    ->optionsCallback($cbClass,'loadTypeOptions')
     ->eval()->submitOnChange();
 $origin = new SelectField('origin', $dca);
 $origin->sql("char(1) NOT NULL default '2'")
-    ->optionsCallback($cbClass, 'loadOriginOptions')
+    ->optionsCallback($cbClass,'loadOriginOptions')
     ->default('2')
     ->eval()->submitOnChange();
 $inputWizard = new MultiColumnField('inputWizard', $dca);
-$inputWizard->saveCallback($cbClass, 'saveInput')
-    ->loadCallback($cbClass, 'loadInput')
+$inputWizard->saveCallback($cbClass,'saveInput')
+    ->loadCallback($cbClass,'loadInput')
     ->eval()->doNotSaveEmpty();
 $xInput = new TextField('xinput', $dca, $inputWizard);
 $xInput->eval()->maxlength(21);
 $yInput = new DigitField('yinput', $dca, $inputWizard);
 $yInput->eval()->maxlength(21);
 
-$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['inputWizard']['eval']['columnFields']['xinput']['eval']['wrapper_style'] = "width: 150px;";
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['inputWizard']['eval']['columnFields']['xinput']['eval']['wrapper_style'] = "width: 150px";
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['inputWizard']['eval']['columnFields']['xinput']['eval']['chosen'] = false;
 
 $table = new SelectField('table', $dca);
-$table->optionsCallback($cbClass, 'loadTableNames')
+$table->optionsCallback($cbClass,'loadTableNames')
     ->sql("varchar(255) NOT NULL default ''")
     ->default('')
     ->eval()->maxlength(255)
@@ -84,14 +80,14 @@ $table->optionsCallback($cbClass, 'loadTableNames')
     ->submitOnChange()
     ->includeBlankOption();
 $tableX = new SelectField('tablex', $dca);
-$tableX->optionsCallback($cbClass, 'loadColumnNames')
+$tableX->optionsCallback($cbClass,'loadColumnNames')
     ->sql("varchar(255) NOT NULL default ''")
     ->default('')
     ->eval()->maxlength(255)
         ->class('w50')
         ->doNotSaveEmpty();
 $tableX2 = new SelectField('tablex2', $dca);
-$tableX2->optionsCallback($cbClass, 'loadColumnNames')
+$tableX2->optionsCallback($cbClass,'loadColumnNames')
     ->sql("varchar(255) NOT NULL default ''")
     ->default('')
     ->eval()->maxlength(255)
@@ -99,23 +95,23 @@ $tableX2->optionsCallback($cbClass, 'loadColumnNames')
     ->doNotSaveEmpty()
     ->includeBlankOption(true);
 $tableY = new SelectField('tabley', $dca);
-$tableY->optionsCallback($cbClass, 'loadColumnNames')
+$tableY->optionsCallback($cbClass,'loadColumnNames')
     ->sql("varchar(255) NOT NULL default ''")
     ->default('')
     ->eval()->maxlength(255)
         ->class('w50')
         ->doNotSaveEmpty();
 $whereWizard = new MultiColumnField('whereWizard', $dca);
-$whereWizard->saveCallback($cbClass, 'saveWhere')
-    ->loadCallback($cbClass, 'loadWhere')
+$whereWizard->saveCallback($cbClass,'saveWhere')
+    ->loadCallback($cbClass,'loadWhere')
     ->eval()
     ->doNotSaveEmpty()
     ->class('clr');
 $whereColumn = new SelectField('whereColumn', $dca, $whereWizard);
-$whereColumn->optionsCallback($cbClass, 'loadColumnNames')
+$whereColumn->optionsCallback($cbClass,'loadColumnNames')
     ->default('');
 $whereComparison = new SelectField('whereComparison', $dca, $whereWizard);
-$whereComparison->optionsCallback($cbClass, 'loadComparisonOptions');
+$whereComparison->optionsCallback($cbClass,'loadComparisonOptions');
 $whereValue = new TextField('whereValue', $dca, $whereWizard);
 $whereValue->eval()->regEx('alnum');
 $groupIdenticalX = new CheckboxField('groupIdenticalX', $dca);
@@ -123,23 +119,23 @@ $minCountIdenticalX = new DigitField('minCountIdenticalX', $dca);
 $minCountIdenticalX->default('1');
 $minCountIdenticalX->sql("int(10) NOT NULL default '1'");
 $extractYearFromXTimestamp = new CheckboxField('extractYearFromXTimestamp', $dca);
-$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['whereWizard']['eval']['columnFields']['whereColumn']['eval']['wrapper_style'] = "width: 150px;";
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['whereWizard']['eval']['columnFields']['whereColumn']['eval']['wrapper_style'] = "width: 150px";
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['whereWizard']['eval']['columnFields']['whereColumn']['eval']['chosen'] = false;
 
 
 $periodWizard = new MultiColumnField('periodWizard', $dca);
-$periodWizard->saveCallback($cbClass, 'savePeriod')
-    ->loadCallback($cbClass, 'loadPeriod');
+$periodWizard->saveCallback($cbClass,'savePeriod')
+    ->loadCallback($cbClass,'loadPeriod');
 $fromX = new DatePickerField('fromX', $dca, $periodWizard);
 $toX = new DatePickerField('toX', $dca, $periodWizard);
 $yinput = new TextField('yinput', $dca, $periodWizard);
-$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['periodWizard']['eval']['columnFields']['fromX']['eval']['wrapper_style'] = "width: 150px;";
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['periodWizard']['eval']['columnFields']['fromX']['eval']['wrapper_style'] = "width: 150px";
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['periodWizard']['eval']['columnFields']['fromX']['eval']['chosen'] = false;
 
 $published = new CheckboxField('published', $dca);
 $published->default(true);
 
-$importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
+$importId = new SQLField("importId", $dca,"int(20) unsigned NOT NULL default '0'");
 $importId->eval()->doNotCopy(true);
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['redirectSite'] = [
@@ -147,15 +143,15 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['redirectSite
     'exclude'                 => true,
     'inputType'               => 'pageTree',
     'foreignKey'              => 'tl_page.title',
-    'eval'                    => array('mandatory'=>false, 'fieldType'=>'radio', 'tl_class'=>'long clr'),
+    'eval'                    => array('mandatory'=>false,'fieldType'=>'radio','tl_class'=>'long clr'),
     'sql'                     => "int(10) unsigned NOT NULL default '0'",
-    'relation'                => array('type'=>'hasOne', 'load'=>'eager')
+    'relation'                => array('type'=>'hasOne','load'=>'eager')
 ];
 
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['yAxisSelection'] = [
     'inputType' => "select",
     'default' => 'y1',
-    'options' => ['y1', 'y2'],
+    'options' => ['y1','y2'],
     'eval' => ['tl_class' => "clr"],
     'sql' => "varchar(20) NOT NULL DEFAULT 'y1'"
 ];
@@ -175,12 +171,12 @@ $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['stepPosition
 $GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['fields']['tooltipExtension'] = [
     'inputType' => "textarea",
     'default' => '',
-    'eval' => ['tl_class' => "clr", 'rte' => 'tinyMCE', 'allowHtml' => true, 'preserveTags' => true],
+    'eval' => ['tl_class' => "clr",'rte' => 'tinyMCE','allowHtml' => true,'preserveTags' => true],
     'sql' => 'text NULL'
 ];
 
-$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['list']['sorting']['fields'] = ['id', 'backendtitle'];
+$GLOBALS['TL_DCA']['tl_c4g_visualization_chart_element']['list']['sorting']['fields'] = ['id','backendtitle'];
 
 $xValueCharacter = new SelectField('xValueCharacter', $dca);
-$xValueCharacter->optionsCallback($cbClass, 'loadXValueCharacterOptions')
+$xValueCharacter->optionsCallback($cbClass,'loadXValueCharacterOptions')
     ->eval()->submitOnChange();

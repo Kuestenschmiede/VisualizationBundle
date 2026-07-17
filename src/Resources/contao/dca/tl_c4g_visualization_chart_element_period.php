@@ -16,11 +16,11 @@ use con4gis\CoreBundle\Classes\DCA\Fields\SQLField;
 
 $dca = new DCA('tl_c4g_visualization_chart_element_period');
 new IdField('id', $dca);
-new SQLField('elementId', $dca, "int(10) unsigned NOT NULL");
-new SQLField('fromX', $dca, "double NOT NULL default 0");
-new SQLField('toX', $dca, "double NOT NULL default 0");
-new SQLField('yinput', $dca, "varchar(255) NOT NULL default''");
-$importId = new SQLField("importId", $dca, "int(20) unsigned NOT NULL default '0'");
+new SQLField('elementId', $dca,"int(10) unsigned NOT NULL");
+new SQLField('fromX', $dca,"double NOT NULL default 0");
+new SQLField('toX', $dca,"double NOT NULL default 0");
+new SQLField('yinput', $dca,"varchar(255) NOT NULL default''");
+$importId = new SQLField("importId", $dca,"int(20) unsigned NOT NULL default '0'");
 $importId->eval()->doNotCopy(true);
 
 /**
